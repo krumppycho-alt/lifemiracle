@@ -131,4 +131,81 @@ document.addEventListener('DOMContentLoaded', () => {
         if (number >= 41 && number <= 45) return 'color-green';
         return '';
     }
+
+    // --- 기적의 기록들 (구글 시트 연동) ---
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTVJIdMLuyo-7uKY_OwX-cONcLrHOp4HhW9nPGKjGCue2hgNRjA3ipM3TdUJB6TViGQy5pJ8VZBvWAg/pub?output=csv';
+    const miracleListEl = document.getElementById('miracle-list');
+
+    fetchMiracles();
+
+    function fetchMiracles() {
+        fetch(SHEET_CSV_URL)
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.text();
+            })
+            .then(csvText => {
+                parseCSVAndRender(csvText);
+            })
+            .catch(error => {
+                console.error("Fetch error:", error);
+                miracleListEl.innerHTML = '<div class="empty-message">첫 번째 기적의 주인공을 기다립니다</div>';
+            });
+    }
+
+    function parseCSVAndRender(csv) {
+        // 줄바꿈으로 분리. 엑셀에서 생성된 CSV는 \r\n, \n 등이 섞여있을 수 있음
+        const lines = csv.split(/\r?\n/).filter(line => line.trim() !== '');
+        
+        // 데이터가 헤더(1줄)만 있거나 아예 없는 경우
+        if (lines.length <= 1) {
+            miracleListEl.innerHTML = '<div class="empty-message">첫 번째 기적의 주인공을 기다립니다</div>';
+            return;
+        }
+
+        // 헤더 제외하고 데이터 행 추출 후 최신순으로 뒤집기
+        // (구글 폼 연동 시 위에서부터 쌓이므로 역순이 최신)
+        const dataRows = lines.slice(1).reverse().slice(0, 5); // 최근 5개만
+
+        if (dataRows.length === 0) {
+            miracleListEl.innerHTML = '<div class="empty-message">첫 번째 기적의 주인공을 기다립니다</div>';
+            return;
+        }
+
+        miracleListEl.innerHTML = ''; // 로딩 메시지 삭제
+
+        dataRows.forEach(rowStr => {
+            // 단순 콤마 분리
+            const cols = rowStr.split(',');
+            
+            // CSV 헤더: 당첨자, 당첨 회차, 등 수, ...
+            const name = cols[0] ? cols[0].trim() : '익명';
+            const round = cols[1] ? cols[1].trim() : '';
+            const rank = cols[2] ? cols[2].trim() : '';
+            
+            const headerText = round && rank ? `${round}회차 ${rank}` : '새로운 기적';
+            const content = `${name} 님 당첨을 축하드립니다!`;
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'miracle-item';
+            
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'miracle-item-header';
+            
+            const dateSpan = document.createElement('span');
+            dateSpan.className = 'miracle-date';
+            dateSpan.innerText = headerText;
+            
+            headerDiv.appendChild(dateSpan);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'miracle-content';
+            contentDiv.innerText = content;
+
+            itemDiv.appendChild(headerDiv);
+            itemDiv.appendChild(contentDiv);
+            
+            miracleListEl.appendChild(itemDiv);
+        });
+    }
 });
