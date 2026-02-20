@@ -1,20 +1,21 @@
 :root {
-  --bg-color: #0f172a;
-  --card-bg: rgba(30, 41, 59, 0.75);
-  --text-main: #f8fafc;
-  --text-sub: #94a3b8;
-  --accent: #fbbf24;
+  --bg-color: #1a140e;
+  --card-bg: rgba(26, 20, 14, 0.85);
+  --text-main: #f8f7f6;
+  --text-sub: #cbd5e1;
+  --accent: #ee9d2b;
+  --paper-bg: #f4ede1;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Pretendard", sans-serif;
+  font-family: 'Space Grotesk', 'Pretendard', sans-serif;
 }
 
 body {
-  background-color: #2c1a12;
+  background-color: var(--bg-color);
   color: var(--text-main);
   min-height: 100vh;
   display: flex;
@@ -27,10 +28,10 @@ body {
 .store-bg {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-image: 
-    linear-gradient(rgba(44, 26, 18, 0.8), rgba(44, 26, 18, 0.9)),
-    url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='%23634027'/%3E%3Cpath d='M0 50h100M50 0v100' stroke='%234a2e1b' stroke-width='2'/%3E%3C/svg%3E");
-  background-size: cover, 100px 100px;
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzdFHNg1m1csze7GFHv8UFv6Kj5lg4TW4b23AV7HNujcLcLHHiHbJq-q08abCr_GgpipEfdGrnQldk_PvULWHjJbtBhiwBYh68AQvUzDlKBmlwWgICRKEylYoCe-beJCLcZuctQtgzDsNDBDLPUJXsJpShnTq_8rwCwvaT5sAE3CrMOx-4YV4e7rBVXmQvIByMAQHJcB1Gd1O2Pen6DUpk7z7qwjMwQvGknufSaBJjDkQHpj7djoPFbL-7mIUTncMHMojHtEbKx0rm_');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
   z-index: -1;
 }
 
@@ -40,14 +41,12 @@ body {
   max-width: 600px;
   margin: 3rem 0;
   padding: 3rem 2rem;
-  background: rgba(43, 29, 20, 0.85); /* 따뜻한 다크 우드톤 윈도우 */
-  border: 2px solid #5d4037;
+  background: var(--card-bg); /* 어두운 밤 상점 톤 */
+  border: 1px solid rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-radius: 12px;
-  box-shadow: 
-    0 20px 50px rgba(0,0,0,0.6),
-    inset 0 0 40px rgba(93, 64, 55, 0.5);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
   animation: fadeIn 1s ease-out;
 }
 
@@ -67,15 +66,14 @@ header {
 }
 
 h1 {
-  font-family: 'Nanum Myeongjo', serif;
-  font-size: 3.2rem;
-  font-weight: 800;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
   margin-bottom: 0.8rem;
-  background: linear-gradient(135deg, #ffd54f 0%, #ff8f00 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -2px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 15px rgba(238, 157, 43, 0.5);
+  text-transform: uppercase;
 }
 
 header p {
@@ -262,9 +260,9 @@ header p {
   align-items: center;
   margin-bottom: 2rem;
   padding: 1rem 1.5rem;
-  background: rgba(62, 39, 35, 0.8); /* 짙은 나무 톤 */
-  border-radius: 8px;
-  border: 1px solid rgba(141, 110, 99, 0.4);
+  background: rgba(40, 31, 23, 0.6); 
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .option-group {
@@ -351,32 +349,33 @@ header p {
   transform: rotate(45deg);
 }
 
-/* --- 레트로 로또 추첨 기계 (가챠 머신 느낌) --- */
+/* --- 레트로 로또 추첨 기계 (Vintage Wooden Box) --- */
 .vintage-machine {
   position: relative;
-  width: 180px;
-  height: 240px;
-  margin: 0 auto 2rem auto;
+  width: 256px; /* 64 * 4px */
+  height: 256px;
+  margin: 0 auto 3rem auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   z-index: 5;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuAciVfG2xQK0RcSF5VA54KkDDeMtdN8Ui8Vl1FYx4rkGru8_CbTtku0SVZM6kQbvZeLWVIP8V1RrLzVe23lyFQx0mt7gMtWCGnD5FNVxwLogBNgYDbKCquNBYQ-9YTLEj8H6avH7nRvgEoQdkppbpYEIIORbrHNCo-7RwWCD45iBVN6W4P3mFY6Qd9FphpnoHsKOVjfHXwszMSkDgbM6EkWETkrvhH49NFbzKOB7tOlWcdPY-CPcs6LDgIfCUg40XpNhnq8ypixb-AF');
+  background-size: cover;
+  border-radius: 1rem;
+  border: 4px solid rgba(120, 53, 15, 0.5); /* border-amber-900/50 */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
 .machine-glass {
-  width: 150px;
-  height: 150px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.1) 60%, rgba(0,0,0,0.2) 100%);
-  border-radius: 50%;
-  border: 4px solid #bcaaa4;
-  box-shadow: 
-    inset 10px 10px 20px rgba(255,255,255,0.5),
-    inset -10px -10px 20px rgba(0,0,0,0.3),
-    0 5px 15px rgba(0,0,0,0.5);
-  position: relative;
-  overflow: hidden;
-  z-index: 2;
-  transition: transform 0.1s;
+  position: absolute;
+  inset: 1rem; /* absolute inset-4 */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  background: rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 구슬 섞이는 애니메이션 (JS로 클래스 토글) */
@@ -427,30 +426,22 @@ header p {
 }
 
 .machine-base {
-  width: 120px;
-  height: 90px;
-  background: linear-gradient(to bottom, #d32f2f, #b71c1c); /* 레트로 레드 스탠드 */
-  border-radius: 10px 10px 20px 20px;
-  border: 3px solid #7f0000;
-  margin-top: -15px;
-  z-index: 1;
-  position: relative;
-  box-shadow: 0 10px 15px rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 15px;
+  display: none; /* 나무박스 형태로 바뀌면서 기존 베이스 제거 */
 }
 
 .machine-hole {
-  width: 40px;
-  height: 40px;
-  background-color: #212121;
-  border-radius: 50%;
-  border: 3px solid #424242;
-  box-shadow: inset 0 5px 10px rgba(0,0,0,0.8);
-  position: relative;
-  overflow: hidden;
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5rem;
+  height: 2rem;
+  background-color: #000;
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  border: 4px solid #451a03; /* text-amber-900 */
+  border-bottom: none;
+  z-index: 10;
 }
 
 /* 구멍에서 공이 튀어나오는 연출을 위한 가상 요소 (옵션) */
@@ -471,10 +462,11 @@ header p {
   50% { opacity: 1; }
   100% { transform: translate(-50%, 50%); opacity: 0; }
 }
+/* --- 토글 인사말 (Details) --- */
 .owner-greeting {
-  background: #3e2723;
-  border: 1px dashed #8d6e63;
-  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
   margin: 1.5rem 0;
   text-align: left;
   overflow: hidden;
@@ -483,12 +475,12 @@ header p {
 
 .owner-greeting summary {
   padding: 1rem;
-  font-family: 'Nanum Myeongjo', serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #ffb300;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--accent);
   cursor: pointer;
-  list-style: none; /* Hide default arrow */
+  list-style: none;
   position: relative;
 }
 
@@ -510,86 +502,103 @@ header p {
 
 .greeting-content {
   padding: 0 1.5rem 1.5rem 1.5rem;
-  font-family: 'Nanum Myeongjo', serif;
-  font-size: 1.05rem;
-  color: #d7ccc8;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-sub);
   line-height: 1.6;
-  border-top: 1px dashed rgba(141, 110, 99, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   margin-top: 0.5rem;
   padding-top: 1rem;
 }
 
-/* --- 상단 나무 액자 (방문자 & 명당 타이틀) --- */
-.top-wooden-frame {
+/* --- 상단 방문자 통계 (Flip Clock) --- */
+.top-stats-container {
   position: absolute;
   top: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='%235d4037'/%3E%3Cpath d='M0 50h100M50 0v100' stroke='%233e2723' stroke-width='4'/%3E%3C/svg%3E");
-  border: 4px solid #3e2723;
-  border-radius: 4px;
-  padding: 10px 20px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5), inset 0 0 10px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
   z-index: 10;
 }
 
-.frame-content {
+.stats-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-sub);
+}
+
+.flip-clock {
+  display: flex;
+  gap: 4px;
+}
+
+.flip-digit {
+  background-color: #171717; /* neutral-900 */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem;
+  padding: 0.75rem 0.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.875rem; /* 3xl */
+  font-weight: 700;
+  color: var(--accent);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
-  background-color: #f4ebd8; /* 종이 느낌 배경 */
-  padding: 8px 15px;
-  border: 1px solid #795548;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  min-width: 2.5rem;
 }
-
-.frame-item {
-  font-family: 'Nanum Myeongjo', serif;
+.flip-comma {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
   font-weight: 700;
-  font-size: 1.2rem;
-  color: #3e2723;
-  margin: 0;
-}
-
-.frame-divider {
-  color: #8d6e63;
-  font-weight: 300;
+  color: var(--accent);
+  padding-bottom: 0.5rem;
 }
 
 /* --- 좌측 사이드 책갈피 (기록들 & 제보) --- */
 .left-bookmark {
   position: fixed;
-  top: 15%;
+  top: 10%;
   left: 0;
-  width: 250px;
-  background-color: #d32f2f; /* 붉은색 천 느낌 책갈피 */
-  border: 2px solid #b71c1c;
+  width: 300px;
+  background-color: var(--paper-bg);
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqHnyvrOyS3ZQWXra6qyoHuz36KrQSr_o7QlUZSyWjbwWBNXSZT-n-U8mtzyDk05FTEKa7t31cIxBZn9W6a7VkpiX1fp_XADsj5EJ6nEs77rNQ5u4aC_eoIEbRx4Osp9HXd4L1Uz9eDrbuibHE0LBnzf6Ofp4cTHtSpd6aJWk2_zVNCXLEelWmtgzkNetaUqkNv7PeqdOc92mafjoMUkwL3fUUAX7dPuQFYHSe6bGCnIesjRlbLx9YaGPRq9CcfswvG1Q5Vux8eyd');
+  border: 1px solid rgba(255,255,255,0.1);
   border-left: none;
-  border-radius: 0 12px 12px 0;
-  box-shadow: 4px 5px 15px rgba(0,0,0,0.5);
-  color: #fff;
+  border-radius: 0 1rem 1rem 0;
+  box-shadow: 4px 5px 30px rgba(0,0,0,0.8);
+  color: #451a03;
   z-index: 20;
   transition: transform 0.3s ease;
 }
 
 /* 화면이 너무 작을 때 접히는 효과 (옵션) */
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   .left-bookmark {
-    transform: translateX(-220px);
+    transform: translateX(-275px);
   }
   .left-bookmark:hover {
     transform: translateX(0);
   }
   .left-bookmark::after {
-    content: '당첨\A현황';
-    white-space: pre;
+    content: 'STORIES';
     position: absolute;
     right: 5px;
     top: 50%;
-    transform: translateY(-50%);
-    font-family: 'Pretendard', sans-serif;
-    font-weight: 800;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    color: #451a03;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
   }
 }
 
@@ -601,71 +610,82 @@ header p {
 }
 
 .bookmark-title {
-  font-family: 'Nanum Myeongjo', serif;
-  font-size: 1.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
   text-align: center;
-  border-bottom: 2px dashed rgba(255,255,255,0.4);
-  padding-bottom: 10px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  border-bottom: 1px solid rgba(69, 26, 3, 0.2);
+  padding-bottom: 15px;
+  text-transform: uppercase;
+  color: #451a03;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .miracle-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
   padding-right: 5px;
 }
 .miracle-list::-webkit-scrollbar { width: 4px; }
-.miracle-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 4px; }
+.miracle-list::-webkit-scrollbar-thumb { background: rgba(69, 26, 3, 0.2); border-radius: 4px; }
 
 .miracle-item {
-  background: white;
-  color: #333;
-  border-radius: 4px;
-  padding: 8px 12px;
-  font-family: 'Nanum Pen Script', cursive;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.5);
+  color: #451a03;
+  border-radius: 0.5rem;
+  padding: 12px 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  border: 1px solid rgba(69, 26, 3, 0.1);
+  position: relative;
 }
 
 .miracle-item-header {
-  font-size: 1.1rem;
-  color: #d32f2f;
-  margin-bottom: 2px;
-  font-family: 'Pretendard', sans-serif;
+  font-size: 0.65rem;
+  color: #451a03;
   font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  opacity: 0.8;
 }
 
 .miracle-content {
-  font-size: 1.3rem;
-  color: #111;
+  font-size: 0.875rem;
+  font-style: italic;
+  color: rgba(69, 26, 3, 0.8);
 }
 
 .loading-message, .empty-message {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 0.9rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
   text-align: center;
-  opacity: 0.8;
+  opacity: 0.6;
 }
 
 .postbox-btn-small {
   display: block;
   text-align: center;
-  background: #ffb300;
-  color: #3e2723;
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 800;
+  background: transparent;
+  color: #451a03;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
   padding: 10px;
-  border-radius: 6px;
-  text-decoration: none;
+  text-decoration: underline;
   margin-top: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  transition: transform 0.2s, background 0.2s;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 .postbox-btn-small:hover {
-  transform: translateY(-2px);
-  background: #ffca28;
+  opacity: 0.7;
 }
 
 .postbox-btn {
@@ -691,4 +711,32 @@ header p {
 
 .postbox-btn:active {
   transform: translateY(1px);
+}
+
+#generate-btn {
+  background-color: var(--accent);
+  color: var(--bg-color);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: 9999px; /* full rounded */
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(238, 157, 43, 0.4);
+}
+
+#generate-btn:hover {
+  background-color: rgba(238, 157, 43, 0.9);
+  transform: scale(0.98);
+}
+
+#generate-btn:disabled {
+  background-color: rgba(238, 157, 43, 0.5);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }

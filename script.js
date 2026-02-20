@@ -1,18 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- 누적 방문자 수 구현 ---
-    const visitorCountEl = document.getElementById('visitor-count');
+    const visitorCountEl = document.getElementById('visitor-flip-clock');
     if (visitorCountEl) {
         let currentVisits = parseInt(localStorage.getItem('miracle_visits') || '14235', 10);
         currentVisits += 1;
         localStorage.setItem('miracle_visits', currentVisits);
-        visitorCountEl.innerText = currentVisits.toLocaleString();
+        
+        function updateFlipClock(number) {
+            const numStr = number.toLocaleString(); // e.g., "14,236"
+            visitorCountEl.innerHTML = '';
+            for (let char of numStr) {
+                const el = document.createElement('div');
+                if (char === ',') {
+                    el.className = 'flip-comma';
+                    el.innerText = ',';
+                } else {
+                    el.className = 'flip-digit';
+                    el.innerText = char;
+                }
+                visitorCountEl.appendChild(el);
+            }
+        }
+        
+        updateFlipClock(currentVisits);
         
         // 머무는 동안 무작위로 실시간 증가하는 효과 연출 (명당 느낌)
         setInterval(() => {
             if (Math.random() > 0.6) {
                 currentVisits += Math.floor(Math.random() * 3) + 1;
                 localStorage.setItem('miracle_visits', currentVisits);
-                visitorCountEl.innerText = currentVisits.toLocaleString();
+                updateFlipClock(currentVisits);
             }
         }, 4000);
     }
