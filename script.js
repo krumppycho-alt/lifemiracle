@@ -5,6 +5,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (introOverlay && introBtn) {
         introBtn.addEventListener('click', () => {
             introOverlay.classList.add('fade-out');
+            
+            // 점주 인삿말 토글 애니메이션 강제 실행 (원하는 경우)
+            // 입장 시 BGM 자동 재생 (사용자의 명시적 클릭에 의해 브라우저 정책 통과)
+            // 입장 시 BGM 자동 재생 (사용자의 명시적 클릭에 의해 브라우저 정책 통과)
+            if (bgmPlayer && bgmPlayer.paused) {
+                bgmPlayer.play().then(() => {
+                    const icon = document.getElementById('bgm-icon');
+                    const bgmToggle = document.getElementById('bgm-toggle');
+                    const radioStatus = document.querySelector('.radio-status');
+                    if(icon) {
+                        icon.classList.add('playing');
+                    }
+                    if(bgmToggle) bgmToggle.classList.add('active');
+                    if(radioStatus) radioStatus.innerText = 'BGM ON';
+                }).catch(err => console.error("BGM Autoplay prevented:", err));
+            }
+            
             // CSS 트랜지션 완료 후 DOM에서 완전히 제거
             setTimeout(() => {
                 introOverlay.remove();
@@ -19,105 +36,128 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (bgmToggle && bgmPlayer) {
         bgmPlayer.volume = 0.4; // 배경음악 볼륨 조정
-        bgmToggle.addEventListener('click', () => {
-            if (bgmPlayer.paused) {
-                bgmPlayer.play();
-                bgmToggle.classList.add('playing');
-                radioStatus.innerText = 'BGM ON';
-            } else {
-                bgmPlayer.pause();
-                bgmToggle.classList.remove('playing');
-                radioStatus.innerText = 'BGM OFF';
-            }
+        bgmToggle.addEventListener('click', function() {
+           const isPlaying = !bgmPlayer.paused;
+           const icon = document.getElementById('bgm-icon');
+           if (isPlaying) {
+               bgmPlayer.pause();
+               if (icon) {
+                   icon.classList.remove('playing');
+               }
+               this.classList.remove('active');
+               if (radioStatus) radioStatus.innerText = 'BGM OFF';
+           } else {
+               bgmPlayer.play();
+               if (icon) {
+                   icon.classList.add('playing');
+               }
+               this.classList.add('active');
+               if (radioStatus) radioStatus.innerText = 'BGM ON';
+           }
         });
     }
 
-    // --- 🌳 황금 소원 나무 (Wish Tree) ---
-    const wishInput = document.getElementById('wish-input');
+    // --- ⬅️/➡️ 페이지 슬라이딩 화면 전환 로직 ---
+    const goToTreeBtn = document.getElementById('go-to-tree-btn');
+    const backToMainBtn = document.getElementById('back-to-main-btn');
+    const appWrapper = document.getElementById('app-wrapper');
+    const bodyEl = document.body;
+
+    if (goToTreeBtn && backToMainBtn && appWrapper) {
+        goToTreeBtn.addEventListener('click', () => {
+            appWrapper.classList.add('slide-to-tree');
+            bodyEl.classList.add('in-tree-view');
+        });
+
+        backToMainBtn.addEventListener('click', () => {
+            appWrapper.classList.remove('slide-to-tree');
+            bodyEl.classList.remove('in-tree-view');
+        });
+    }
+
+    // --- 🌳 황금 소원 나무 (전용 화면 처리용) ---
     const wishSubmitBtn = document.getElementById('wish-submit-btn');
-    const wishTreeContainer = document.getElementById('wish-tree-container');
+    const wishInput = document.getElementById('wish-input');
+    const wishTreeBoard = document.getElementById('wish-tree-board');
 
-    function addWishNote() {
-        if (!wishInput || !wishSubmitBtn || !wishTreeContainer) return;
-        const text = wishInput.value.trim();
-        if (!text) return;
-
-        const note = document.createElement('div');
-        note.className = 'wish-note';
-        note.innerText = text;
-
-        // 컨테이너 크기 내에서 랜덤 위치 계산 (여백 고려)
-        const containerWidth = wishTreeContainer.clientWidth;
-        const containerHeight = wishTreeContainer.clientHeight;
-        const randomX = Math.floor(Math.random() * (containerWidth - 90));
-        const randomY = Math.floor(Math.random() * (containerHeight - 90));
-        const randomRotate = Math.floor(Math.random() * 40) - 20; // -20deg ~ +20deg
-
-        note.style.left = `${randomX}px`;
-        note.style.top = `${randomY}px`;
-        note.style.transform = `scale(1) rotate(${randomRotate}deg)`;
-
-        wishTreeContainer.appendChild(note);
-        wishInput.value = '';
-    }
-
-    if (wishSubmitBtn) {
-        wishSubmitBtn.addEventListener('click', addWishNote);
-    }
-    if (wishInput) {
-        wishInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addWishNote();
-        });
-    }
-
-    // --- 📮 기적의 고민 우체통 ---
-    const sendWorryBtn = document.getElementById('send-worry-btn');
-    const worryInput = document.getElementById('worry-input');
-    const worryModal = document.getElementById('worry-modal');
-    const worryReplyText = document.getElementById('worry-reply-text');
-    const closeWorryBtn = document.getElementById('close-worry-btn');
-
-    const warmReplies = [
-        "지금 고민하는 그 시간들도, 결국 좋은 거름이 되어 당신의 길을 빛내줄 거예요. 너무 자책하지 마세요.",
-        "인생의 잡화점에서는 때론 우연이 기적을 만듭니다. 오늘 밤은 푹 자고, 내일 다시 시작해보는 건 어때요?",
-        "괜찮아요, 원래 길을 잃었다고 생각될 때 진짜 나만의 길을 발견하게 되는 법이니까요.",
-        "당신이 지금 그 일을 얼마나 진심으로 대하고 있는지 저한테도 느껴지네요. 분명 좋은 결과가 있을 겁니다.",
-        "누군가의 속도와 비교하지 마세요. 당신만의 시계는 지금 아주 정확하게 돌아가고 있습니다."
+    // 더미 데이터 초기화
+    const dummyWishes = [
+        "올해는 꼭 내 집 마련 성공하게 해주세요! 🏠",
+        "가족들 모두 건강하고 아프지 않길 기원합니다 🙏",
+        "1등 당첨되면 퇴사하고 카페 차릴 거예요 ☕",
+        "로또 1등 기원!!! ✨",
+        "남편 사업 대박나게 해주세요! 💸",
+        "우리가족 코로나 걸리지 않게 해주세요 😷",
+        "우리아들 대학 합격하게 해주세요 🎓",
+        "올해는 꼭 취업하게 해주세요! 💼",
+        "다이어트 성공하게 해주세요 🥗",
+        "이번주 1등은 나야나 🥇",
+        "강아지랑 평생 행복하게 해주세요 🐶",
+        "세계일주 다녀오게 해주세요 ✈️",
+        "빚 다 갚고 새출발 하게 해주세요 🌅",
+        "딸기 농장 대박나게 해주세요 🍓",
+        "우리가족 화목하게 해주세요 👨‍👩‍👧‍👦"
     ];
 
-    if (sendWorryBtn && worryInput && worryModal) {
-        sendWorryBtn.addEventListener('click', () => {
-            if (worryInput.value.trim() === '') return;
+    if (wishSubmitBtn && wishInput && wishTreeBoard) {
+        // 이전 세션이나 더미 데이터를 localStorage를 통해 관리
+        const WISH_STORAGE_KEY = 'life_store_wishes';
+        let storedWishes = JSON.parse(localStorage.getItem(WISH_STORAGE_KEY)) || dummyWishes;
+        
+        // 새로 저장했다치고 다시 덮어씀 (더미 보충)
+        if(storedWishes.length < dummyWishes.length) {
+            storedWishes = dummyWishes;
+            localStorage.setItem(WISH_STORAGE_KEY, JSON.stringify(storedWishes));
+        }
 
-            // 편지가 날아가는 애니메이션 생성
-            const flyLetter = document.createElement('div');
-            flyLetter.className = 'flying-letter';
-            const rect = worryInput.getBoundingClientRect();
-            flyLetter.style.left = `${rect.left + rect.width / 2}px`;
-            flyLetter.style.top = `${rect.top + rect.height / 2}px`;
-            document.body.appendChild(flyLetter);
-
-            // 애니메이션 진행: 화면 위로 빨려들어가며 사라짐
-            setTimeout(() => {
-                flyLetter.style.transform = `translate(${window.innerWidth / 2 - rect.left}px, -${window.innerHeight}px) scale(0)`;
-                flyLetter.style.opacity = '0';
-            }, 50);
-
-            // 1초 뒤 편지 삭제 및 기적의 답장 모달 띄우기
-            setTimeout(() => {
-                flyLetter.remove();
-                worryInput.value = '';
-                const randomReply = warmReplies[Math.floor(Math.random() * warmReplies.length)];
-                worryReplyText.innerText = `"${randomReply}"`;
-                worryModal.classList.remove('hidden');
-            }, 1000);
+        // 초기 렌더링
+        storedWishes.forEach(wish => {
+            addWishNoteToBoard(wish, false); 
         });
-    }
 
-    if (closeWorryBtn) {
-        closeWorryBtn.addEventListener('click', () => {
-            worryModal.classList.add('hidden');
+        wishSubmitBtn.addEventListener('click', handleWishSubmit);
+        wishInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleWishSubmit();
         });
+
+        function handleWishSubmit() {
+            const text = wishInput.value.trim();
+            if (text === '') return;
+
+            addWishNoteToBoard(text, true);
+            
+            // 로컬 스토리지 업데이트
+            storedWishes.push(text);
+            localStorage.setItem(WISH_STORAGE_KEY, JSON.stringify(storedWishes));
+
+            wishInput.value = '';
+        }
+
+        function addWishNoteToBoard(text, animate) {
+            const note = document.createElement('div');
+            note.className = 'wish-note';
+            note.innerText = text;
+
+            // 보드 내 랜덤 위치/각도
+            const maxW = wishTreeBoard.clientWidth || window.innerWidth;
+            const maxH = wishTreeBoard.clientHeight || (window.innerHeight - 200);
+            const randomX = Math.max(0, Math.min(Math.floor(Math.random() * maxW), maxW - 100)); // 100 is note width approx
+            const randomY = Math.max(0, Math.min(Math.floor(Math.random() * maxH), maxH - 100));
+            const randomRot = Math.floor(Math.random() * 30) - 15; // -15deg to +15deg
+
+            // 위치 지정
+            note.style.left = `${randomX}px`;
+            note.style.top = `${randomY}px`;
+            note.style.transform = `rotate(${randomRot}deg)`;
+
+            if (!animate) {
+                // 기존 데이터는 애니메이션 없이 바로 표시
+                note.style.animation = 'none';
+                note.style.opacity = '1';
+            }
+
+            wishTreeBoard.appendChild(note);
+        }
     }
 
     // --- 누적 방문자 수 플립클락 구현 ---
@@ -416,50 +456,5 @@ document.addEventListener('DOMContentLoaded', () => {
             miracleListEl.appendChild(itemDiv);
         });
     }
-
-    // --- 📓 이번 주 기적의 장부 (칠판 통계 UI) ---
-    function initChalkboardStats() {
-        if (!window.baseStats) return;
-        
-        // baseStats에서 숫자와 빈도수 객체 배열 생성
-        const statsArray = window.baseStats.map((freq, index) => ({
-            number: index + 1,
-            frequency: freq
-        }));
-
-        // 빈도 기준 정렬
-        statsArray.sort((a, b) => b.frequency - a.frequency);
-
-        // 상위 5개 (Hot), 하위 5개 (Cold) 추출
-        const hotNumbers = statsArray.slice(0, 5);
-        const coldNumbers = statsArray.slice(-5).reverse(); // 가장 적은 순이므로 하위 항목들 역순 정렬
-
-        const hotContainer = document.getElementById('hot-numbers');
-        const coldContainer = document.getElementById('cold-numbers');
-        
-        if (hotContainer && coldContainer) {
-            hotContainer.innerHTML = '';
-            coldContainer.innerHTML = '';
-
-            // Hot 렌더링
-            hotNumbers.forEach(obj => {
-                const el = document.createElement('div');
-                el.className = 'chalk-number hot';
-                el.innerText = obj.number;
-                hotContainer.appendChild(el);
-            });
-
-            // Cold 렌더링
-            coldNumbers.forEach(obj => {
-                const el = document.createElement('div');
-                el.className = 'chalk-number cold';
-                el.innerText = obj.number;
-                coldContainer.appendChild(el);
-            });
-        }
-    }
-
-    // DOM 로드 완료 후 칠판 데이터 갱신
-    initChalkboardStats();
 
 });
