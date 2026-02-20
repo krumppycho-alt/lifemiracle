@@ -17,11 +17,27 @@
       content="인생 잡화점에서 당신의 행운의 로또 번호를 추첨해보세요. 프리미엄 로또 번호 생성기."
     />
   </head>
-  <body>
+    <div class="store-bg"></div>
     <div class="container">
       <header>
+        <div class="visitor-banner">
+            <span class="banner-pin left"></span>
+            누적 방문자 수: <span id="visitor-count">...</span>명
+            <span class="banner-pin right"></span>
+        </div>
         <h1>인생 잡화점</h1>
         <p>당신의 인생에 행운을 가져다줄 번호를 뽑아보세요.</p>
+        
+        <details class="owner-greeting">
+            <summary>인생 잡화점 점주 김땡땡의 인삿말 (클릭)</summary>
+            <div class="greeting-content">
+                안녕하세요, 인생 잡화점 주인 김땡땡입니다.<br><br>
+                요즘 같이 팍팍하고 힘든 시기에, 이 작은 잡화점이 누군가에게는 일상의 소소한 재미가 되고, 또 다른 누군가에게는 정말 놀라운 기적이 시작되는 곳이 되길 바라는 마음으로 문을 열었습니다.<br><br>
+                이곳은 역대 1등 당첨 번호들의 방대한 통계를 기반으로 한 알고리즘을 사용하고 있지만, 사실 로또에 정해진 답은 없다는 걸 저도, 여러분도 잘 알고 있습니다. 😊<br><br>
+                하지만 번호를 뽑고 결과를 기다리는 그 며칠간의 설렘이 우리네 삶에 작은 활력이 된다면 그것만으로도 충분한 가치가 있다고 생각합니다. 결과를 너무 맹신하기보다는, 인생 잡화점에 잠시 들러 행운 한 조각을 담아가는 가벼운 마음으로 즐겨주세요.<br><br>
+                당신의 삶에 찾아올 기분 좋은 기적을 늘 진심으로 응원하겠습니다!
+            </div>
+        </details>
       </header>
 
         <main>
@@ -60,9 +76,9 @@
           행운 번호 추첨하기
         </button>
 
-        <!-- 기적의 기록들 (게시판) -->
+        <!-- 기적의 기록들 (명당 현수막) -->
         <section class="miracle-board">
-          <h2>기적의 기록들</h2>
+          <h2>명당 배출 현황판</h2>
           <div id="miracle-list" class="miracle-list">
             <div class="loading-message">소식을 불러오는 중입니다...</div>
           </div>

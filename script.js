@@ -1,4 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- 누적 방문자 수 구현 ---
+    const visitorCountEl = document.getElementById('visitor-count');
+    if (visitorCountEl) {
+        let currentVisits = parseInt(localStorage.getItem('miracle_visits') || '14235', 10);
+        currentVisits += 1;
+        localStorage.setItem('miracle_visits', currentVisits);
+        visitorCountEl.innerText = currentVisits.toLocaleString();
+        
+        // 머무는 동안 무작위로 실시간 증가하는 효과 연출 (명당 느낌)
+        setInterval(() => {
+            if (Math.random() > 0.6) {
+                currentVisits += Math.floor(Math.random() * 3) + 1;
+                localStorage.setItem('miracle_visits', currentVisits);
+                visitorCountEl.innerText = currentVisits.toLocaleString();
+            }
+        }, 4000);
+    }
+
     const generateBtn = document.getElementById('generate-btn');
     const machineContainer = document.getElementById('lotto-machine');
     const gameCountSelect = document.getElementById('game-count');
@@ -178,13 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
             // 단순 콤마 분리
             const cols = rowStr.split(',');
             
-            // CSV 헤더: 당첨자, 당첨 회차, 등 수, ...
+            // CSV 헤더: 당첨자, 당첨 회차, 등 수, 4열(당첨자 수/기타)
             const name = cols[0] ? cols[0].trim() : '익명';
             const round = cols[1] ? cols[1].trim() : '';
             const rank = cols[2] ? cols[2].trim() : '';
+            const count = cols[3] ? cols[3].trim() : '1'; 
             
-            const headerText = round && rank ? `${round}회차 ${rank}` : '새로운 기적';
-            const content = `${name} 님 당첨을 축하드립니다!`;
+            const headerText = round && rank ? `${round}회차 ${rank}` : '기적의 순간';
+            // "1명 당첨! (이름)"
+            const content = `${count}명 당첨! (${name}님)`;
 
             const itemDiv = document.createElement('div');
             itemDiv.className = 'miracle-item';
