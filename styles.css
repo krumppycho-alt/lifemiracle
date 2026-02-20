@@ -814,40 +814,41 @@ header {
   opacity: 0.6;
 }
 
-.postbox-btn-small {
-  display: block;
-  text-align: center;
-  background: transparent;
-  color: #451a03;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  padding: 10px;
-  text-decoration: underline;
-  margin-top: 10px;
-  transition: opacity 0.2s;
+/* --- 플로팅 액션 버튼 (당첨 소식 전하기) --- */
+.fab-postbox {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-.postbox-btn-small:hover {
-  opacity: 0.7;
-}
-
-.postbox-btn {
-  display: inline-block;
-  background: linear-gradient(135deg, #d84315, #bf360c); /* 우체통 붉은 그라데이션 */
+  gap: 8px;
+  background: linear-gradient(135deg, #d84315, #bf360c);
   color: white;
   text-decoration: none;
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
-  font-size: 1.2rem;
-  padding: 15px 30px;
-  border-radius: 50px;
-  box-shadow: 0 4px 15px rgba(191, 54, 12, 0.4);
-  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  padding: 12px 20px;
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px rgba(191, 54, 12, 0.5);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 50; /* 항상 위에 떠있게 */
+}
+
+.fab-postbox:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(191, 54, 12, 0.7);
+  background: linear-gradient(135deg, #e64a19, #d84315);
+}
+
+.fab-postbox:active {
+  transform: translateY(2px);
+}
+
+.fab-icon {
+  font-size: 1.3rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 
 .postbox-btn:hover {
