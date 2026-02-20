@@ -1021,6 +1021,32 @@ a.left-bookmark:hover {
   margin-bottom: 0.5rem;
 }
 
+/* --- App Wrapper for Slide Transition --- */
+.app-wrapper {
+  display: flex;
+  width: 200vw; /* 2개의 페이지 넓이 */
+  height: 100vh;
+  transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.app-wrapper.slide-to-tree {
+  transform: translateX(-100vw);
+}
+
+.page-section {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* 기존 컨테이너 중앙 정렬 등 기본 레이아웃 제어 */
+.main-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* 포스트잇 스타일 (소원 나무용) */
 .wish-note {
   position: absolute;
@@ -1061,90 +1087,26 @@ a.left-bookmark:hover {
   100% { opacity: 1; }
 }
 
-/* --- 📮 기적의 고민 우체통 --- */
-.letter-paper {
-  background: rgba(255, 255, 255, 0.85);
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-  margin-top: 15px;
-}
-
-#worry-input {
-  width: 100%;
-  height: 100px;
-  border: none;
-  background: transparent;
-  resize: none;
-  font-family: 'Nanum Pen Script', cursive;
-  font-size: 1.2rem;
-  color: #451a03;
-  line-height: 1.5rem;
-  outline: none;
-  /* 편지지 줄무늬 효과 */
-  background-image: repeating-linear-gradient(transparent, transparent 1.4rem, rgba(0,0,0,0.1) 1.4rem, rgba(0,0,0,0.1) 1.5rem);
-}
-
-.worry-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+/* 🌳 2. 소원 나무 전용 페이지 스타일 */
+.wish-tree-page {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  opacity: 1;
-  transition: opacity 0.3s ease;
+  justify-content: flex-start;
+  padding: 2rem;
 }
 
-.worry-modal.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.worry-modal-content {
-  background-color: var(--paper-bg);
-  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqHnyvrOyS3ZQWXra6qyoHuz36KrQSr_o7QlUZSyWjbwWBNXSZT-n-U8mtzyDk05FTEKa7t31cIxBZn9W6a7VkpiX1fp_XADsj5EJ6nEs77rNQ5u4aC_eoIEbRx4Osp9HXd4L1Uz9eDrbuibHE0LBnzf6Ofp4cTHtSpd6aJWk2_zVNCXLEelWmtgzkNetaUqkNv7PeqdOc92mafjoMUkwL3fUUAX7dPuQFYHSe6bGCnIesjRlbLx9YaGPRq9CcfswvG1Q5Vux8eyd');
-  padding: 2.5rem 2rem;
-  border-radius: 12px;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.9);
-  text-align: center;
-  transform: scale(1);
-  transition: transform 0.3s ease;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-.worry-modal.hidden .worry-modal-content {
-  transform: scale(0.9) translateY(20px);
-}
-
-.modal-title {
-  color: #451a03;
-  margin-bottom: 1.5rem;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.5rem;
-}
-
-.modal-text {
-  color: rgba(69, 26, 3, 0.9);
-  font-family: 'Pretendard', sans-serif;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
-  word-break: keep-all;
-}
-
-/* 날아가는 애니메이션 요소 */
-.flying-letter {
-  position: fixed;
-  width: 50px;
-  height: 35px;
-  background: white;
-  border: 1px solid #ddd;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-  z-index: 1000;
-  transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  opacity: 1;
+.wish-tree-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 80vh;
+  margin-top: 2rem;
+  border-radius: 20px;
+  background: rgba(26, 20, 14, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+  overflow: hidden;
 }
