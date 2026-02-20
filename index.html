@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>인생 잡화점 - 로또 번호 추천</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <meta
+      name="description"
+      content="인생 잡화점에서 당신의 행운의 로또 번호를 추첨해보세요. 프리미엄 로또 번호 생성기."
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>인생 잡화점</h1>
+        <p>당신의 인생에 행운을 가져다줄 번호를 뽑아보세요.</p>
+      </header>
+
+        <main>
+            <div class="options-panel">
+                <div class="option-group">
+                    <label for="game-count">게임 수:</label>
+                    <select id="game-count" class="styled-select">
+                        <option value="1">1게임</option>
+                        <option value="2">2게임</option>
+                        <option value="3">3게임</option>
+                        <option value="4">4게임</option>
+                        <option value="5" selected>5게임</option>
+                        <option value="6">6게임</option>
+                        <option value="7">7게임</option>
+                        <option value="8">8게임</option>
+                        <option value="9">9게임</option>
+                        <option value="10">10게임</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="include-bonus">
+                        <span class="checkmark"></span>
+                        보너스 번호 포함 (7개 추출)
+                    </label>
+                </div>
+            </div>
+
+            <div class="lotto-machine" id="lotto-machine">
+                <div class="balls-container" id="game-0">
+                    <div class="placeholder">버튼을 눌러 번호를 추첨해주세요</div>
+                </div>
+            </div>
+
+        <button id="generate-btn" class="glow-on-hover">
+          행운 번호 추첨하기
+        </button>
+      </main>
+    </div>
+    <script src="lotto_data.js"></script>
+    <script src="baseStats.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
