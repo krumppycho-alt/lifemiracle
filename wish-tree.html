@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>기적의 소원 나무 - 인생 잡화점</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="in-tree-view">
+    <div class="store-bg"></div>
+    <div class="wish-tree-page" id="wish-tree-page" style="width: 100vw; height: 100vh; overflow-y: auto;">
+        <!-- 나무 화면 배경 이미지는 CSS에서 처리 -->
+        <div class="wish-tree-overlay"></div>
+        
+        <button id="back-to-main-btn" class="nav-btn left-nav-btn" title="잡화점으로 돌아가기" onclick="window.location.href='index.html'">
+            <span class="material-symbols-outlined">arrow_back_ios</span>
+        </button>
+
+        <div class="wish-content-area" style="text-align: center;">
+            <h2 class="wish-page-title" style="margin-top: 50px;">✨ 기적의 소원 나무 ✨</h2>
+            <p class="wish-page-subtitle">이 나무에 걸린 수많은 소원들이 익명으로 바람에 나부낍니다.<br>당신의 바람도 이 곳에 함께 남겨주세요.</p>
+            
+            <!-- 포스트잇들이 화면 곳곳에 붙을 영역 -->
+            <div id="wish-tree-board" class="wish-tree-board">
+                <!-- JS 동적 렌더링 -->
+            </div>
+            
+            <!-- 입력 컨테이너 (세련된 하단 고정) -->
+            <div class="wish-input-bar" style="margin: 0 auto;">
+                <input type="text" id="wish-input" class="wish-input-large" placeholder="당첨의 기적이 일어난다면..." maxlength="40">
+                <button id="wish-submit-btn" class="wish-btn-large">소원 걸기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 라디오 유지할 거면 추가 가능. 없어도 무방함. (여기선 배경음악 없이 갈 수도 있음) -->
+    
+    <script src="script.js"></script>
+  </body>
+</html>

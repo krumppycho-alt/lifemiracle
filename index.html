@@ -71,11 +71,9 @@
         </a>
     </div>
 
-    <!-- 페이지 전환을 위한 전체 래퍼 -->
-    <div id="app-wrapper" class="app-wrapper">
-        <!-- 기존 메인 화면 -->
-        <div class="page-section main-page" id="main-page">
-          <div class="container">
+    <!-- 기존 메인 화면 -->
+    <div class="main-page" id="main-page">
+      <div class="container">
               <header>
             <!-- 인삿말 토글 버튼을 가장 위로 (중앙 형태 정렬) -->
         <details class="owner-greeting">
@@ -154,38 +152,10 @@
 
           </main>
           </div> <!-- end of container -->
-        </div> <!-- end of page-section main-page -->
-
-      <!-- 🌳 2. 소원 나무 전용 화면 -->
-      <div class="wish-tree-page page-section" id="wish-tree-page">
-          <!-- 나무 화면 배경 이미지는 CSS에서 처리 -->
-          <div class="wish-tree-overlay"></div>
-          
-          <button id="back-to-main-btn" class="nav-btn left-nav-btn" title="잡화점으로 돌아가기">
-              <span class="material-symbols-outlined">arrow_back_ios</span>
-          </button>
-
-          <div class="wish-content-area">
-              <h2 class="wish-page-title">✨ 기적의 소원 나무 ✨</h2>
-              <p class="wish-page-subtitle">이 나무에 걸린 수많은 소원들이 익명으로 바람에 나부낍니다.<br>당신의 바람도 이 곳에 함께 남겨주세요.</p>
-              
-              <!-- 포스트잇들이 화면 곳곳에 붙을 영역 -->
-              <div id="wish-tree-board" class="wish-tree-board">
-                  <!-- JS 동적 렌더링 -->
-              </div>
-              
-              <!-- 입력 컨테이너 (세련된 하단 고정) -->
-              <div class="wish-input-bar">
-                  <input type="text" id="wish-input" class="wish-input-large" placeholder="당첨의 기적이 일어난다면..." maxlength="40">
-                  <button id="wish-submit-btn" class="wish-btn-large">소원 걸기</button>
-              </div>
-          </div>
-      </div> <!-- end of wish-tree-page -->
-
-    </div> <!-- end of app-wrapper -->
+        </div> <!-- end of main-page -->
 
     <!-- 사이드 이동 액션 플로팅 버튼 (메인 페이지 전용) -->
-    <button id="go-to-tree-btn" class="nav-btn right-nav-btn" title="소원 나무 보러가기">
+    <button id="go-to-tree-btn" class="nav-btn right-nav-btn" title="소원 나무 보러가기" onclick="window.location.href='wish-tree.html'">
         <span class="material-symbols-outlined">arrow_forward_ios</span>
     </button>
 

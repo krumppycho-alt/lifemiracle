@@ -57,23 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- ⬅️/➡️ 페이지 슬라이딩 화면 전환 로직 ---
-    const goToTreeBtn = document.getElementById('go-to-tree-btn');
-    const backToMainBtn = document.getElementById('back-to-main-btn');
-    const appWrapper = document.getElementById('app-wrapper');
-    const bodyEl = document.body;
 
-    if (goToTreeBtn && backToMainBtn && appWrapper) {
-        goToTreeBtn.addEventListener('click', () => {
-            appWrapper.classList.add('slide-to-tree');
-            bodyEl.classList.add('in-tree-view');
-        });
-
-        backToMainBtn.addEventListener('click', () => {
-            appWrapper.classList.remove('slide-to-tree');
-            bodyEl.classList.remove('in-tree-view');
-        });
-    }
 
     // --- 🌳 황금 소원 나무 (전용 화면 처리용) ---
     const wishSubmitBtn = document.getElementById('wish-submit-btn');
