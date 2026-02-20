@@ -28,61 +28,80 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalNumbersNeeded = includeBonus ? 7 : 6;
         
         generateBtn.disabled = true;
-        generateBtn.innerText = "추첨 중...";
+        generateBtn.innerText = "번호 섞는 중...";
         machineContainer.innerHTML = '';
         
         let gamesCompleted = 0;
+        
+        // 기계 애니메이션 토글 
+        const machineGlass = document.getElementById('machine-glass');
+        const machineHole = document.querySelector('.machine-hole');
+        if (machineGlass) machineGlass.classList.add('mixing');
 
-        for (let g = 0; g < gameCount; g++) {
-            const row = document.createElement('div');
-            row.className = 'balls-container';
-            row.id = `game-${g}`;
-            machineContainer.appendChild(row);
-
-            const lottoNumbers = generateLottoNumbers(totalNumbersNeeded);
+        // 흔들리는 애니메이션을 1.5초 정도 보여준 뒤 실제 추첨 시작
+        setTimeout(() => {
+            if (machineGlass) machineGlass.classList.remove('mixing');
+            generateBtn.innerText = "추첨 중...";
             
-            lottoNumbers.forEach((number, index) => {
-                setTimeout(() => {
-                    const ball = document.createElement('div');
+            for (let g = 0; g < gameCount; g++) {
+                const row = document.createElement('div');
+                row.className = 'balls-container';
+                row.id = `game-${g}`;
+                machineContainer.appendChild(row);
+
+                const lottoNumbers = generateLottoNumbers(totalNumbersNeeded);
+                
+                lottoNumbers.forEach((number, index) => {
+                    const spawnDelay = (g * 1200) + (index * 300); // 딜레이를 약간 더 길게 주어 뽑히는 느낌 강화
                     
-                    // 마지막 공이면서 보너스 볼 설정이 켜져있을 경우 특별 색상+애니메이션 (보너스볼 표기)
-                    if (includeBonus && index === 6) {
-                        const plusSign = document.createElement('div');
-                        plusSign.innerText = '+';
-                        plusSign.style.fontSize = '2rem';
-                        plusSign.style.fontWeight = 'bold';
-                        plusSign.style.color = '#fbbf24'; // var(--accent)
-                        plusSign.style.display = 'flex';
-                        plusSign.style.alignItems = 'center';
-                        plusSign.style.margin = '0 5px';
-                        plusSign.style.opacity = '0';
-                        plusSign.style.animation = 'popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
-                        row.appendChild(plusSign);
-
-                        ball.className = `ball ${getColorClass(number)}`;
-                        ball.style.border = '2px solid #fff'; // 보너스 표시
-                        ball.innerText = number;
-                    } else {
-                        ball.className = `ball ${getColorClass(number)}`;
-                        ball.innerText = number;
-                    }
-
-                    row.appendChild(ball);
-
-                    // 모든 게임의 모든 공이 렌더링 된 후 버튼 복구
-                    if (index === lottoNumbers.length - 1) {
-                        gamesCompleted++;
-                        if (gamesCompleted === gameCount) {
-                            setTimeout(() => {
-                                generateBtn.disabled = false;
-                                generateBtn.innerText = "다시 추첨하기";
-                            }, 500);
+                    setTimeout(() => {
+                        // 통에서 구슬 빠져나오기 애니메이션 트리거
+                        if (machineHole) {
+                            machineHole.classList.remove('spawning');
+                            void machineHole.offsetWidth; // reflow
+                            machineHole.classList.add('spawning');
                         }
-                    }
-                }, (g * 800) + (index * 150)); 
-                // 게임 간 0.8초 딜레이, 공 간 0.15초 딜레이
-            });
-        }
+
+                        const ball = document.createElement('div');
+                        
+                        // 마지막 공이면서 보너스 볼 설정이 켜져있을 경우 특별 색상+애니메이션 (보너스볼 표기)
+                        if (includeBonus && index === 6) {
+                            const plusSign = document.createElement('div');
+                            plusSign.innerText = '+';
+                            plusSign.style.fontSize = '2rem';
+                            plusSign.style.fontWeight = 'bold';
+                            plusSign.style.color = '#fbbf24'; // var(--accent)
+                            plusSign.style.display = 'flex';
+                            plusSign.style.alignItems = 'center';
+                            plusSign.style.margin = '0 5px';
+                            plusSign.style.opacity = '0';
+                            plusSign.style.animation = 'popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+                            row.appendChild(plusSign);
+
+                            ball.className = `ball ${getColorClass(number)}`;
+                            ball.style.border = '2px solid #fff'; // 보너스 표시
+                            ball.innerText = number;
+                        } else {
+                            ball.className = `ball ${getColorClass(number)}`;
+                            ball.innerText = number;
+                        }
+
+                        row.appendChild(ball);
+
+                        // 모든 게임의 모든 공이 렌더링 된 후 버튼 복구
+                        if (index === lottoNumbers.length - 1) {
+                            gamesCompleted++;
+                            if (gamesCompleted === gameCount) {
+                                setTimeout(() => {
+                                    generateBtn.disabled = false;
+                                    generateBtn.innerText = "기적의 번호 다시 뽑기";
+                                }, 800);
+                            }
+                        }
+                    }, spawnDelay); 
+                });
+            }
+        }, 1500); // 1.5초간 구슬 섞임
     });
 
     // 지정 갯수(6개 or 7개)만큼의 중복 없는 난수 추출 (1~1210회차 baseStats 가중치 랜덤 로직)
@@ -175,14 +194,46 @@ document.addEventListener('DOMContentLoaded', () => {
         // 줄바꿈으로 분리. 엑셀에서 생성된 CSV는 \r\n, \n 등이 섞여있을 수 있음
         const lines = csv.split(/\r?\n/).filter(line => line.trim() !== '');
         
-        // 데이터가 헤더(1줄)만 있거나 아예 없는 경우
+        // 데이터가 헤더(1줄)만 있거나 아예 없는 경우 Mock(예시) 노출
         if (lines.length <= 1) {
-            miracleListEl.innerHTML = '<div class="empty-message">첫 번째 기적의 주인공을 기다립니다</div>';
+            miracleListEl.innerHTML = ''; // 비우고 가짜 데이터 삽입
+            const mockData = [
+                { round: "1105", rank: "1등", count: "1" },
+                { round: "1104", rank: "3등", count: "12" },
+                { round: "1098", rank: "1등", count: "1" },
+                { round: "1091", rank: "2등", count: "3" },
+                { round: "1085", rank: "1등", count: "2" }
+            ];
+            
+            mockData.forEach(item => {
+                const headerText = `${item.round}회차 ${item.rank}`;
+                const content = `${item.count}명 당첨!`;
+                
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'miracle-item';
+                
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'miracle-item-header';
+                
+                const dateSpan = document.createElement('span');
+                dateSpan.className = 'miracle-date';
+                dateSpan.innerText = headerText;
+                
+                headerDiv.appendChild(dateSpan);
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'miracle-content';
+                contentDiv.innerText = content;
+
+                itemDiv.appendChild(headerDiv);
+                itemDiv.appendChild(contentDiv);
+                
+                miracleListEl.appendChild(itemDiv);
+            });
             return;
         }
 
         // 헤더 제외하고 데이터 행 추출 후 최신순으로 뒤집기
-        // (구글 폼 연동 시 위에서부터 쌓이므로 역순이 최신)
         const dataRows = lines.slice(1).reverse().slice(0, 5); // 최근 5개만
 
         if (dataRows.length === 0) {

@@ -351,7 +351,126 @@ header p {
   transform: rotate(45deg);
 }
 
-/* --- 토글 인사말 (Details) --- */
+/* --- 레트로 로또 추첨 기계 (가챠 머신 느낌) --- */
+.vintage-machine {
+  position: relative;
+  width: 180px;
+  height: 240px;
+  margin: 0 auto 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+}
+
+.machine-glass {
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.1) 60%, rgba(0,0,0,0.2) 100%);
+  border-radius: 50%;
+  border: 4px solid #bcaaa4;
+  box-shadow: 
+    inset 10px 10px 20px rgba(255,255,255,0.5),
+    inset -10px -10px 20px rgba(0,0,0,0.3),
+    0 5px 15px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  transition: transform 0.1s;
+}
+
+/* 구슬 섞이는 애니메이션 (JS로 클래스 토글) */
+.machine-glass.mixing {
+  animation: shake 0.3s infinite ease-in-out;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* 기계 안쪽 미니 공들 */
+.mini-ball {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  box-shadow: inset -2px -2px 6px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.mixing .mini-ball {
+  animation: bounceAround 0.8s infinite linear alternate;
+}
+
+/* 구슬마다 약간씩 다른 타이밍/위치 부여 (CSS로 대략적 느낌만) */
+.mini-ball:nth-child(1) { bottom: 10%; left: 20%; animation-delay: 0.1s; animation-duration: 0.6s; }
+.mini-ball:nth-child(2) { bottom: 15%; left: 45%; animation-delay: 0.3s; animation-duration: 0.7s; }
+.mini-ball:nth-child(3) { bottom: 5%; left: 65%; animation-delay: 0.2s; animation-duration: 0.5s; }
+.mini-ball:nth-child(4) { bottom: 25%; left: 25%; animation-delay: 0.5s; animation-duration: 0.9s; }
+.mini-ball:nth-child(5) { bottom: 20%; left: 55%; animation-delay: 0.4s; animation-duration: 0.8s; }
+
+@keyframes bounceAround {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(25px, -30px); }
+  50% { transform: translate(-15px, -60px); }
+  75% { transform: translate(-30px, -20px); }
+  100% { transform: translate(10px, -10px); }
+}
+
+.machine-base {
+  width: 120px;
+  height: 90px;
+  background: linear-gradient(to bottom, #d32f2f, #b71c1c); /* 레트로 레드 스탠드 */
+  border-radius: 10px 10px 20px 20px;
+  border: 3px solid #7f0000;
+  margin-top: -15px;
+  z-index: 1;
+  position: relative;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 15px;
+}
+
+.machine-hole {
+  width: 40px;
+  height: 40px;
+  background-color: #212121;
+  border-radius: 50%;
+  border: 3px solid #424242;
+  box-shadow: inset 0 5px 10px rgba(0,0,0,0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 구멍에서 공이 튀어나오는 연출을 위한 가상 요소 (옵션) */
+.machine-hole.spawning::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #fff, #fbbf24);
+  border-radius: 50%;
+  animation: dropBall 0.5s ease-out forwards;
+}
+
+@keyframes dropBall {
+  0% { transform: translate(-50%, -150%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translate(-50%, 50%); opacity: 0; }
+}
 .owner-greeting {
   background: #3e2723;
   border: 1px dashed #8d6e63;
