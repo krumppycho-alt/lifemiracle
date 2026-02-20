@@ -116,11 +116,10 @@ body {
 
 @keyframes introPop {
   0% { opacity: 0; transform: scale(0.9); filter: blur(10px); }
-  50% { opacity: 1; transform: scale(1.05); filter: blur(0); }
   100% { opacity: 1; transform: scale(1); filter: blur(0); }
 }
 
-/* 페이드아웃을 위한 클래스 */
+/* 페이드아웃을 위한 클래스 (수동 클릭 시) */
 #intro-overlay.fade-out {
   opacity: 0;
   transform: scale(1.1);
@@ -371,34 +370,42 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  padding: 1rem 1.5rem;
-  background: rgba(40, 31, 23, 0.6); 
-  border-radius: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1.2rem 2rem;
+  background: linear-gradient(135deg, rgba(40, 31, 23, 0.8), rgba(26, 20, 14, 0.9));
+  border-radius: 1rem;
+  border: 1px solid rgba(238, 157, 43, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.05);
 }
 
 .option-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-size: 1rem;
   color: var(--text-main);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
 }
 
 .styled-select {
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
+  padding: 10px 16px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(238, 157, 43, 0.4);
+  color: var(--accent);
   outline: none;
   font-size: 1rem;
   cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
 }
 
-.styled-select option {
-  background: var(--card-bg);
-  color: white;
+.styled-select:focus, .styled-select:hover {
+  border-color: var(--accent);
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 10px rgba(238, 157, 43, 0.3), inset 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .checkbox-container {
@@ -461,10 +468,10 @@ header {
   transform: rotate(45deg);
 }
 
-/* --- 레트로 로또 추첨 기계 (Vintage Wooden Box) --- */
+/* --- 레트로 로또 추첨 기계 (Vintage Round Machine) --- */
 .vintage-machine {
   position: relative;
-  width: 256px; /* 64 * 4px */
+  width: 256px;
   height: 256px;
   margin: 0 auto 3rem auto;
   display: flex;
@@ -472,22 +479,28 @@ header {
   align-items: center;
   justify-content: center;
   z-index: 5;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuAciVfG2xQK0RcSF5VA54KkDDeMtdN8Ui8Vl1FYx4rkGru8_CbTtku0SVZM6kQbvZeLWVIP8V1RrLzVe23lyFQx0mt7gMtWCGnD5FNVxwLogBNgYDbKCquNBYQ-9YTLEj8H6avH7nRvgEoQdkppbpYEIIORbrHNCo-7RwWCD45iBVN6W4P3mFY6Qd9FphpnoHsKOVjfHXwszMSkDgbM6EkWETkrvhH49NFbzKOB7tOlWcdPY-CPcs6LDgIfCUg40XpNhnq8ypixb-AF');
-  background-size: cover;
-  border-radius: 1rem;
-  border: 4px solid rgba(120, 53, 15, 0.5); /* border-amber-900/50 */
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
 .machine-glass {
-  position: absolute;
-  inset: 1rem; /* absolute inset-4 */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  background: rgba(0,0,0,0.2);
+  width: 200px;
+  height: 200px;
+  border: 4px solid var(--accent);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0.8) 100%),
+              url('https://lh3.googleusercontent.com/aida-public/AB6AXuAciVfG2xQK0RcSF5VA54KkDDeMtdN8Ui8Vl1FYx4rkGru8_CbTtku0SVZM6kQbvZeLWVIP8V1RrLzVe23lyFQx0mt7gMtWCGnD5FNVxwLogBNgYDbKCquNBYQ-9YTLEj8H6avH7nRvgEoQdkppbpYEIIORbrHNCo-7RwWCD45iBVN6W4P3mFY6Qd9FphpnoHsKOVjfHXwszMSkDgbM6EkWETkrvhH49NFbzKOB7tOlWcdPY-CPcs6LDgIfCUg40XpNhnq8ypixb-AF');
+  background-size: cover;
+  background-blend-mode: overlay;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  box-shadow: 
+    inset 10px 10px 30px rgba(255, 255, 255, 0.3),
+    inset -10px -10px 40px rgba(0, 0, 0, 0.8),
+    0 25px 50px -12px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(238, 157, 43, 0.4);
+  overflow: hidden;
+  transition: transform 0.1s;
 }
 
 /* 구슬 섞이는 애니메이션 (JS로 클래스 토글) */
@@ -538,22 +551,34 @@ header {
 }
 
 .machine-base {
-  display: none; /* 나무박스 형태로 바뀌면서 기존 베이스 제거 */
+  width: 140px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(60, 40, 30, 1), rgba(30, 20, 10, 1));
+  border-radius: 0 0 20px 20px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top: none;
+  margin-top: -10px;
+  z-index: 1;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
 }
 
 .machine-hole {
   position: absolute;
-  bottom: -1rem;
+  bottom: 0.5rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 5rem;
-  height: 2rem;
+  width: 3rem;
+  height: 1.5rem;
   background-color: #000;
   border-top-left-radius: 9999px;
   border-top-right-radius: 9999px;
-  border: 4px solid #451a03; /* text-amber-900 */
+  border: 2px solid rgba(238, 157, 43, 0.5); /* text-amber-900 -> gold accent */
   border-bottom: none;
   z-index: 10;
+  box-shadow: inset 0 5px 10px rgba(0,0,0,0.9);
 }
 
 /* 구멍에서 공이 튀어나오는 연출을 위한 가상 요소 (옵션) */
@@ -578,9 +603,9 @@ header {
 .owner-greeting {
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 1.5rem; /* 더 둥글게 */
-  margin: 0 0 2rem 0; /* 위 공백 제거, 하단으로 띄우기 */
-  text-align: center; /* 중앙 정렬 */
+  border-radius: 1.5rem;
+  margin: 3.5rem 0 2rem 0; /* 상단 방문자 통계 요소(top: 2rem)와 겹치지 않게 top margin을 크게(3.5rem) 부여 */
+  text-align: center;
   overflow: hidden;
   transition: all 0.3s ease;
   width: 100%;

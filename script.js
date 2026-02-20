@@ -1,15 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 가게 입장 줌인/페이드아웃 인트로 ---
+    // --- 가게 입장 수동 인트로 ---
     const introOverlay = document.getElementById('intro-overlay');
-    if (introOverlay) {
-        // 1.5초 동안 로고와 배경 보여준 뒤 페이드아웃 시작
-        setTimeout(() => {
+    const introBtn = document.getElementById('intro-btn');
+    if (introOverlay && introBtn) {
+        introBtn.addEventListener('click', () => {
             introOverlay.classList.add('fade-out');
             // CSS 트랜지션 완료 후 DOM에서 완전히 제거
             setTimeout(() => {
                 introOverlay.remove();
             }, 1500);
-        }, 1500);
+        });
     }
 
     // --- 누적 방문자 수 플립클락 구현 ---
