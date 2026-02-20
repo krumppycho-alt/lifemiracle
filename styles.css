@@ -61,24 +61,136 @@ body {
   }
 }
 
-header {
-  margin-bottom: 3rem;
+/* --- 가게 입장 인트로 오버레이 --- */
+#intro-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--bg-color);
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzdFHNg1m1csze7GFHv8UFv6Kj5lg4TW4b23AV7HNujcLcLHHiHbJq-q08abCr_GgpipEfdGrnQldk_PvULWHjJbtBhiwBYh68AQvUzDlKBmlwWgICRKEylYoCe-beJCLxuctVtgzDsNDBDLPUJXsJpShnTq_8rwCwvaT5sAE3CrMOx-4YV4e7rBVXmQvIByMAQHJcB1Gd1O2Pen6DUpk7z7qwjMwQvGknufSaBJjDkQHpj7djoPFbL-7mIUTncMHMojHtEbKx0rm_');
+  background-size: cover;
+  background-position: center;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
 }
 
-h1 {
+#intro-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 20, 14, 0.9); /* 어두운 오버레이 */
+}
+
+.intro-content {
+  position: relative;
+  z-index: 1001;
+  text-align: center;
+  color: var(--accent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: introPop 2s ease-out forwards;
+}
+
+.intro-icon {
+  font-size: 4rem;
+  text-shadow: 0 0 20px rgba(238, 157, 43, 0.5);
+}
+
+.intro-title {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 3rem;
   font-weight: 700;
-  margin-bottom: 0.8rem;
+  letter-spacing: 0.2em;
+  text-shadow: 0 0 20px rgba(238, 157, 43, 0.5);
+}
+
+.intro-subtitle {
+  font-size: 0.8rem;
+  letter-spacing: 0.5em;
+  opacity: 0.6;
+}
+
+@keyframes introPop {
+  0% { opacity: 0; transform: scale(0.9); filter: blur(10px); }
+  50% { opacity: 1; transform: scale(1.05); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+/* 페이드아웃을 위한 클래스 */
+#intro-overlay.fade-out {
+  opacity: 0;
+  transform: scale(1.1);
+  pointer-events: none;
+}
+
+header {
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- 간판 (Signboard) --- */
+.signboard {
+  position: relative;
+  padding: 2rem 3rem;
+  background: rgba(26, 20, 14, 0.9);
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.signboard-ropes {
+  position: absolute;
+  top: -3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6rem;
+}
+
+.rope {
+  width: 6px;
+  height: 3rem;
+  background: #451a03;
+  box-shadow: inset 2px 0 4px rgba(0,0,0,0.5);
+}
+
+.signboard-glow {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 150px;
+  background: rgba(238, 157, 43, 0.1);
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.signboard h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
   color: var(--accent);
   letter-spacing: 0.1em;
   text-shadow: 0 0 15px rgba(238, 157, 43, 0.5);
   text-transform: uppercase;
 }
 
-header p {
+.signboard p {
   color: var(--text-sub);
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
 }
 
 .lotto-machine {
@@ -466,22 +578,32 @@ header p {
 .owner-greeting {
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 0.5rem;
-  margin: 1.5rem 0;
-  text-align: left;
+  border-radius: 1.5rem; /* 더 둥글게 */
+  margin: 0 0 2rem 0; /* 위 공백 제거, 하단으로 띄우기 */
+  text-align: center; /* 중앙 정렬 */
   overflow: hidden;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .owner-greeting summary {
-  padding: 1rem;
+  padding: 1rem 2rem;
   font-family: 'Space Grotesk', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1rem;
-  color: var(--accent);
+  color: var(--bg-color); /* 글자색 반전 */
+  background-color: var(--accent); /* 호박색 배경 버튼화 */
   cursor: pointer;
   list-style: none;
   position: relative;
+  border-radius: 9999px; /* 알약 형태 */
+  display: inline-block; /* 버튼 크기만큼으로 맞춤 */
+  box-shadow: 0 4px 15px rgba(238, 157, 43, 0.3);
+  transition: transform 0.2s;
+}
+
+.owner-greeting summary:hover {
+  transform: scale(0.98);
 }
 
 .owner-greeting summary::-webkit-details-marker {
@@ -497,7 +619,7 @@ header p {
 }
 
 .owner-greeting[open] summary::after {
-  transform: rotate(180deg);
+  transform: rotate(180deg) translateY(5px);
 }
 
 .greeting-content {
@@ -714,29 +836,38 @@ header p {
 }
 
 #generate-btn {
-  background-color: var(--accent);
-  color: var(--bg-color);
+  background: linear-gradient(135deg, #d97706, #92400e); /* 조금 더 진하고 대비 높은 오렌지-브라운 톤 */
+  color: #f8f7f6; /* 명확한 밝은 텍스트 */
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
-  padding: 1rem 3rem;
-  border: none;
+  padding: 1.2rem 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 9999px; /* full rounded */
   cursor: pointer;
   width: 100%;
   margin-top: 1rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(238, 157, 43, 0.4);
+  box-shadow: 0 10px 20px rgba(146, 64, 14, 0.5); /* 버튼 하단에 무게감 있는 그림자 */
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 #generate-btn:hover {
-  background-color: rgba(238, 157, 43, 0.9);
-  transform: scale(0.98);
+  background: linear-gradient(135deg, #f59e0b, #b45309);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(146, 64, 14, 0.6);
+}
+
+#generate-btn:active {
+  transform: translateY(1px);
 }
 
 #generate-btn:disabled {
-  background-color: rgba(238, 157, 43, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.05);
 }

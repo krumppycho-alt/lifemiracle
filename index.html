@@ -20,6 +20,16 @@
       content="인생 잡화점에서 당신의 행운의 로또 번호를 추첨해보세요. 프리미엄 로또 번호 생성기."
     />
   </head>
+  <body>
+    <!-- 가게 입장 인트로 오버레이 -->
+    <div id="intro-overlay">
+        <div class="intro-content">
+            <span class="material-symbols-outlined intro-icon">storefront</span>
+            <div class="intro-title">인생 잡화점</div>
+            <div class="intro-subtitle">OPEN UNTIL DAWN</div>
+        </div>
+    </div>
+
     <div class="store-bg"></div>
     
     <!-- 상단 방문자수 통계 (Flip Clock Style) -->
@@ -46,9 +56,7 @@
 
     <div class="container">
       <header>
-        <h1>인생 잡화점</h1>
-        <p>당신의 인생에 행운을 가져다줄 번호를 뽑아보세요.</p>
-        
+        <!-- 인삿말 토글 버튼을 가장 위로 (중앙 형태 정렬) -->
         <details class="owner-greeting">
             <summary>인생 잡화점 점주 김땡땡의 인삿말 (클릭)</summary>
             <div class="greeting-content">
@@ -59,6 +67,17 @@
                 당신의 삶에 찾아올 기분 좋은 기적을 늘 진심으로 응원하겠습니다!
             </div>
         </details>
+
+        <!-- 스티치 스타일의 메인 간판 -->
+        <div class="signboard">
+            <div class="signboard-ropes">
+                <div class="rope"></div>
+                <div class="rope"></div>
+            </div>
+            <div class="signboard-glow"></div>
+            <h1>인생 잡화점</h1>
+            <p>소소한 재미와 놀라운 기적을 만나는 명당 잡화점</p>
+        </div>
       </header>
 
         <main>
