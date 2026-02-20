@@ -41,14 +41,25 @@
         </div>
     </div>
 
-    <!-- 좌측 사이드 책갈피 -->
-    <aside class="left-bookmark">
-        <div class="bookmark-content">
-            <h3 class="bookmark-title">명당 현황</h3>
-            <div id="miracle-list" class="miracle-list">
-                <div class="loading-message">소식 대기 중...</div>
-        </div>
-    </aside>
+    <!-- 좌측 사이드 책갈피 컨테이너 -->
+    <div class="left-bookmarks-container">
+        <!-- 1. 명당 현황 -->
+        <aside class="left-bookmark miracle-bookmark">
+            <div class="bookmark-content">
+                <h3 class="bookmark-title">명당 현황</h3>
+                <div id="miracle-list" class="miracle-list">
+                    <div class="loading-message">소식 대기 중...</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 2. 당첨 소식 전하기 -->
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdaZDvX9WCN2bQ4ox4hWtNCRyj_0MZEaj2ylXSfp9zaf2gxVw/viewform?usp=header" target="_blank" class="left-bookmark form-bookmark">
+            <div class="bookmark-content">
+                <h3 class="bookmark-title">당첨 소식 전하기</h3>
+            </div>
+        </a>
+    </div>
 
     <div class="container">
       <header>
@@ -129,12 +140,6 @@
 
       </main>
     </div>
-
-    <!-- 우측 하단 플로팅 당첨 소식 제보 버튼 -->
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdaZDvX9WCN2bQ4ox4hWtNCRyj_0MZEaj2ylXSfp9zaf2gxVw/viewform?usp=header" target="_blank" class="fab-postbox">
-        <span class="fab-icon">📮</span>
-        <span class="fab-text">당첨 소식 전하기</span>
-    </a>
 
     <script src="lotto_data.js"></script>
     <script src="baseStats.js"></script>

@@ -710,11 +710,18 @@ header {
   padding-bottom: 0.5rem;
 }
 
-/* --- 좌측 사이드 책갈피 (기록들 & 제보) --- */
-.left-bookmark {
+/* --- 좌측 사이드 책갈피 패널 (명당 현황 & 소식 제보) --- */
+.left-bookmarks-container {
   position: fixed;
   top: 10%;
   left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 20;
+}
+
+.left-bookmark {
   width: 300px;
   background-color: var(--paper-bg);
   background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqHnyvrOyS3ZQWXra6qyoHuz36KrQSr_o7QlUZSyWjbwWBNXSZT-n-U8mtzyDk05FTEKa7t31cIxBZn9W6a7VkpiX1fp_XADsj5EJ6nEs77rNQ5u4aC_eoIEbRx4Osp9HXd4L1Uz9eDrbuibHE0LBnzf6Ofp4cTHtSpd6aJWk2_zVNCXLEelWmtgzkNetaUqkNv7PeqdOc92mafjoMUkwL3fUUAX7dPuQFYHSe6bGCnIesjRlbLx9YaGPRq9CcfswvG1Q5Vux8eyd');
@@ -723,20 +730,25 @@ header {
   border-radius: 0 1rem 1rem 0;
   box-shadow: 4px 5px 30px rgba(0,0,0,0.8);
   color: #451a03;
-  z-index: 20;
   transition: transform 0.3s ease;
+  text-decoration: none; /* a 태그일 경우 대비 */
+  display: block;
 }
 
-/* 화면이 너무 작을 때 접히는 효과 (옵션) */
+/* 폼 링크(버튼) 영역은 호버 시 피드백 액션 추가 */
+a.left-bookmark:hover {
+  filter: brightness(1.05);
+}
+
+/* 화면 크기에 따른 반응형 처리 (태블릿/모바일) */
 @media (max-width: 1100px) {
   .left-bookmark {
     transform: translateX(-275px);
   }
-  .left-bookmark:hover {
+  .left-bookmark:hover, .left-bookmark:focus, .left-bookmark:active {
     transform: translateX(0);
   }
   .left-bookmark::after {
-    content: 'STORIES';
     position: absolute;
     right: 5px;
     top: 50%;
@@ -746,6 +758,27 @@ header {
     color: #451a03;
     font-size: 0.8rem;
     letter-spacing: 0.1em;
+  }
+  .miracle-bookmark::after {
+    content: 'STORIES';
+  }
+  .form-bookmark::after {
+    content: 'SHARE';
+  }
+}
+
+/* 모바일 화면에서 좀 더 쾌적한 가로/세로 볼륨 유지 */
+@media (max-width: 600px) {
+  .left-bookmarks-container {
+    top: 5rem;
+    gap: 1rem;
+  }
+  .left-bookmark {
+    width: 260px;
+    border-radius: 0 0.8rem 0.8rem 0;
+  }
+  .left-bookmark {
+    transform: translateX(-230px);
   }
 }
 
