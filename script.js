@@ -196,15 +196,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // 단순 콤마 분리
             const cols = rowStr.split(',');
             
-            // CSV 헤더: 당첨자, 당첨 회차, 등 수, 4열(당첨자 수/기타)
-            const name = cols[0] ? cols[0].trim() : '익명';
+            // CSV 헤더: 당첨자(무시), 당첨 회차, 등 수, 배출자 수 등
             const round = cols[1] ? cols[1].trim() : '';
             const rank = cols[2] ? cols[2].trim() : '';
             const count = cols[3] ? cols[3].trim() : '1'; 
             
             const headerText = round && rank ? `${round}회차 ${rank}` : '기적의 순간';
-            // "1명 당첨! (이름)"
-            const content = `${count}명 당첨! (${name}님)`;
+            // 이름 삭제
+            const content = `${count}명 당첨!`;
 
             const itemDiv = document.createElement('div');
             itemDiv.className = 'miracle-item';

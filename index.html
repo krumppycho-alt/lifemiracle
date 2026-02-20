@@ -18,13 +18,32 @@
     />
   </head>
     <div class="store-bg"></div>
+    
+    <!-- 상단 나무 액자 -->
+    <div class="top-wooden-frame">
+        <div class="frame-content">
+            <div class="frame-item">누적 방문자 : <span id="visitor-count">...</span>명</div>
+            <div class="frame-divider">|</div>
+            <div class="frame-item">인생 잡화점 명당 배출</div>
+        </div>
+    </div>
+
+    <!-- 좌측 사이드 책갈피 -->
+    <aside class="left-bookmark">
+        <div class="bookmark-content">
+            <h3 class="bookmark-title">명당 현황</h3>
+            <div id="miracle-list" class="miracle-list">
+                <div class="loading-message">소식 대기 중...</div>
+            </div>
+            
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdaZDvX9WCN2bQ4ox4hWtNCRyj_0MZEaj2ylXSfp9zaf2gxVw/viewform?usp=header" target="_blank" class="postbox-btn-small">
+                📮 소식 전하기
+            </a>
+        </div>
+    </aside>
+
     <div class="container">
       <header>
-        <div class="visitor-banner">
-            <span class="banner-pin left"></span>
-            누적 방문자 수: <span id="visitor-count">...</span>명
-            <span class="banner-pin right"></span>
-        </div>
         <h1>인생 잡화점</h1>
         <p>당신의 인생에 행운을 가져다줄 번호를 뽑아보세요.</p>
         
@@ -75,26 +94,6 @@
         <button id="generate-btn" class="glow-on-hover">
           행운 번호 추첨하기
         </button>
-
-        <!-- 기적의 기록들 (명당 현수막) -->
-        <section class="miracle-board">
-          <h2>명당 배출 현황판</h2>
-          <div id="miracle-list" class="miracle-list">
-            <div class="loading-message">소식을 불러오는 중입니다...</div>
-          </div>
-        </section>
-
-        <!-- 기적의 제보 우체통 -->
-        <section class="postbox-section">
-          <p class="owner-message">
-            "인생 잡화점은 작은 행운이 큰 기적으로 이어지길 기원합니다.<br>
-            당신의 기적 같은 이야기를 이웃과 나누어주세요."<br>
-            <span class="owner-signature">- 점주 김땡땡 올림 -</span>
-          </p>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdaZDvX9WCN2bQ4ox4hWtNCRyj_0MZEaj2ylXSfp9zaf2gxVw/viewform?usp=header" target="_blank" class="postbox-btn">
-            📮 기적의 소식 전하기
-          </a>
-        </section>
 
       </main>
     </div>
