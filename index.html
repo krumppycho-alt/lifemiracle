@@ -41,6 +41,16 @@
         </div>
     </div>
 
+    <!-- 📻 앰비언스 라디오 (BGM Player) -->
+    <div class="ambience-radio" id="bgm-toggle" title="음악 재생/정지">
+        <span class="material-symbols-outlined radio-icon" id="bgm-icon">radio</span>
+        <div class="radio-status">BGM OFF</div>
+    </div>
+    <!-- 오디오 소스 (추후 로컬 혹은 실제 URL로 교체 가능하도록 더미 경로/공개 음원 적용) -->
+    <audio id="bgm-player" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- 좌측 사이드 책갈피 컨테이너 -->
     <div class="left-bookmarks-container">
         <!-- 1. 명당 현황 -->
@@ -59,6 +69,17 @@
                 <h3 class="bookmark-title">당첨 소식 전하기</h3>
             </div>
         </a>
+
+        <!-- 3. 기적의 고민 우체통 -->
+        <aside class="left-bookmark postbox-bookmark">
+            <div class="bookmark-content">
+                <h3 class="bookmark-title">고민 우체통</h3>
+                <div class="letter-paper" id="letter-paper">
+                    <textarea id="worry-input" placeholder="마음속 깊은 고민을 이곳에 털어놓아 보세요..."></textarea>
+                    <button id="send-worry-btn" class="wish-btn" style="width:100%; margin-top:10px;">편지 보내기 📮</button>
+                </div>
+            </div>
+        </aside>
     </div>
 
     <div class="container">
@@ -138,7 +159,51 @@
           행운 번호 추첨하기
         </button>
 
+        <!-- 🌳 황금 소원 나무 (Wish Tree) -->
+        <section class="wish-tree-section">
+            <h2 class="section-heading">✨ 황금 소원 나무 ✨</h2>
+            <p class="section-subheading">"당첨된다면 가장 먼저 하고 싶은 일은 무엇인가요?"</p>
+            <div class="wish-tree-container" id="wish-tree-container">
+                <!-- 여기에 JS로 노란색 포스트잇이 추가됨 -->
+            </div>
+            <div class="wish-input-group">
+                <input type="text" id="wish-input" class="wish-input" placeholder="소원을 적어보세요..." maxlength="30">
+                <button id="wish-submit-btn" class="wish-btn">소원 걸기</button>
+            </div>
+        </section>
+
+        <!-- 📓 이번 주 기적의 장부 (추첨 통계) -->
+        <section class="chalkboard-section">
+            <h2 class="chalkboard-title">📓 이번 주 기적의 장부</h2>
+            <div class="chalkboard-content">
+                <div class="stats-column">
+                    <h3 class="hot-title">🔥 자주 나오는 번호 (HOT)</h3>
+                    <div id="hot-numbers" class="stats-numbers">
+                        <!-- JS가 렌더링 -->
+                        <div class="loading-message">기적을 분석 중입니다...</div>
+                    </div>
+                </div>
+                <div class="stats-divider"></div>
+                <div class="stats-column">
+                    <h3 class="cold-title">❄️ 최근 뜸한 번호 (COLD)</h3>
+                    <div id="cold-numbers" class="stats-numbers">
+                        <!-- JS가 렌더링 -->
+                    </div>
+                </div>
+            </div>
+            <p class="chalkboard-footer">* 위 통계는 1회차부터 누적된 배출 기록의 산물입니다.</p>
+        </section>
+
       </main>
+    </div>
+
+    <!-- 💌 기적의 고민 우체통 답장 모달 -->
+    <div id="worry-modal" class="worry-modal hidden">
+        <div class="worry-modal-content paper-bg-style">
+            <h3 class="modal-title">💌 잡화점 주인의 답장</h3>
+            <p id="worry-reply-text" class="modal-text"></p>
+            <button id="close-worry-btn" class="wish-btn">편지 접어두기</button>
+        </div>
     </div>
 
     <script src="lotto_data.js"></script>

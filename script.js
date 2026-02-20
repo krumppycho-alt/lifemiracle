@@ -12,6 +12,114 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- 📻 앰비언스 라디오 (BGM Player) ---
+    const bgmToggle = document.getElementById('bgm-toggle');
+    const bgmPlayer = document.getElementById('bgm-player');
+    const radioStatus = document.querySelector('.radio-status');
+    
+    if (bgmToggle && bgmPlayer) {
+        bgmPlayer.volume = 0.4; // 배경음악 볼륨 조정
+        bgmToggle.addEventListener('click', () => {
+            if (bgmPlayer.paused) {
+                bgmPlayer.play();
+                bgmToggle.classList.add('playing');
+                radioStatus.innerText = 'BGM ON';
+            } else {
+                bgmPlayer.pause();
+                bgmToggle.classList.remove('playing');
+                radioStatus.innerText = 'BGM OFF';
+            }
+        });
+    }
+
+    // --- 🌳 황금 소원 나무 (Wish Tree) ---
+    const wishInput = document.getElementById('wish-input');
+    const wishSubmitBtn = document.getElementById('wish-submit-btn');
+    const wishTreeContainer = document.getElementById('wish-tree-container');
+
+    function addWishNote() {
+        if (!wishInput || !wishSubmitBtn || !wishTreeContainer) return;
+        const text = wishInput.value.trim();
+        if (!text) return;
+
+        const note = document.createElement('div');
+        note.className = 'wish-note';
+        note.innerText = text;
+
+        // 컨테이너 크기 내에서 랜덤 위치 계산 (여백 고려)
+        const containerWidth = wishTreeContainer.clientWidth;
+        const containerHeight = wishTreeContainer.clientHeight;
+        const randomX = Math.floor(Math.random() * (containerWidth - 90));
+        const randomY = Math.floor(Math.random() * (containerHeight - 90));
+        const randomRotate = Math.floor(Math.random() * 40) - 20; // -20deg ~ +20deg
+
+        note.style.left = `${randomX}px`;
+        note.style.top = `${randomY}px`;
+        note.style.transform = `scale(1) rotate(${randomRotate}deg)`;
+
+        wishTreeContainer.appendChild(note);
+        wishInput.value = '';
+    }
+
+    if (wishSubmitBtn) {
+        wishSubmitBtn.addEventListener('click', addWishNote);
+    }
+    if (wishInput) {
+        wishInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addWishNote();
+        });
+    }
+
+    // --- 📮 기적의 고민 우체통 ---
+    const sendWorryBtn = document.getElementById('send-worry-btn');
+    const worryInput = document.getElementById('worry-input');
+    const worryModal = document.getElementById('worry-modal');
+    const worryReplyText = document.getElementById('worry-reply-text');
+    const closeWorryBtn = document.getElementById('close-worry-btn');
+
+    const warmReplies = [
+        "지금 고민하는 그 시간들도, 결국 좋은 거름이 되어 당신의 길을 빛내줄 거예요. 너무 자책하지 마세요.",
+        "인생의 잡화점에서는 때론 우연이 기적을 만듭니다. 오늘 밤은 푹 자고, 내일 다시 시작해보는 건 어때요?",
+        "괜찮아요, 원래 길을 잃었다고 생각될 때 진짜 나만의 길을 발견하게 되는 법이니까요.",
+        "당신이 지금 그 일을 얼마나 진심으로 대하고 있는지 저한테도 느껴지네요. 분명 좋은 결과가 있을 겁니다.",
+        "누군가의 속도와 비교하지 마세요. 당신만의 시계는 지금 아주 정확하게 돌아가고 있습니다."
+    ];
+
+    if (sendWorryBtn && worryInput && worryModal) {
+        sendWorryBtn.addEventListener('click', () => {
+            if (worryInput.value.trim() === '') return;
+
+            // 편지가 날아가는 애니메이션 생성
+            const flyLetter = document.createElement('div');
+            flyLetter.className = 'flying-letter';
+            const rect = worryInput.getBoundingClientRect();
+            flyLetter.style.left = `${rect.left + rect.width / 2}px`;
+            flyLetter.style.top = `${rect.top + rect.height / 2}px`;
+            document.body.appendChild(flyLetter);
+
+            // 애니메이션 진행: 화면 위로 빨려들어가며 사라짐
+            setTimeout(() => {
+                flyLetter.style.transform = `translate(${window.innerWidth / 2 - rect.left}px, -${window.innerHeight}px) scale(0)`;
+                flyLetter.style.opacity = '0';
+            }, 50);
+
+            // 1초 뒤 편지 삭제 및 기적의 답장 모달 띄우기
+            setTimeout(() => {
+                flyLetter.remove();
+                worryInput.value = '';
+                const randomReply = warmReplies[Math.floor(Math.random() * warmReplies.length)];
+                worryReplyText.innerText = `"${randomReply}"`;
+                worryModal.classList.remove('hidden');
+            }, 1000);
+        });
+    }
+
+    if (closeWorryBtn) {
+        closeWorryBtn.addEventListener('click', () => {
+            worryModal.classList.add('hidden');
+        });
+    }
+
     // --- 누적 방문자 수 플립클락 구현 ---
     const visitorCountEl = document.getElementById('visitor-flip-clock');
     if (visitorCountEl) {
@@ -228,16 +336,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (lines.length <= 1) {
             miracleListEl.innerHTML = ''; // 비우고 가짜 데이터 삽입
             const mockData = [
-                { round: "1105", rank: "1등", count: "1" },
-                { round: "1104", rank: "3등", count: "12" },
-                { round: "1098", rank: "1등", count: "1" },
-                { round: "1091", rank: "2등", count: "3" },
-                { round: "1085", rank: "1등", count: "2" }
+                { round: "1105", rank: "1등", name: "익명", dream: "가족들과 세계 일주를 호화롭게 다녀왔습니다 ✈️" },
+                { round: "1104", rank: "3등", name: "김땡땡", dream: "오래된 빚을 갚고 작은 빵집을 열었어요 🥐" },
+                { round: "1098", rank: "1등", name: "행운아", dream: "따뜻한 보육원 기증으로 기적을 나눴습니다 💖" },
+                { round: "1091", rank: "2등", name: "익명", dream: "부모님께 예쁜 전원주택을 사드렸어요 🏡" },
+                { round: "1085", rank: "1등", name: "미라클", dream: "나만의 작은 갤러리를 오픈하는 꿈을 이룸 🎨" }
             ];
             
             mockData.forEach(item => {
-                const headerText = `${item.round}회차 ${item.rank}`;
-                const content = `${item.count}명 당첨!`;
+                const headerText = `${item.round}회차 ${item.rank} 당첨 - ${item.name}`;
+                const content = `"${item.dream}"`;
                 
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'miracle-item';
@@ -277,14 +385,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // 단순 콤마 분리
             const cols = rowStr.split(',');
             
-            // CSV 헤더: 당첨자(무시), 당첨 회차, 등 수, 배출자 수 등
+            // CSV 헤더 우선순위(추정값): 1:회차, 2:등수, 3:당첨수, 4:닉네임, 5:사연
             const round = cols[1] ? cols[1].trim() : '';
             const rank = cols[2] ? cols[2].trim() : '';
-            const count = cols[3] ? cols[3].trim() : '1'; 
+            const name = cols[4] ? cols[4].trim() : '익명';
+            const dream = cols[5] ? cols[5].trim() : '당첨의 기쁨으로 인생 잡화점의 기적을 만끽합니다 ✨';
             
-            const headerText = round && rank ? `${round}회차 ${rank}` : '기적의 순간';
-            // 이름 삭제
-            const content = `${count}명 당첨!`;
+            const headerText = round && rank ? `${round}회차 ${rank} 당첨 - ${name}` : '기적의 순간 - 익명';
+            const content = `"${dream}"`;
 
             const itemDiv = document.createElement('div');
             itemDiv.className = 'miracle-item';
@@ -308,4 +416,50 @@ document.addEventListener('DOMContentLoaded', () => {
             miracleListEl.appendChild(itemDiv);
         });
     }
+
+    // --- 📓 이번 주 기적의 장부 (칠판 통계 UI) ---
+    function initChalkboardStats() {
+        if (!window.baseStats) return;
+        
+        // baseStats에서 숫자와 빈도수 객체 배열 생성
+        const statsArray = window.baseStats.map((freq, index) => ({
+            number: index + 1,
+            frequency: freq
+        }));
+
+        // 빈도 기준 정렬
+        statsArray.sort((a, b) => b.frequency - a.frequency);
+
+        // 상위 5개 (Hot), 하위 5개 (Cold) 추출
+        const hotNumbers = statsArray.slice(0, 5);
+        const coldNumbers = statsArray.slice(-5).reverse(); // 가장 적은 순이므로 하위 항목들 역순 정렬
+
+        const hotContainer = document.getElementById('hot-numbers');
+        const coldContainer = document.getElementById('cold-numbers');
+        
+        if (hotContainer && coldContainer) {
+            hotContainer.innerHTML = '';
+            coldContainer.innerHTML = '';
+
+            // Hot 렌더링
+            hotNumbers.forEach(obj => {
+                const el = document.createElement('div');
+                el.className = 'chalk-number hot';
+                el.innerText = obj.number;
+                hotContainer.appendChild(el);
+            });
+
+            // Cold 렌더링
+            coldNumbers.forEach(obj => {
+                const el = document.createElement('div');
+                el.className = 'chalk-number cold';
+                el.innerText = obj.number;
+                coldContainer.appendChild(el);
+            });
+        }
+    }
+
+    // DOM 로드 완료 후 칠판 데이터 갱신
+    initChalkboardStats();
+
 });
