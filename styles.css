@@ -46,33 +46,69 @@ body {
   width: 100%;
 }
 
-.container {
+/* --- 새로운 수직 SPA 포지셔닝 기본 테마 --- */
+.full-viewport {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  overflow: hidden;
+  z-index: -5;
+}
+
+.full-slider {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 200vh;
+  transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.full-slider.show-tree {
+  transform: translateY(-100vh);
+}
+
+.screen-page {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 1. 샵 내부 로또 기계 뷰 배경 */
+.shop-page {
+  background-image: url('assets/shop_interior.png');
+}
+.shop-page::before {
+  content: ''; position: absolute; inset: 0; background: rgba(10, 5, 0, 0.4);
+} /* 가독성 필터 */
+
+/* 2. 뒷마당 거대 황금 나무 뷰 배경 */
+.backyard-page {
+  background-image: url('assets/backyard_tree.png');
+  background-position: center bottom;
+}
+.backyard-page::before {
+  content: ''; position: absolute; inset: 0; background: rgba(5, 5, 10, 0.3);
+}
+
+.content-container {
   text-align: center;
   width: 90%;
   max-width: 600px;
-  margin: 3rem 0;
-  padding: 3rem 2rem;
-  background: var(--card-bg); /* 어두운 밤 상점 톤 */
+  padding: 2rem;
+  background: var(--card-bg);
   border: 1px solid rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-radius: 1.5rem;
   box-shadow: 0 20px 50px rgba(0,0,0,0.8);
   animation: fadeIn 1s ease-out;
+  z-index: 10;
 }
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* --- 가게 입장 인트로 오버레이 --- */
 #intro-overlay {
   position: fixed;
   inset: 0;
@@ -137,17 +173,34 @@ body {
   pointer-events: none;
 }
 
-header {
-  margin-bottom: 3rem;
+/* --- 공용 간판 컨테이너 (드래그 애니메이션) --- */
+.signboard-wrapper {
+  position: fixed;
+  top: 5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: all 1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* 트리 뷰 활성화 시(클릭/드래그 후) 간판은 하단으로 이동 */
+body.in-tree-view .signboard-wrapper {
+  top: calc(100vh - 160px);
+  transform: translateX(-50%) scale(0.8);
+  opacity: 0.8;
+}
+body.in-tree-view .signboard-wrapper:hover {
+  opacity: 1;
+  transform: translateX(-50%) scale(0.85); /* 호버 시 약간 커짐 */
 }
 
 /* --- 간판 (Signboard) --- */
 .signboard {
   position: relative;
-  padding: 2rem 3rem;
+  padding: 1.5rem 2.5rem;
   background: rgba(26, 20, 14, 0.9);
   border: 4px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
@@ -1051,70 +1104,73 @@ a.left-bookmark:hover {
   100% { transform: scale(1.1); opacity: 1; }
 }
 
-/* --- 🌳 황금 소원 나무 (Wish Tree) --- */
-.wish-tree-section {
-  margin-top: 4rem;
-  padding-top: 3rem;
-  border-top: 1px dashed rgba(255, 255, 255, 0.2);
+/* 구 버전 SPA 슬라이더 클래스들 제거 및 호환성 정리 */
+.wish-tree-section { display: none; }
+
+/* 소원 입력 폼 테마 변경 (양피지/스크롤 느낌) */
+.wish-form-wrapper {
+  position: relative;
+  z-index: 50;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 15px;
+  width: 90%;
+  max-width: 500px;
+  margin-top: 25vh; /* 중앙 거대 트리를 피해서 하단 배치 */
 }
 
-.section-heading {
+.wish-text-area {
+  width: 100%;
+  height: 120px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  border: 2px solid #a37b52;
+  background: #f4ecd8 url('https://www.transparenttextures.com/patterns/cream-paper.png');
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 1.2rem;
+  color: #3e2710;
+  box-shadow: inset 0 0 10px rgba(62,39,16,0.2), 0 10px 20px rgba(0,0,0,0.6);
+  resize: none;
+  line-height: 1.5;
+  transition: all 0.3s ease;
+}
+
+.wish-text-area:focus {
+  outline: none;
+  border-color: #5c2c16;
+  box-shadow: inset 0 0 5px rgba(62,39,16,0.3), 0 10px 25px rgba(139,94,52,0.6);
+}
+
+.wish-text-area::placeholder {
+  color: #b8a07e;
+  font-style: italic;
+}
+
+.wish-btn-vintage {
+  background: linear-gradient(to bottom, #8b1010, #a31616);
+  color: #ffdddd;
+  border: 2px solid rgba(255,221,221,0.3);
+  padding: 15px 40px;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.8rem;
   font-weight: 700;
-  color: var(--accent);
-  text-shadow: 0 0 10px rgba(238, 157, 43, 0.4);
-  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+  cursor: pointer;
+  letter-spacing: 0.1em;
 }
 
-/* --- SPA Main Slider Transition --- */
-.main-viewport {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  border-radius: 12px;
+/* 보이지 않는 트리 히트박스 (100개 지정 좌표가 위치할 절대 영역) */
+.tree-hitbox {
+  position: absolute;
+  top: 15%;
+  width: 600px;
+  height: 500px;
+  pointer-events: none; /* 클릭 방해 금지 */
+  z-index: 20;
 }
 
-.main-slider {
-  display: flex;
-  width: 200%;
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.main-slider.show-tree {
-  transform: translateX(-50%);
-}
-
-.slider-page {
-  width: 50%;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-/* 황금 소원 나무 센터피스 (Stitch V1 - Giant Tree 배경 적용) */
-.golden-tree-centerpiece {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-  height: 450px;
-  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAnAPlF-8fxV1hDSo9aR8e0Se_UTWKDXU4aJYqL2-3WT8ghgfWKMx6tIdqRM5mZbNUwvVHc4rue2C8FRcVgcR0Zxlj3366h8QHuxLmnyicmfMolcKKgrKQs9j8Of5cIo1xbSxrGKcXntVtCqnsTCCZpK8K_hTvdDegUWjgs4uFN1jvDZORcnlsOrNUUc0e-g3mUawtlkqaEatgv0BAexIo9O7rt4bCb47gIRiTJ0fjb3DFkAzUxUXxmsVAbUSXtShLSY6HxNyYr6EmJ');
-  background-size: cover;
-  background-position: center bottom;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  margin-bottom: 2rem;
-  overflow: hidden;
-  border: 1px solid rgba(238, 157, 43, 0.4);
-  box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 50px rgba(0,0,0,0.8);
-}
 
 .tree-trunk, .tree-glow {
   display: none; /* 기존 CSS 목업 나무와 글로우는 숨김 처리, 완성된 이미지가 이를 대체 */

@@ -60,29 +60,54 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- ⬅️/➡️ SPA 페이지 슬라이드 전환 로직 ---
-    const goToTreeBtn = document.getElementById('go-to-tree-btn');
-    const backToLottoBtn = document.getElementById('back-to-lotto-btn');
-    const mainSlider = document.getElementById('main-slider');
+    // --- ⬅️/➡️ SPA 페이지 수직 슬라이드 전환 로직 (간판 클릭) ---
+    const mainSignboard = document.getElementById('main-signboard-wrapper');
+    const fullSlider = document.getElementById('full-slider');
 
-    if (goToTreeBtn && backToLottoBtn && mainSlider) {
-        goToTreeBtn.addEventListener('click', () => {
-            mainSlider.classList.add('show-tree');
-            goToTreeBtn.classList.add('hidden');
-            backToLottoBtn.classList.remove('hidden');
-        });
-
-        backToLottoBtn.addEventListener('click', () => {
-            mainSlider.classList.remove('show-tree');
-            backToLottoBtn.classList.add('hidden');
-            goToTreeBtn.classList.remove('hidden');
+    if (mainSignboard && fullSlider) {
+        mainSignboard.addEventListener('click', () => {
+            document.body.classList.toggle('in-tree-view');
+            fullSlider.classList.toggle('show-tree');
+            
+            // 뷰 전환 시 배경음악 볼륨 조절 등 가능
+            if(document.body.classList.contains('in-tree-view')) {
+                // 간판 텍스트 변경 (옵션)
+                mainSignboard.querySelector('p').innerText = "기적의 소원 나무 (클릭하여 돌아가기)";
+            } else {
+                mainSignboard.querySelector('p').innerText = "소소한 재미와 놀라운 기적을 만나는 명당 (클릭하여 이동)";
+            }
         });
     }
 
-    // --- 🌳 황금 소원 나무 (전용 화면 처리용) ---
+    // --- 🌳 황금 소원 나무 (전용 화면 처리용 지정 100개 좌표) ---
     const wishSubmitBtn = document.getElementById('wish-submit-btn');
     const wishInput = document.getElementById('wish-input');
-    const wishTreeBoard = document.getElementById('wish-tree-board');
+    const treeHitbox = document.getElementById('tree-hitbox');
+
+    // 100개의 지정 좌표 배열 (나무 카노피 모양 내부에 한정)
+    const WISH_COORDS = [];
+    function generateWishCoords() {
+        // Hitbox 600x500 내에 타원형/트리형 분포로 100개 지점 생성
+        const centerX = 300, centerY = 200;
+        const rx = 250, ry = 180;
+        let pointsGenerated = 0;
+        while(pointsGenerated < 100) {
+            const x = (Math.random() * 2 - 1) * rx;
+            const y = (Math.random() * 2 - 1) * ry;
+            // 타원 내부에 존재하면서 상단이 좁아지는 나무 형태 계수
+            if ((x*x)/(rx*rx) + (y*y)/(ry*ry) <= 1) {
+                const heightFactor = (y + ry) / (2 * ry); // 상단(0) ~ 하단(1)
+                if (Math.abs(x) > rx * Math.pow(heightFactor, 0.6) + 30) continue;
+                WISH_COORDS.push({
+                    x: centerX + x,
+                    y: centerY + y,
+                    rot: Math.floor(Math.random() * 60) - 30
+                });
+                pointsGenerated++;
+            }
+        }
+    }
+    generateWishCoords();
 
     // 더미 데이터 초기화
     const dummyWishes = [
@@ -103,81 +128,65 @@ document.addEventListener('DOMContentLoaded', () => {
         "우리가족 화목하게 해주세요 👨‍👩‍👧‍👦"
     ];
 
-    if (wishSubmitBtn && wishInput && wishTreeBoard) {
-        // 이전 세션이나 더미 데이터를 localStorage를 통해 관리
+    if (wishSubmitBtn && wishInput && treeHitbox) {
         const WISH_STORAGE_KEY = 'life_store_wishes';
         let storedWishes = JSON.parse(localStorage.getItem(WISH_STORAGE_KEY)) || dummyWishes;
         
-        // 새로 저장했다치고 다시 덮어씀 (더미 보충)
         if(storedWishes.length < dummyWishes.length) {
             storedWishes = dummyWishes;
             localStorage.setItem(WISH_STORAGE_KEY, JSON.stringify(storedWishes));
         }
 
-        // 초기 렌더링
-        storedWishes.forEach(wish => {
-            addWishNoteToBoard(wish, false); 
+        storedWishes.forEach((wish, index) => {
+            // 초기 렌더링 시에는 애니메이션 없이 100개 좌표 중 하나에 부착
+            addWishNoteToBoard(wish, false, index); 
         });
 
         wishSubmitBtn.addEventListener('click', handleWishSubmit);
         wishInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleWishSubmit();
+            if (e.key === 'Enter') {
+                e.preventDefault(); // textarea 엔터 전송 방지
+                handleWishSubmit();
+            }
         });
 
         function handleWishSubmit() {
             const text = wishInput.value.trim();
             if (text === '') return;
 
-            addWishNoteToBoard(text, true);
+            addWishNoteToBoard(text, true, storedWishes.length);
             
-            // 로컬 스토리지 업데이트
             storedWishes.push(text);
             localStorage.setItem(WISH_STORAGE_KEY, JSON.stringify(storedWishes));
 
             wishInput.value = '';
         }
 
-        function addWishNoteToBoard(text, animate) {
+        function addWishNoteToBoard(text, animate, index) {
             const note = document.createElement('div');
             note.className = 'wish-note';
             
-            // Generate a random warm color for the note
             const colors = ['#fde68a', '#fcd34d', '#fbbf24', '#f59e0b', '#d97706', '#b45309', '#fef3c7', '#ffedd5', '#fed7aa', '#fdba74'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            note.style.backgroundColor = randomColor;
+            note.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 
-            // 보드 내 중심부(트리 상단부)에 집중된 랜덤 위치
-            const treeW = wishTreeBoard.clientWidth || 300;
-            const treeH = wishTreeBoard.clientHeight || 400;
-            
-            const centerX = treeW / 2;
-            const centerY = treeH * 0.4; // 약간 위쪽 중심
-            const radius = Math.min(treeW, treeH) * 0.45; // 반경
-            
-            // 원형 배치 (중앙 밀집)
-            const r = radius * Math.sqrt(Math.random());
-            const theta = Math.random() * 2 * Math.PI;
-            
-            const randomX = centerX + r * Math.cos(theta) - 6; // 쪽지 가로 크기 절반 보정
-            const randomY = centerY + r * Math.sin(theta) - 10; // 쪽지 세로 크기 절반 보정
-            
-            const randomRot = Math.floor(Math.random() * 90) - 45; // -45 to +45 deg
+            // 100개의 지정 좌표 중 하나를 선택 (index 순환 등)
+            const targetCoord = WISH_COORDS[index % 100];
 
-            // 위치 지정
-            note.style.left = `${randomX}px`;
-            note.style.top = `${randomY}px`;
-            note.style.transform = `rotate(${randomRot}deg)`;
-
-            // 텍스트는 보이지 않지만 hover/tooltip 역할을 하도록 title 지정
+            note.style.left = `${targetCoord.x - 6}px`;
+            note.style.top = `${targetCoord.y - 10}px`;
+            note.style.transform = `rotate(${targetCoord.rot}deg)`;
             note.title = text;
 
             if (!animate) {
-                // 기존 데이터는 애니메이션 없이 바로 표시
                 note.style.animation = 'none';
                 note.style.opacity = '1';
+            } else {
+                // 시작 위치를 하단(입력 폼 근처)으로 지정하고 애니메이션
+                note.style.transform = `scale(0.1) translateY(800px) rotate(-45deg)`;
+                // CSS 키프레임 `stickOn`이 알아서 top/left 위치로 최종 렌더링해줌
             }
 
-            wishTreeBoard.appendChild(note);
+            treeHitbox.appendChild(note);
         }
     }
 

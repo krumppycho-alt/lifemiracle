@@ -32,28 +32,26 @@
     </div>
 
     <div class="store-bg"></div>
-    
-    <!-- 상단 방문자수 통계 (Flip Clock Style) -->
+
+    <!-- 고정 UI: 상단 방문자수 통계 -->
     <div class="top-stats-container">
         <span class="stats-label">Tonight's Visitors</span>
         <div class="flip-clock" id="visitor-flip-clock">
-            <!-- JS로 동적 렌더링됨 -->
+            <!-- JS dynamic -->
         </div>
     </div>
 
-    <!-- 📻 앰비언스 라디오 (BGM Player) -->
+    <!-- 📻 앰비언스 라디오 -->
     <div class="ambience-radio active" id="bgm-toggle" title="음악 재생/정지">
         <span class="material-symbols-outlined radio-icon playing" id="bgm-icon">radio</span>
         <div class="radio-status">BGM ON</div>
     </div>
-    <!-- 오디오 소스 (추후 로컬 혹은 실제 URL로 교체 가능하도록 더미 경로/공개 음원 적용) -->
     <audio id="bgm-player" loop autoplay>
         <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- 좌측 사이드 책갈피 컨테이너 -->
+    <!-- 좌측 사이드 책갈피 -->
     <div class="left-bookmarks-container">
-        <!-- 1. 명당 현황 -->
         <aside class="left-bookmark miracle-bookmark">
             <div class="bookmark-content">
                 <h3 class="bookmark-title">명당 현황</h3>
@@ -62,8 +60,6 @@
                 </div>
             </div>
         </aside>
-
-        <!-- 2. 당첨 소식 전하기 -->
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSdaZDvX9WCN2bQ4ox4hWtNCRyj_0MZEaj2ylXSfp9zaf2gxVw/viewform?usp=header" target="_blank" class="left-bookmark form-bookmark">
             <div class="bookmark-content">
                 <h3 class="bookmark-title">당첨 소식 전하기</h3>
@@ -71,11 +67,18 @@
         </a>
     </div>
 
-    <!-- 기존 메인 화면 -->
-    <div class="main-page" id="main-page">
-      <div class="container">
-              <header>
-            <!-- 인삿말 토글 버튼을 가장 위로 (중앙 형태 정렬) -->
+    <!-- 공통 간판 (드래그/클릭 핸들 역할) -->
+    <div class="signboard-wrapper" id="main-signboard-wrapper">
+        <div class="signboard glow-on-hover pointer-cursor">
+            <div class="signboard-ropes">
+                <div class="rope"></div>
+                <div class="rope"></div>
+            </div>
+            <div class="signboard-glow"></div>
+            <h1>인생 잡화점</h1>
+            <p>소소한 재미와 놀라운 기적을 만나는 명당 (클릭하여 이동)</p>
+        </div>
+        <!-- 점주 인삿말 토글 (간판 바로 아래에 독립 배치) -->
         <details class="owner-greeting">
             <summary>인생 잡화점 점주 김땡땡의 인삿말 (클릭)</summary>
             <div class="greeting-content">
@@ -86,103 +89,72 @@
                 당신의 삶에 찾아올 기분 좋은 기적을 늘 진심으로 응원하겠습니다!
             </div>
         </details>
+    </div>
 
-        <!-- 스티치 스타일의 메인 간판 -->
-        <div class="signboard">
-            <div class="signboard-ropes">
-                <div class="rope"></div>
-                <div class="rope"></div>
-            </div>
-            <div class="signboard-glow"></div>
-            <h1>인생 잡화점</h1>
-            <p>소소한 재미와 놀라운 기적을 만나는 명당 잡화점</p>
-        </div>
-      </header>
+    <!-- 수직 뷰포트 & 슬라이더 -->
+    <div class="full-viewport">
+        <div class="full-slider" id="full-slider">
+            
+            <!-- 페이지 1: 샵 내부 (Lotto) -->
+            <section class="screen-page shop-page" id="page-lotto">
+                <div class="content-container">
+                    <div class="vintage-machine">
+                        <div class="machine-glass" id="machine-glass">
+                            <div class="mini-ball color-red"></div>
+                            <div class="mini-ball color-yellow"></div>
+                            <div class="mini-ball color-blue"></div>
+                            <div class="mini-ball color-green"></div>
+                            <div class="mini-ball color-gray"></div>
+                        </div>
+                        <div class="machine-base">
+                            <div class="machine-hole"></div>
+                        </div>
+                    </div>
 
-        <div class="main-viewport">
-          <main class="main-slider" id="main-slider">
-            <!-- 페이지 1: 기계 뷰 -->
-            <div class="slider-page" id="page-lotto">
-              <!-- 레트로 로또 추첨 기계 -->
-              <div class="vintage-machine">
-                  <div class="machine-glass" id="machine-glass">
-                      <!-- 돌아가는 구슬 효과 아이템들 -->
-                      <div class="mini-ball color-red"></div>
-                      <div class="mini-ball color-yellow"></div>
-                      <div class="mini-ball color-blue"></div>
-                      <div class="mini-ball color-green"></div>
-                      <div class="mini-ball color-gray"></div>
-                  </div>
-                  <div class="machine-base">
-                      <div class="machine-hole"></div>
-                  </div>
-              </div>
+                    <div class="options-panel">
+                        <div class="option-group">
+                            <label for="game-count">게임 수:</label>
+                            <select id="game-count" class="styled-select">
+                                <option value="1">1게임</option><option value="2">2게임</option><option value="3">3게임</option><option value="4">4게임</option><option value="5" selected>5게임</option><option value="6">6게임</option><option value="7">7게임</option><option value="8">8게임</option><option value="9">9게임</option><option value="10">10게임</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="include-bonus">
+                                <span class="checkmark"></span>
+                                보너스 번호 포함 (7개 추출)
+                            </label>
+                        </div>
+                    </div>
 
-              <div class="options-panel">
-                  <div class="option-group">
-                      <label for="game-count">게임 수:</label>
-                      <select id="game-count" class="styled-select">
-                          <option value="1">1게임</option>
-                          <option value="2">2게임</option>
-                          <option value="3">3게임</option>
-                          <option value="4">4게임</option>
-                          <option value="5" selected>5게임</option>
-                          <option value="6">6게임</option>
-                          <option value="7">7게임</option>
-                          <option value="8">8게임</option>
-                          <option value="9">9게임</option>
-                          <option value="10">10게임</option>
-                      </select>
-                  </div>
-                  <div class="option-group">
-                      <label class="checkbox-container">
-                          <input type="checkbox" id="include-bonus">
-                          <span class="checkmark"></span>
-                          보너스 번호 포함 (7개 추출)
-                      </label>
-                  </div>
-              </div>
+                    <div class="lotto-machine" id="lotto-machine">
+                        <div class="balls-container" id="game-0">
+                            <div class="placeholder">버튼을 눌러 번호를 추첨해주세요</div>
+                        </div>
+                    </div>
 
-              <div class="lotto-machine" id="lotto-machine">
-                  <div class="balls-container" id="game-0">
-                      <div class="placeholder">버튼을 눌러 번호를 추첨해주세요</div>
-                  </div>
-              </div>
+                    <button id="generate-btn" class="glow-on-hover">
+                        행운 번호 추첨하기
+                    </button>
+                </div> <!-- /content-container -->
+            </section>
 
-              <button id="generate-btn" class="glow-on-hover">
-                행운 번호 추첨하기
-              </button>
-            </div> <!-- end of page-lotto -->
-
-            <!-- 페이지 2: 중앙 황금 소원 나무 뷰 -->
-            <div class="slider-page" id="page-tree">
-                <div class="golden-tree-centerpiece" id="wish-tree-board">
-                    <div class="tree-trunk"></div>
-                    <div class="tree-glow"></div>
-                    <!-- 자바스크립트가 여기에 메모지(나뭇잎 역할)들을 렌더링 할 예정 -->
+            <!-- 페이지 2: 뒷마당 기적의 소원 나무 -->
+            <section class="screen-page backyard-page" id="page-tree">
+                <div class="tree-hitbox" id="tree-hitbox">
+                    <!-- Javascript가 100개의 지정 좌표에 쪽지를 생성함 -->
                 </div>
-                <div class="wish-input-bar">
-                    <input type="text" id="wish-input" class="wish-input-large" placeholder="소망을 적어주세요..." maxlength="40">
-                    <button id="wish-submit-btn" class="wish-btn-large">소원 걸기</button>
+                
+                <div class="wish-form-wrapper">
+                    <textarea id="wish-input" class="wish-text-area" placeholder="소망을 적어주세요..." maxlength="100"></textarea>
+                    <button id="wish-submit-btn" class="wish-btn-vintage glow-on-hover">소원 나무패 달기</button>
                 </div>
-            </div> <!-- end of page-tree -->
-          </main>
+            </section>
+
         </div>
+    </div>
 
-          </main>
-          </div> <!-- end of container -->
-        </div> <!-- end of main-page -->
-
-    <!-- 네비게이션 플로팅 버튼 (우측: 나무로 가기) -->
-    <button id="go-to-tree-btn" class="nav-btn right-nav-btn" title="소원 나무 보러가기">
-        <span class="material-symbols-outlined">arrow_forward_ios</span>
-    </button>
-
-    <!-- 네비게이션 플로팅 버튼 (좌측: 기계로 돌아가기) - 처음엔 숨김 처리 -->
-    <button id="back-to-lotto-btn" class="nav-btn left-nav-btn hidden" title="추첨기로 돌아가기">
-        <span class="material-symbols-outlined">arrow_back_ios</span>
-    </button>
-
+    <!-- 외부 스크립트 로드 -->
     <script src="lotto_data.js"></script>
     <script src="baseStats.js"></script>
     <script src="script.js"></script>
