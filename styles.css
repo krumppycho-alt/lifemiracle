@@ -25,25 +25,18 @@ body {
   overflow-x: hidden;
 }
 
-.store-bg {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzdFHNg1m1csze7GFHv8UFv6Kj5lg4TW4b23AV7HNujcLcLHHiHbJq-q08abCr_GgpipEfdGrnQldk_PvULWHjJbtBhiwBYh68AQvUzDlKBmlwWgICRKEylYoCe-beJCLcZuctQtgzDsNDBDLPUJXsJpShnTq_8rwCwvaT5sAE3CrMOx-4YV4e7rBVXmQvIByMAQHJcB1Gd1O2Pen6DUpk7z7qwjMwQvGknufSaBJjDkQHpj7djoPFbL-7mIUTncMHMojHtEbKx0rm_');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.3;
-  z-index: -1;
-  mix-blend-mode: multiply;
-}
-
-/* 상단 방문자수 통계 중앙 정렬 픽스 */
+/* 상단 방문자수 통계 중앙 정렬 및 고정 배치 */
 .top-stats-container {
+  position: fixed;
+  top: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 1rem;
-  width: 100%;
+  width: auto;
+  z-index: 100;
 }
 
 /* --- 새로운 수직 SPA 포지셔닝 기본 테마 --- */
@@ -100,6 +93,7 @@ body {
   width: 90%;
   max-width: 600px;
   padding: 2rem;
+  margin-top: 20vh;
   background: var(--card-bg);
   border: 1px solid rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
@@ -176,7 +170,7 @@ body {
 /* --- 공용 간판 컨테이너 (드래그 애니메이션) --- */
 .signboard-wrapper {
   position: fixed;
-  top: 5vh;
+  top: 12vh;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
