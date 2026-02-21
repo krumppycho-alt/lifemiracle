@@ -3,30 +3,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const introOverlay = document.getElementById('intro-overlay');
     const introBtn = document.getElementById('intro-btn');
     if (introOverlay && introBtn) {
-        introBtn.addEventListener('click', () => {
-            introOverlay.classList.add('fade-out');
-            
-            // 점주 인삿말 토글 애니메이션 강제 실행 (원하는 경우)
-            // 입장 시 BGM 자동 재생 (사용자의 명시적 클릭에 의해 브라우저 정책 통과)
-            // 입장 시 BGM 자동 재생 (사용자의 명시적 클릭에 의해 브라우저 정책 통과)
-            if (bgmPlayer && bgmPlayer.paused) {
-                bgmPlayer.play().then(() => {
-                    const icon = document.getElementById('bgm-icon');
-                    const bgmToggle = document.getElementById('bgm-toggle');
-                    const radioStatus = document.querySelector('.radio-status');
-                    if(icon) {
-                        icon.classList.add('playing');
-                    }
-                    if(bgmToggle) bgmToggle.classList.add('active');
-                    if(radioStatus) radioStatus.innerText = 'BGM ON';
-                }).catch(err => console.error("BGM Autoplay prevented:", err));
-            }
-            
-            // CSS 트랜지션 완료 후 DOM에서 완전히 제거
-            setTimeout(() => {
-                introOverlay.remove();
-            }, 1500);
-        });
+        if (sessionStorage.getItem('intro_seen') === 'true') {
+            introOverlay.remove();
+        } else {
+            introBtn.addEventListener('click', () => {
+                sessionStorage.setItem('intro_seen', 'true');
+                introOverlay.classList.add('fade-out');
+                
+                // 입장 시 BGM 자동 재생 (사용자의 명시적 클릭에 의해 브라우저 정책 통과)
+                if (bgmPlayer && bgmPlayer.paused) {
+                    bgmPlayer.play().then(() => {
+                        const icon = document.getElementById('bgm-icon');
+                        const bgmToggle = document.getElementById('bgm-toggle');
+                        const radioStatus = document.querySelector('.radio-status');
+                        if(icon) {
+                            icon.classList.add('playing');
+                        }
+                        if(bgmToggle) bgmToggle.classList.add('active');
+                        if(radioStatus) radioStatus.innerText = 'BGM ON';
+                    }).catch(err => console.error("BGM Autoplay prevented:", err));
+                }
+                
+                // CSS 트랜지션 완료 후 DOM에서 완전히 제거
+                setTimeout(() => {
+                    introOverlay.remove();
+                }, 1500);
+            });
+        }
     }
 
     // --- 📻 앰비언스 라디오 (BGM Player) ---
@@ -57,7 +60,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- ⬅️/➡️ SPA 페이지 슬라이드 전환 로직 ---
+    const goToTreeBtn = document.getElementById('go-to-tree-btn');
+    const backToLottoBtn = document.getElementById('back-to-lotto-btn');
+    const mainSlider = document.getElementById('main-slider');
 
+    if (goToTreeBtn && backToLottoBtn && mainSlider) {
+        goToTreeBtn.addEventListener('click', () => {
+            mainSlider.classList.add('show-tree');
+            goToTreeBtn.classList.add('hidden');
+            backToLottoBtn.classList.remove('hidden');
+        });
+
+        backToLottoBtn.addEventListener('click', () => {
+            mainSlider.classList.remove('show-tree');
+            backToLottoBtn.classList.add('hidden');
+            goToTreeBtn.classList.remove('hidden');
+        });
+    }
 
     // --- 🌳 황금 소원 나무 (전용 화면 처리용) ---
     const wishSubmitBtn = document.getElementById('wish-submit-btn');
@@ -120,19 +140,36 @@ document.addEventListener('DOMContentLoaded', () => {
         function addWishNoteToBoard(text, animate) {
             const note = document.createElement('div');
             note.className = 'wish-note';
-            note.innerText = text;
+            
+            // Generate a random warm color for the note
+            const colors = ['#fde68a', '#fcd34d', '#fbbf24', '#f59e0b', '#d97706', '#b45309', '#fef3c7', '#ffedd5', '#fed7aa', '#fdba74'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            note.style.backgroundColor = randomColor;
 
-            // 보드 내 랜덤 위치/각도
-            const maxW = wishTreeBoard.clientWidth || window.innerWidth;
-            const maxH = wishTreeBoard.clientHeight || (window.innerHeight - 200);
-            const randomX = Math.max(0, Math.min(Math.floor(Math.random() * maxW), maxW - 100)); // 100 is note width approx
-            const randomY = Math.max(0, Math.min(Math.floor(Math.random() * maxH), maxH - 100));
-            const randomRot = Math.floor(Math.random() * 30) - 15; // -15deg to +15deg
+            // 보드 내 중심부(트리 상단부)에 집중된 랜덤 위치
+            const treeW = wishTreeBoard.clientWidth || 300;
+            const treeH = wishTreeBoard.clientHeight || 400;
+            
+            const centerX = treeW / 2;
+            const centerY = treeH * 0.4; // 약간 위쪽 중심
+            const radius = Math.min(treeW, treeH) * 0.45; // 반경
+            
+            // 원형 배치 (중앙 밀집)
+            const r = radius * Math.sqrt(Math.random());
+            const theta = Math.random() * 2 * Math.PI;
+            
+            const randomX = centerX + r * Math.cos(theta) - 6; // 쪽지 가로 크기 절반 보정
+            const randomY = centerY + r * Math.sin(theta) - 10; // 쪽지 세로 크기 절반 보정
+            
+            const randomRot = Math.floor(Math.random() * 90) - 45; // -45 to +45 deg
 
             // 위치 지정
             note.style.left = `${randomX}px`;
             note.style.top = `${randomY}px`;
             note.style.transform = `rotate(${randomRot}deg)`;
+
+            // 텍스트는 보이지 않지만 hover/tooltip 역할을 하도록 title 지정
+            note.title = text;
 
             if (!animate) {
                 // 기존 데이터는 애니메이션 없이 바로 표시

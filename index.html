@@ -99,64 +99,88 @@
         </div>
       </header>
 
-        <main>
-            <!-- 레트로 로또 추첨 기계 -->
-            <div class="vintage-machine">
-                <div class="machine-glass" id="machine-glass">
-                    <!-- 돌아가는 구슬 효과 아이템들 -->
-                    <div class="mini-ball color-red"></div>
-                    <div class="mini-ball color-yellow"></div>
-                    <div class="mini-ball color-blue"></div>
-                    <div class="mini-ball color-green"></div>
-                    <div class="mini-ball color-gray"></div>
-                </div>
-                <div class="machine-base">
-                    <div class="machine-hole"></div>
-                </div>
-            </div>
+        <div class="main-viewport">
+          <main class="main-slider" id="main-slider">
+            <!-- 페이지 1: 기계 뷰 -->
+            <div class="slider-page" id="page-lotto">
+              <!-- 레트로 로또 추첨 기계 -->
+              <div class="vintage-machine">
+                  <div class="machine-glass" id="machine-glass">
+                      <!-- 돌아가는 구슬 효과 아이템들 -->
+                      <div class="mini-ball color-red"></div>
+                      <div class="mini-ball color-yellow"></div>
+                      <div class="mini-ball color-blue"></div>
+                      <div class="mini-ball color-green"></div>
+                      <div class="mini-ball color-gray"></div>
+                  </div>
+                  <div class="machine-base">
+                      <div class="machine-hole"></div>
+                  </div>
+              </div>
 
-            <div class="options-panel">
-                <div class="option-group">
-                    <label for="game-count">게임 수:</label>
-                    <select id="game-count" class="styled-select">
-                        <option value="1">1게임</option>
-                        <option value="2">2게임</option>
-                        <option value="3">3게임</option>
-                        <option value="4">4게임</option>
-                        <option value="5" selected>5게임</option>
-                        <option value="6">6게임</option>
-                        <option value="7">7게임</option>
-                        <option value="8">8게임</option>
-                        <option value="9">9게임</option>
-                        <option value="10">10게임</option>
-                    </select>
-                </div>
-                <div class="option-group">
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="include-bonus">
-                        <span class="checkmark"></span>
-                        보너스 번호 포함 (7개 추출)
-                    </label>
-                </div>
-            </div>
+              <div class="options-panel">
+                  <div class="option-group">
+                      <label for="game-count">게임 수:</label>
+                      <select id="game-count" class="styled-select">
+                          <option value="1">1게임</option>
+                          <option value="2">2게임</option>
+                          <option value="3">3게임</option>
+                          <option value="4">4게임</option>
+                          <option value="5" selected>5게임</option>
+                          <option value="6">6게임</option>
+                          <option value="7">7게임</option>
+                          <option value="8">8게임</option>
+                          <option value="9">9게임</option>
+                          <option value="10">10게임</option>
+                      </select>
+                  </div>
+                  <div class="option-group">
+                      <label class="checkbox-container">
+                          <input type="checkbox" id="include-bonus">
+                          <span class="checkmark"></span>
+                          보너스 번호 포함 (7개 추출)
+                      </label>
+                  </div>
+              </div>
 
-            <div class="lotto-machine" id="lotto-machine">
-                <div class="balls-container" id="game-0">
-                    <div class="placeholder">버튼을 눌러 번호를 추첨해주세요</div>
-                </div>
-            </div>
+              <div class="lotto-machine" id="lotto-machine">
+                  <div class="balls-container" id="game-0">
+                      <div class="placeholder">버튼을 눌러 번호를 추첨해주세요</div>
+                  </div>
+              </div>
 
-        <button id="generate-btn" class="glow-on-hover">
-          행운 번호 추첨하기
-        </button>
+              <button id="generate-btn" class="glow-on-hover">
+                행운 번호 추첨하기
+              </button>
+            </div> <!-- end of page-lotto -->
+
+            <!-- 페이지 2: 중앙 황금 소원 나무 뷰 -->
+            <div class="slider-page" id="page-tree">
+                <div class="golden-tree-centerpiece" id="wish-tree-board">
+                    <div class="tree-trunk"></div>
+                    <div class="tree-glow"></div>
+                    <!-- 자바스크립트가 여기에 메모지(나뭇잎 역할)들을 렌더링 할 예정 -->
+                </div>
+                <div class="wish-input-bar">
+                    <input type="text" id="wish-input" class="wish-input-large" placeholder="소망을 적어주세요..." maxlength="40">
+                    <button id="wish-submit-btn" class="wish-btn-large">소원 걸기</button>
+                </div>
+            </div> <!-- end of page-tree -->
+          </main>
+        </div>
 
           </main>
           </div> <!-- end of container -->
         </div> <!-- end of main-page -->
 
-    <!-- 사이드 이동 액션 플로팅 버튼 (메인 페이지 전용) -->
-    <button id="go-to-tree-btn" class="nav-btn right-nav-btn" title="소원 나무 보러가기" onclick="window.location.href='wish-tree.html'">
+    <!-- 네비게이션 플로팅 버튼 (우측: 나무로 가기) -->
+    <button id="go-to-tree-btn" class="nav-btn right-nav-btn" title="소원 나무 보러가기">
         <span class="material-symbols-outlined">arrow_forward_ios</span>
+    </button>
+
+    <!-- 네비게이션 플로팅 버튼 (좌측: 기계로 돌아가기) - 처음엔 숨김 처리 -->
+    <button id="back-to-lotto-btn" class="nav-btn left-nav-btn hidden" title="추첨기로 돌아가기">
+        <span class="material-symbols-outlined">arrow_back_ios</span>
     </button>
 
     <script src="lotto_data.js"></script>
