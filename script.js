@@ -156,19 +156,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
             note.style.left = `${targetCoord.x - 6}px`;
             note.style.top = `${targetCoord.y - 10}px`;
-            note.style.transform = `rotate(${targetCoord.rot}deg)`;
+            const finalTransform = `rotate(${targetCoord.rot}deg)`;
+            note.style.transform = finalTransform;
             note.title = text;
 
             if (!animate) {
-                note.style.animation = 'none';
                 note.style.opacity = '1';
+                treeHitbox.appendChild(note);
             } else {
-                // 시작 위치를 하단(입력 폼 근처)으로 지정하고 애니메이션
-                note.style.transform = `scale(0.1) translateY(800px) rotate(-45deg)`;
-                // CSS 키프레임 `stickOn`이 알아서 top/left 위치로 최종 렌더링해줌
+                note.style.opacity = '0'; // 시작 시 투명
+                treeHitbox.appendChild(note);
+                
+                // 툭 걸리는 모션 (하단에서 튕겨올라와 나뭇가지에 맞고 흔들리며 안착)
+                note.animate([
+                    { transform: `translate(0, 300px) scale(0.2) rotate(-45deg)`, opacity: 0, offset: 0 },
+                    { transform: `translate(0, -30px) scale(1.1) rotate(${targetCoord.rot + 20}deg)`, opacity: 1, offset: 0.6 },
+                    { transform: `translate(0, 10px) scale(0.95) rotate(${targetCoord.rot - 15}deg)`, opacity: 1, offset: 0.8 },
+                    { transform: finalTransform, opacity: 1, offset: 1 }
+                ], {
+                    duration: 900,
+                    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                    fill: 'forwards'
+                });
             }
-
-            treeHitbox.appendChild(note);
         }
     }
 

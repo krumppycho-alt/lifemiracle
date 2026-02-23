@@ -363,25 +363,23 @@ body.in-tree-view #tree-signboard-trigger {
   content: "";
   background: linear-gradient(
     45deg,
-    #ff0000,
-    #ff7300,
-    #fffb00,
-    #48ff00,
-    #00ffd5,
-    #002bff,
-    #7a00ff,
-    #ff00c8,
-    #ff0000
+    #ffb300,
+    #ff8f00,
+    #f5c866,
+    #d98823,
+    #c92a2a,
+    #ffda75,
+    #ffb300
   );
   position: absolute;
   top: -2px;
   left: -2px;
-  background-size: 400%;
+  background-size: 300%;
   z-index: -1;
   filter: blur(5px);
   width: calc(100% + 4px);
   height: calc(100% + 4px);
-  animation: glowing 20s linear infinite;
+  animation: glowing 10s linear infinite;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   border-radius: 30px;
@@ -435,10 +433,11 @@ body.in-tree-view #tree-signboard-trigger {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(30, 41, 59, 1);
+  background: linear-gradient(135deg, #5d4037, #3e2723); /* 웜톤 우드 그라디언트 (기존 네이비 대체) */
   left: 0;
   top: 0;
   border-radius: 30px;
+  border: 1px solid rgba(238, 157, 43, 0.3); /* 은은한 골드 테두리 */
 }
 
 @keyframes glowing {
@@ -556,7 +555,7 @@ body.in-tree-view #tree-signboard-trigger {
   transform: rotate(45deg);
 }
 
-/* --- 레트로 로또 추첨 기계 (Vintage Round Machine) --- */
+/* --- 동양풍 목조 공예 로또 추첨기 (Oriental Wood Machine) --- */
 .vintage-machine {
   position: relative;
   width: 256px;
@@ -569,10 +568,26 @@ body.in-tree-view #tree-signboard-trigger {
   z-index: 5;
 }
 
+/* 기계를 감싸는 외부 목재 프레임 */
+.vintage-machine::before {
+  content: "";
+  position: absolute;
+  top: 45%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 236px;
+  height: 236px;
+  border-radius: 50%;
+  background-color: #3b2313;
+  background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), radial-gradient(circle, #5d4037, #241107);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,0,0,1);
+  z-index: 0;
+  border: 4px solid #1a0b05;
+}
+
 .machine-glass {
   width: 200px;
   height: 200px;
-  border: 4px solid var(--accent);
+  border: 6px solid rgba(238, 157, 43, 0.7); /* 금장 테두리 */
   border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0.8) 100%),
               url('https://lh3.googleusercontent.com/aida-public/AB6AXuAciVfG2xQK0RcSF5VA54KkDDeMtdN8Ui8Vl1FYx4rkGru8_CbTtku0SVZM6kQbvZeLWVIP8V1RrLzVe23lyFQx0mt7gMtWCGnD5FNVxwLogBNgYDbKCquNBYQ-9YTLEj8H6avH7nRvgEoQdkppbpYEIIORbrHNCo-7RwWCD45iBVN6W4P3mFY6Qd9FphpnoHsKOVjfHXwszMSkDgbM6EkWETkrvhH49NFbzKOB7tOlWcdPY-CPcs6LDgIfCUg40XpNhnq8ypixb-AF');
@@ -640,15 +655,16 @@ body.in-tree-view #tree-signboard-trigger {
 
 .machine-base {
   width: 140px;
-  height: 40px;
-  background: linear-gradient(to bottom, rgba(60, 40, 30, 1), rgba(30, 20, 10, 1));
-  border-radius: 0 0 20px 20px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  height: 45px;
+  background-color: #3b2313;
+  background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), linear-gradient(to bottom, #4a2c11, #1a0b05);
+  border-radius: 0 0 25px 25px;
+  border: 2px solid rgba(238, 157, 43, 0.4); /* 금장 테두리 */
   border-top: none;
-  margin-top: -10px;
-  z-index: 1;
+  margin-top: -15px; /* 나무 프레임 안으로 들어간 느낌 */
+  z-index: 10;
   position: relative;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.9), inset 0 2px 10px rgba(0,0,0,0.5);
   display: flex;
   justify-content: center;
 }
@@ -1095,9 +1111,9 @@ body.in-tree-view #tree-signboard-trigger {
 }
 
 .wish-btn-vintage {
-  background: linear-gradient(to bottom, #8b1010, #a31616);
-  color: #ffdddd;
-  border: 2px solid rgba(255,221,221,0.3);
+  background: linear-gradient(to bottom, #795548, #4e342e); /* 붉은색에서 따뜻한 브라운 우드톤으로 변경 */
+  color: #f5eaca;
+  border: 2px solid rgba(245,234,202,0.3);
   padding: 15px 40px;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
@@ -1135,7 +1151,6 @@ body.in-tree-view #tree-signboard-trigger {
   height: 20px;
   border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-  animation: stickOn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   transition: transform 0.3s ease;
   z-index: 10;
   cursor: default;
@@ -1144,9 +1159,4 @@ body.in-tree-view #tree-signboard-trigger {
 .wish-note:hover {
   transform: scale(1.5) rotate(0deg) !important;
   z-index: 20;
-}
-
-@keyframes stickOn {
-  0% { opacity: 0; transform: scale(0.5) translateY(-20px) rotate(-20deg); }
-  100% { opacity: 1; }
 }
