@@ -168,10 +168,10 @@ body {
   pointer-events: none;
 }
 
-/* --- 공용 간판 컨테이너 (드래그 애니메이션) --- */
+/* --- 공용 간판 컨테이너 --- */
 .signboard-wrapper {
   position: absolute;
-  top: 12vh; /* 탑 방문자 통계 영역과 겹치지 않도록 충분히 내림 (기존 5vh) */
+  top: 15vh; /* 방문자수(2rem)와 하단 기계 영역(340px) 사이 중간 쯤으로 배치 */
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
@@ -179,23 +179,43 @@ body {
   flex-direction: column;
   align-items: center;
   width: 90%;
-  max-width: 600px;
+  text-align: center;
 }
 
-/* 기본 상태: 간판 애니메이션 부드러운 이징 */
-#main-signboard-trigger {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
+#main-signboard-trigger,
 #tree-signboard-trigger {
-  position: absolute;
-  top: 0;
-  opacity: 0;
-  transform: translateY(-50px) scale(0.9);
-  pointer-events: none;
+  margin: 0;
+  cursor: pointer;
   transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.main-text-title {
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: #ffda75; /* 빛나는 황금/호박색 */
+  letter-spacing: 0.1em;
+  text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.9), 0px -1px 1px rgba(255, 255, 255, 0.4), 0 0 25px rgba(238, 157, 43, 0.8);
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  animation: floatPanel 4s ease-in-out infinite;
+}
+
+.main-text-title:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+.main-subtitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.8);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
 /* 트리 뷰 활성화 시(소원나무) 교차 애니메이션 */
@@ -211,108 +231,16 @@ body.in-tree-view #tree-signboard-trigger {
   pointer-events: auto;
 }
 
-/* --- 전통 단청 & 태슬 현판 (Signboard Ornate) --- */
-.signboard-ornate {
-  position: relative;
-  width: 100%;
-  max-width: 650px;
-  min-width: 400px;
-  background: linear-gradient(to bottom, #2b1d12 0%, #170d07 100%);
-  border: 4px solid #000;
-  border-radius: 8px; /* 은은한 굴곡 */
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9),
-              inset 0 10px 20px rgba(0,0,0,0.8),
-              inset 0 0 0 4px rgba(238, 157, 43, 0.2);
-  margin-top: 2vh;
-  transform-origin: top center;
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.signboard-ornate:hover {
-  transform: scale(1.02);
-}
-
-.ornate-frame {
-  margin: 12px;
-  padding: 2.5rem 3rem;
-  border: 2px solid rgba(238, 157, 43, 0.5);
-  border-image: linear-gradient(135deg, #d98823, #f5c866, #b16513) 1;
-  text-align: center;
-  position: relative;
-  background: rgba(10, 5, 0, 0.6); /* 타원형 그라디언트 배경(블록) 제거하고 은은한 단색으로 변경 */
-}
-.tree-frame {
-  border: 2px solid rgba(167, 243, 208, 0.4);
-  border-image: linear-gradient(135deg, #6ee7b7, #d1fae5, #10b981) 1;
-}
-
-/* 태슬(술) 장식 */
-.tassel-container {
+#tree-signboard-trigger {
   position: absolute;
-  bottom: -40px; /* 프레임 아래로 매달림 */
-  width: 20px;
-  height: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform-origin: top center;
-  animation: swingTassel 4s ease-in-out infinite alternate;
-  z-index: 5;
-}
-.tassel-container.left { left: 8%; animation-delay: 0.5s; }
-.tassel-container.right { right: 8%; animation-delay: 0s; }
-
-.tassel-container .knot {
-  width: 14px;
-  height: 14px;
-  background: #c92a2a; /* 붉은 왕가 장식 */
-  border-radius: 50%;
-  box-shadow: inset -2px -2px 4px rgba(0,0,0,0.6), 0 0 5px rgba(200,0,0,0.5);
-  border: 2px solid #ffb300;
-}
-.tassel-container .threads {
-  width: 10px;
-  height: 60px;
-  background: repeating-linear-gradient(to right, #b91c1c, #991b1b 2px, #7f1d1d 4px);
-  border-radius: 0 0 4px 4px;
-  box-shadow: 2px 5px 10px rgba(0,0,0,0.5);
-}
-
-.tree-tassel .knot { background: #059669; border-color: #6ee7b7; box-shadow: inset -2px -2px 4px rgba(0,0,0,0.6), 0 0 5px rgba(5,150,105,0.5); }
-.tree-tassel .threads { background: repeating-linear-gradient(to right, #059669, #047857 2px, #064e3b 4px); }
-
-@keyframes swingTassel {
-  0% { transform: rotate(-5deg); }
-  100% { transform: rotate(5deg); }
-}
-
-.signboard-ornate h1 {
-  font-family: 'Nanum Myeongjo', serif;
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin-bottom: 0.4rem;
-  /* 양각 금속 텍스처 효과 */
-  color: #ffda75;
-  letter-spacing: 0.15em;
-  text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.9),
-               0px -1px 1px rgba(255, 255, 255, 0.3),
-               0 0 20px rgba(238, 157, 43, 0.5);
-  white-space: nowrap;
-}
-#tree-signboard-trigger h1 {
+  top: 0;
+  opacity: 0;
+  transform: translateY(-50px) scale(0.9);
+  pointer-events: none;
   color: #d1fae5;
-  text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.9),
-               0px -1px 1px rgba(255, 255, 255, 0.3),
-               0 0 20px rgba(167, 243, 208, 0.5);
+  text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.9), 0px -1px 1px rgba(255, 255, 255, 0.4), 0 0 25px rgba(167, 243, 208, 0.8);
 }
 
-.signboard-ornate p {
-  color: rgba(255,255,255,0.6);
-  font-size: 0.9rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-}
 
 .lotto-machine {
   margin-bottom: 3rem;
@@ -813,102 +741,108 @@ body.in-tree-view #tree-signboard-trigger {
   padding-bottom: 0.5rem;
 }
 
-/* --- 좌측 사이드 책갈피 패널 (명당 현황 & 소식 제보) --- */
+/* --- 좌측 사이드 책갈피 패널 (편지, 명당, 소식) --- */
 .left-bookmarks-container {
   position: fixed;
-  top: 10%;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  z-index: 20;
-}
-
-.left-bookmark {
-  width: 300px;
-  background-color: var(--paper-bg);
-  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqHnyvrOyS3ZQWXra6qyoHuz36KrQSr_o7QlUZSyWjbwWBNXSZT-n-U8mtzyDk05FTEKa7t31cIxBZn9W6a7VkpiX1fp_XADsj5EJ6nEs77rNQ5u4aC_eoIEbRx4Osp9HXd4L1Uz9eDrbuibHE0LBnzf6Ofp4cTHtSpd6aJWk2_zVNCXLEelWmtgzkNetaUqkNv7PeqdOc92mafjoMUkwL3fUUAX7dPuQFYHSe6bGCnIesjRlbLx9YaGPRq9CcfswvG1Q5Vux8eyd');
-  border: 1px solid rgba(255,255,255,0.1);
-  border-left: none;
-  border-radius: 0 1rem 1rem 0;
-  box-shadow: 4px 5px 30px rgba(0,0,0,0.8);
-  color: #451a03;
-  transition: transform 0.3s ease;
-  text-decoration: none; /* a 태그일 경우 대비 */
-  display: block;
-}
-
-/* 폼 링크(버튼) 영역은 호버 시 피드백 액션 추가 */
-a.left-bookmark:hover {
-  filter: brightness(1.05);
-}
-
-/* 화면 크기에 따른 반응형 처리 (태블릿/모바일) */
-@media (max-width: 1100px) {
-  .left-bookmark {
-    transform: translateX(-275px);
-  }
-  .left-bookmark:hover, .left-bookmark:focus, .left-bookmark:active {
-    transform: translateX(0);
-  }
-  .left-bookmark::after {
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%) rotate(90deg);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    color: #451a03;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-  }
-  .miracle-bookmark::after {
-    content: 'STORIES';
-  }
-  .form-bookmark::after {
-    content: 'SHARE';
-  }
-  .greeting-bookmark::after {
-    content: 'GREETING';
-  }
-}
-
-/* 모바일 화면에서 좀 더 쾌적한 가로/세로 볼륨 유지 */
-@media (max-width: 600px) {
-  .left-bookmarks-container {
-    top: 5rem;
-    gap: 1rem;
-  }
-  .left-bookmark {
-    width: 260px;
-    border-radius: 0 0.8rem 0.8rem 0;
-  }
-  .left-bookmark {
-    transform: translateX(-230px);
-  }
-}
-
-.bookmark-content {
-  padding: 1.5rem 1rem;
+  top: 15vh; /* 상단에서 조금 내려옴 */
+  left: -5px; /* 왼쪽에 살짝 숨겨진 느낌에서 시작 */
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  z-index: 200;
 }
 
-.bookmark-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  text-align: center;
-  border-bottom: 1px solid rgba(69, 26, 3, 0.2);
-  padding-bottom: 15px;
-  text-transform: uppercase;
-  color: #451a03;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+.left-bookmark.wood-texture {
+  width: auto;
+  min-width: 250px;
+  max-width: 320px;
+  background-color: #3b2313; /* 나무 바탕 어두운 갈색 */
+  background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+  border: 2px solid #241107;
+  border-left: none;
+  border-radius: 0 12px 12px 0; /* 우측만 둥글게 */
+  box-shadow: 4px 5px 20px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,0,0,0.5); /* 입체감 */
+  transition: transform 0.3s ease;
 }
+
+/* 마우스 올리면 살짝 튀어나옴 */
+.left-bookmark.wood-texture:hover {
+  transform: translateX(10px);
+}
+
+@media (max-width: 768px) {
+  .left-bookmarks-container { top: 10vh; left: -20px; }
+  .left-bookmark.wood-texture { max-width: 280px; }
+  .left-bookmark.wood-texture:hover { transform: translateX(20px); }
+  .main-text-title { font-size: 3rem; }
+  .signboard-wrapper { top: 12vh; }
+}
+
+.bookmark-details summary {
+  padding: 1rem 1.5rem 1rem 2.8rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffda75; /* 금색 글씨 */
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  outline: none;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+}
+
+.bookmark-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.bookmark-details summary::before {
+  content: '▶';
+  position: absolute;
+  left: 1.2rem;
+  color: #ffb300;
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.bookmark-details[open] summary::before {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.bookmark-content-text {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: #e5cdb5;
+  border-top: 1px dashed rgba(255,255,255,0.15);
+  margin: 0 1rem; /* 좌우 여백 */
+  padding-top: 1rem;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+/* 스크롤바 커스텀 */
+.bookmark-content-text::-webkit-scrollbar { width: 6px; }
+.bookmark-content-text::-webkit-scrollbar-thumb { background: rgba(255,218,117,0.4); border-radius: 3px; }
+.bookmark-content-text::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+
+/* 제출 폼 버튼 스타일 */
+.form-link-box { text-align: center; }
+.submit-btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: #ffb300;
+  color: #1a1a1a;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  font-family: 'Space Grotesk', sans-serif;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+.submit-btn:hover { background-color: #ffda75; transform: scale(1.05); }
 
 .miracle-list {
   display: flex;

@@ -47,58 +47,48 @@
         <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- 좌측 사이드 책갈피 -->
+    <!-- 좌측 사이드 메뉴 (토글형 우드 책갈피) -->
     <div class="left-bookmarks-container">
-        <!-- 점주 인삿말 사이드 북마크 추가 -->
-        <aside class="left-bookmark greeting-bookmark">
-            <div class="bookmark-content">
-                <h3 class="bookmark-title">주인의 편지</h3>
-                <div class="greeting-text" style="font-family: 'Nanum Myeongjo', serif; font-size: 0.85rem; line-height: 1.6; color: #451a03; max-height: 60vh; overflow-y: auto; padding-top: 0.5rem; scrollbar-width: thin; scrollbar-color: rgba(69, 26, 3, 0.4) transparent;">
+        <!-- 점주 인삿말 -->
+        <aside class="left-bookmark wood-texture">
+            <details class="bookmark-details" id="greeting-details">
+                <summary class="bookmark-title">인생잡화점 점주 김땡땡의 편지</summary>
+                <div class="bookmark-content-text">
                     안녕하세요, 인생 잡화점 주인 김땡땡입니다.<br><br>
                     요즘 같이 팍팍하고 힘든 시기에, 이 작은 잡화점이 누군가에게는 일상의 소소한 재미가 되고, 또 다른 누군가에게는 정말 놀라운 기적이 시작되는 곳이 되길 바라는 마음으로 문을 열었습니다.<br><br>
                     이곳은 역대 1등 당첨 번호들의 방대한 통계를 기반으로 한 알고리즘을 사용하고 있지만, 사실 로또에 정해진 답은 없다는 걸 저도, 여러분도 잘 알고 있습니다. 😊<br><br>
                     하지만 번호를 뽑고 결과를 기다리는 그 며칠간의 설렘이 우리네 삶에 작은 활력이 된다면 그것만으로도 충분한 가치가 있다고 생각합니다. 결과를 너무 맹신하기보다는, 인생 잡화점에 잠시 들러 행운 한 조각을 담아가는 가벼운 마음으로 즐겨주세요.<br><br>
                     당신의 삶에 찾아올 기분 좋은 기적을 늘 진심으로 응원하겠습니다!
                 </div>
-            </div>
+            </details>
         </aside>
 
-        <aside class="left-bookmark miracle-bookmark">
-            <div class="bookmark-content">
-                <h3 class="bookmark-title">명당 현황</h3>
-                <div id="miracle-list" class="miracle-list">
+        <!-- 명당 현황 -->
+        <aside class="left-bookmark wood-texture">
+            <details class="bookmark-details" id="miracle-details">
+                <summary class="bookmark-title">명당 현황</summary>
+                <div class="bookmark-content-text" id="miracle-list">
                     <div class="loading-message">소식 대기 중...</div>
                 </div>
-            </div>
+            </details>
         </aside>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdaZDvX9WCN2bQ4ox4hWtNCRyj_0MZEaj2ylXSfp9zaf2gxVw/viewform?usp=header" target="_blank" class="left-bookmark form-bookmark">
-            <div class="bookmark-content">
-                <h3 class="bookmark-title">당첨 소식 전하기</h3>
-            </div>
-        </a>
+
+        <!-- 당첨 소식 전하기 -->
+        <aside class="left-bookmark wood-texture">
+            <details class="bookmark-details" id="form-details">
+                <summary class="bookmark-title">당첨 소식 전하기</summary>
+                <div class="bookmark-content-text form-link-box">
+                    인생 잡화점에서 큰 행운을 잡으셨나요?<br>모두와 기적을 나누어 주세요!<br><br>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdaZDvX9WCN2bQ4ox4hWtNCRyj_0MZEaj2ylXSfp9zaf2gxVw/viewform?usp=header" target="_blank" class="glow-on-hover submit-btn">제보하기</a>
+                </div>
+            </details>
+        </aside>
     </div>
 
+    <!-- 간판(타이틀) 영역 (방문자수와 메인 블록 사이) -->
     <div class="signboard-wrapper">
-        <div class="signboard-ornate glow-on-hover pointer-cursor" id="main-signboard-trigger">
-            <!-- 좌우 태슬 장식 -->
-            <div class="tassel-container left"><div class="knot"></div><div class="threads"></div></div>
-            <div class="tassel-container right"><div class="knot"></div><div class="threads"></div></div>
-            
-            <div class="ornate-frame">
-                <h1>인생잡화점</h1>
-                <p>소소한 재미와 놀라운 기적을 만나는 명당 (클릭하여 이동)</p>
-            </div>
-        </div>
-        <div class="signboard-ornate glow-on-hover pointer-cursor tree-variant" id="tree-signboard-trigger">
-            <!-- 좌우 태슬 장식 (소원나무용 색상 반전/옥색) -->
-            <div class="tassel-container left tree-tassel"><div class="knot"></div><div class="threads"></div></div>
-            <div class="tassel-container right tree-tassel"><div class="knot"></div><div class="threads"></div></div>
-            
-            <div class="ornate-frame tree-frame">
-                <h1>소원나무</h1>
-                <p>당신의 간절한 소망을 매달아보세요 (클릭하여 귀환)</p>
-            </div>
-        </div>
+        <h1 class="main-text-title pointer-cursor" id="main-signboard-trigger">인생잡화점<br><span class="main-subtitle">소소한 재미와 놀라운 기적을 만나는 명당 (클릭하여 이동)</span></h1>
+        <h1 class="main-text-title tree-variant pointer-cursor" id="tree-signboard-trigger">소원나무<br><span class="main-subtitle">당신의 간절한 소망을 매달아보세요 (클릭하여 귀환)</span></h1>
     </div>
 
     <!-- 수직 뷰포트 & 슬라이더 -->
