@@ -756,13 +756,14 @@ body.in-tree-view #tree-signboard-trigger {
   width: auto;
   min-width: 250px;
   max-width: 320px;
-  background-color: #3b2313; /* 나무 바탕 어두운 갈색 */
+  background-color: #3b2313; /* 나무 바탕 어두운 갈색 (테두리 역할) */
   background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
   border: 2px solid #241107;
   border-left: none;
   border-radius: 0 12px 12px 0; /* 우측만 둥글게 */
   box-shadow: 4px 5px 20px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,0,0,0.5); /* 입체감 */
   transition: transform 0.3s ease;
+  padding: 8px 8px 8px 0; /* 짙은 우드가 테두리처럼 보이도록 여백 */
 }
 
 /* 마우스 올리면 살짝 튀어나옴 */
@@ -778,17 +779,25 @@ body.in-tree-view #tree-signboard-trigger {
   .signboard-wrapper { top: 12vh; }
 }
 
+/* 내부 컨텐츠 박스 (밝은 톤) */
+.bookmark-details {
+  background-color: #f7eedf; /* 밝은 베이지 컬러 */
+  background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); /* 옅은 우드 질감 */
+  border-radius: 0 8px 8px 0;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  height: 100%;
+}
+
 .bookmark-details summary {
   padding: 1rem 1.5rem 1rem 2.8rem;
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.1rem;
-  font-weight: 700;
-  color: #ffda75; /* 금색 글씨 */
+  font-weight: 800;
+  color: #4a2c11; /* 선명한 고동색 글씨 */
   cursor: pointer;
   list-style: none;
   position: relative;
   outline: none;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
 }
 
 .bookmark-details summary::-webkit-details-marker {
@@ -799,7 +808,7 @@ body.in-tree-view #tree-signboard-trigger {
   content: '▶';
   position: absolute;
   left: 1.2rem;
-  color: #ffb300;
+  color: #ba7638; /* 조금 밝은 갈색 톤 화살표 */
   transition: transform 0.3s ease;
   font-size: 0.8rem;
   top: 50%;
@@ -815,8 +824,8 @@ body.in-tree-view #tree-signboard-trigger {
   font-family: 'Nanum Myeongjo', serif;
   font-size: 0.85rem;
   line-height: 1.7;
-  color: #e5cdb5;
-  border-top: 1px dashed rgba(255,255,255,0.15);
+  color: #3b2313; /* 가독성을 위한 진한 고동색 텍스트 */
+  border-top: 1px dashed rgba(140, 90, 43, 0.4);
   margin: 0 1rem; /* 좌우 여백 */
   padding-top: 1rem;
   max-height: 50vh;
