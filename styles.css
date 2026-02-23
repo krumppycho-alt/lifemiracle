@@ -189,13 +189,6 @@ body {
   transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.owner-greeting {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
-  transition-delay: 0.1s; /* 살짝 늦게 따라옴 */
-}
-
 #tree-signboard-trigger {
   position: absolute;
   top: 0;
@@ -206,8 +199,7 @@ body {
 }
 
 /* 트리 뷰 활성화 시(소원나무) 교차 애니메이션 */
-body.in-tree-view #main-signboard-trigger,
-body.in-tree-view .owner-greeting {
+body.in-tree-view #main-signboard-trigger {
   opacity: 0;
   transform: translateY(-50px) scale(0.9);
   pointer-events: none;
@@ -222,7 +214,9 @@ body.in-tree-view #tree-signboard-trigger {
 /* --- 플로팅 현판 (Signboard Floating) 바뀐 디자인 --- */
 .signboard-floating {
   position: relative;
-  padding: 1.5rem 3rem;
+  padding: 2.5rem 5rem; /* 메인 타이틀/부제 담을 수 있도록 여유 공간 대폭 확대 */
+  width: 100%;
+  min-width: 320px;
   background: rgba(15, 10, 5, 0.85);
   border: 2px solid rgba(238, 157, 43, 0.4); /* 얇은 금빛 테두리 */
   border-radius: 4px; /* 각진 현판 스타일 */
@@ -741,7 +735,7 @@ body.in-tree-view #tree-signboard-trigger {
   background: rgba(26, 20, 14, 0.8);
   border: 1px solid rgba(238, 157, 43, 0.3); /* 테두리 조금 더 선명하게 */
   border-radius: 1.5rem;
-  margin: 1rem auto 0 auto;
+  margin: 0 auto 2rem auto; /* 뽑기 블록(아래)과 여백을 주고, 열렸을 때 부드럽게 아래 컨텐츠를 밀어내도록 수정 */
   text-align: center;
   overflow: hidden;
   transition: all 0.3s ease;
