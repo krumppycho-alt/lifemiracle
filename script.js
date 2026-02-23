@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- ⬅️/➡️ SPA 페이지 수직 슬라이드 전환 로직 (간판 클릭) ---
-    const mainSignboard = document.getElementById('main-signboard-wrapper');
+    const mainSignboard = document.getElementById('main-signboard-trigger');
     const fullSlider = document.getElementById('full-slider');
 
     if (mainSignboard && fullSlider) {
@@ -110,23 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     generateWishCoords();
 
     // 더미 데이터 초기화
-    const dummyWishes = [
-        "올해는 꼭 내 집 마련 성공하게 해주세요! 🏠",
-        "가족들 모두 건강하고 아프지 않길 기원합니다 🙏",
-        "1등 당첨되면 퇴사하고 카페 차릴 거예요 ☕",
-        "로또 1등 기원!!! ✨",
-        "남편 사업 대박나게 해주세요! 💸",
-        "우리가족 코로나 걸리지 않게 해주세요 😷",
-        "우리아들 대학 합격하게 해주세요 🎓",
-        "올해는 꼭 취업하게 해주세요! 💼",
-        "다이어트 성공하게 해주세요 🥗",
-        "이번주 1등은 나야나 🥇",
-        "강아지랑 평생 행복하게 해주세요 🐶",
-        "세계일주 다녀오게 해주세요 ✈️",
-        "빚 다 갚고 새출발 하게 해주세요 🌅",
-        "딸기 농장 대박나게 해주세요 🍓",
-        "우리가족 화목하게 해주세요 👨‍👩‍👧‍👦"
-    ];
+    const dummyWishes = [];
 
     if (wishSubmitBtn && wishInput && treeHitbox) {
         const WISH_STORAGE_KEY = 'life_store_wishes';

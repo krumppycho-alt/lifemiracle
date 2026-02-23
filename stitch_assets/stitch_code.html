@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>인생 잡화점 - Night Version</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ee9d2b",
+                        "background-light": "#f8f7f6",
+                        "background-dark": "#1a140e",
+                        "paper": "#f4ede1",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>body {
+    font-family: "Space Grotesk", sans-serif
+    }
+.flip-clock {
+    perspective: 1000px
+    }
+.wood-texture {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(https://lh3.googleusercontent.com/aida-public/AB6AXuAciVfG2xQK0RcSF5VA54KkDDeMtdN8Ui8Vl1FYx4rkGru8_CbTtku0SVZM6kQbvZeLWVIP8V1RrLzVe23lyFQx0mt7gMtWCGnD5FNVxwLogBNgYDbKCquNBYQ-9YTLEj8H6avH7nRvgEoQdkppbpYEIIORbrHNCo-7RwWCD45iBVN6W4P3mFY6Qd9FphpnoHsKOVjfHXwszMSkDgbM6EkWETkrvhH49NFbzKOB7tOlWcdPY-CPcs6LDgIfCUg40XpNhnq8ypixb-AF);
+    background-size: cover
+    }
+.glow-effect {
+    box-shadow: 0 0 20px rgba(238, 157, 43, 0.3)
+    }
+.paper-texture {
+    background-color: #f4ede1;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAqHnyvrOyS3ZQWXra6qyoHuz36KrQSr_o7QlUZSyWjbwVWBnXSZT-n-U8mtzyDk05FTEKa7t31cIxBZn9W6a7VkpiX1fp_XADsj5EJ6nEs77rNQ5u4aC_eoIEbRx4Osp9HXd4L1Uz9eDrbuibHE0LBnzf6Ofp4cTHtSpd6aJWk2_zVNCXLEelwmtgzkNetaUqkNv7PeqdOc92mafjoMUkwL3fUUAX7dPuQFYHSe6bGCnIesjRlbLx9YaGPRq9CcfswvG1Q5Vux8eyd)
+    }</style>
+</head>
+<body class="bg-background-dark text-slate-100 min-h-screen font-display">
+<!-- Storefront Background Overlay -->
+<div class="fixed inset-0 z-0 opacity-40 pointer-events-none">
+<img alt="Dimly lit vintage general store entrance at night" class="w-full h-full object-cover" data-alt="Dimly lit vintage general store entrance at night" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzdFHNg1m1csze7GFHv8UFv6Kj5lg4TW4b23AV7HNujcLcLHHiHbJq-q08abCr_GgpipEfdGrnQldk_PvULWHjJbtBhiwBYh68AQvUzDlKBmlwWgICRKEylYoCe-beJCLxuctVtgzDsNDBDLPUJXsJpShnTq_8rwCwvaT5sAE3CrMOx-4YV4e7rBVXmQvIByMAQHJcB1Gd1O2Pen6DUpk7z7qwjMwQvGknufSaBJjDkQHpj7djoPFbL-7mIUTncMHMojHtEbKx0rm_"/>
+</div>
+<div class="relative z-10 flex flex-col items-center min-h-screen">
+<!-- Top Navigation -->
+<header class="w-full max-w-5xl flex items-center justify-between px-10 py-6">
+<div class="flex items-center gap-3">
+<div class="text-primary">
+<span class="material-symbols-outlined text-4xl">storefront</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-2xl font-bold tracking-tight text-white">인생 잡화점</h1>
+<span class="text-[10px] uppercase tracking-[0.2em] text-primary/80">Life's General Store</span>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-10">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">History</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">About</a>
+<div class="size-10 rounded-full border-2 border-primary/30 overflow-hidden">
+<img alt="User profile avatar" data-alt="User profile avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGzJhgIXbz-xe49xZHuQY8nFMTpOYlcWkYruXGesrEUiWzEBi-qz7ugVPeUiykGZ3qmiGNNkqqyaoqib-JGJYZo6qsgjdkt-9CIyqzTGSdbuMRIXXLo1pbM_Lh76iAmj4o3BdbBt-QiKvHiy7HPeYtItSacQyEIISM7tSf5hb8JTuPpdxUVFls7t2eSFXSmb7bIH-8KTUhxM69le_LTy6wMHagH3HBp8MB3_PXj6tjnY9uvijivgz7w2HmdWo6kqa2av4QCrZFlbxA"/>
+</div>
+</nav>
+</header>
+<main class="w-full max-w-4xl px-4 py-8 flex flex-col items-center gap-12">
+<!-- Signboard Section -->
+<div class="relative py-8 px-16 bg-neutral-900/80 border-4 border-neutral-800 rounded-xl shadow-2xl text-center group">
+<div class="absolute -top-12 left-1/2 -translate-x-1/2 flex gap-12">
+<div class="w-1 h-12 bg-neutral-700"></div>
+<div class="w-1 h-12 bg-neutral-700"></div>
+</div>
+<!-- Spotlight Effect -->
+<div class="absolute -top-20 left-1/2 -translate-x-1/2 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<h2 class="text-5xl font-bold text-primary tracking-widest" style="text-shadow: 0 0 15px rgba(238,157,43,0.5)">
+                    인생 잡화점
+                </h2>
+<div class="mt-2 text-primary/60 text-xs font-light tracking-[0.5em]">OPEN UNTIL DAWN</div>
+</div>
+<!-- Stats Counters (Flip Clock Style) -->
+<div class="flex flex-wrap justify-center gap-8 w-full">
+<div class="flex flex-col items-center gap-3">
+<span class="text-xs uppercase tracking-widest text-slate-400">Tonight's Visitors</span>
+<div class="flex gap-1">
+<!-- Digital Flip Cards -->
+<div class="bg-neutral-900 border border-white/10 rounded px-3 py-4 text-3xl font-bold text-primary shadow-inner">1</div>
+<div class="bg-neutral-900 border border-white/10 rounded px-3 py-4 text-3xl font-bold text-primary shadow-inner">,</div>
+<div class="bg-neutral-900 border border-white/10 rounded px-3 py-4 text-3xl font-bold text-primary shadow-inner">2</div>
+<div class="bg-neutral-900 border border-white/10 rounded px-3 py-4 text-3xl font-bold text-primary shadow-inner">8</div>
+<div class="bg-neutral-900 border border-white/10 rounded px-3 py-4 text-3xl font-bold text-primary shadow-inner">4</div>
+</div>
+</div>
+<div class="flex flex-col items-center gap-3">
+<span class="text-xs uppercase tracking-widest text-slate-400">Miracles Found</span>
+<div class="flex gap-1">
+<div class="bg-neutral-900 border border-white/10 rounded px-3 py-4 text-3xl font-bold text-primary shadow-inner">0</div>
+<div class="bg-neutral-900 border border-white/10 rounded px-3 py-4 text-3xl font-bold text-primary shadow-inner">4</div>
+<div class="bg-neutral-900 border border-white/10 rounded px-3 py-4 text-3xl font-bold text-primary shadow-inner">2</div>
+</div>
+</div>
+</div>
+<!-- Interactive Lottery Area -->
+<div class="relative w-full max-w-2xl bg-neutral-900/40 rounded-3xl p-12 border border-white/5 backdrop-blur-sm overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-20">
+<span class="material-symbols-outlined text-8xl">auto_awesome</span>
+</div>
+<div class="flex flex-col items-center gap-10">
+<div class="text-center">
+<h3 class="text-2xl font-semibold text-white mb-2">Draw Your Luck</h3>
+<p class="text-slate-400 text-sm">Release the wooden box to see your destiny numbers.</p>
+</div>
+<!-- Vintage Wooden Box -->
+<div class="relative w-64 h-64 wood-texture rounded-2xl shadow-2xl flex items-center justify-center group cursor-pointer border-4 border-amber-900/50">
+<div class="absolute inset-4 border border-white/10 rounded-lg"></div>
+<div class="text-center z-10">
+<span class="material-symbols-outlined text-6xl text-primary/80 group-hover:scale-110 transition-transform">package_2</span>
+<div class="mt-4 bg-primary text-background-dark font-bold px-4 py-1 rounded text-xs">SHAKE ME</div>
+</div>
+<!-- Result Ball Output Slot -->
+<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-20 h-8 bg-black rounded-t-full border-x-4 border-t-4 border-amber-900"></div>
+</div>
+<!-- Results Area (Empty State or Balls) -->
+<div class="flex flex-wrap justify-center gap-4">
+<div class="size-14 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xl font-bold text-primary/40 italic">?</div>
+<div class="size-14 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xl font-bold text-primary/40 italic">?</div>
+<div class="size-14 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xl font-bold text-primary/40 italic">?</div>
+<div class="size-14 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xl font-bold text-primary/40 italic">?</div>
+<div class="size-14 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xl font-bold text-primary/40 italic">?</div>
+<div class="size-14 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xl font-bold text-primary/40 italic">?</div>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-background-dark font-bold py-4 px-12 rounded-full transition-all transform active:scale-95 shadow-lg flex items-center gap-2">
+<span class="material-symbols-outlined">refresh</span>
+                        GENERATE MIRACLE
+                    </button>
+</div>
+</div>
+</main>
+<!-- Miracle Stories Toggle (Bottom Section) -->
+<footer class="w-full mt-auto">
+<div class="max-w-4xl mx-auto px-4">
+<div class="paper-texture rounded-t-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.5)] p-6 md:p-10 border-t border-white/10">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-900">history_edu</span>
+<h4 class="text-xl font-bold text-amber-900 uppercase tracking-tight">Miracle Stories</h4>
+</div>
+<button class="text-amber-800 text-sm font-semibold hover:underline flex items-center gap-1">
+                            See all 1,204 stories <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid md:grid-cols-2 gap-6 overflow-hidden max-h-48">
+<!-- Story Card 1 -->
+<div class="bg-white/50 border border-amber-900/10 rounded-lg p-5 relative">
+<span class="absolute top-2 right-4 text-4xl text-amber-900/10 font-serif">"</span>
+<p class="text-amber-900/80 text-sm italic leading-relaxed mb-3">
+                                I came here when I was lost, and the numbers I got today feel like a sign to keep going. Thank you for this cozy space.
+                            </p>
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-amber-200"></div>
+<span class="text-[10px] font-bold text-amber-900 uppercase">Anonymous Traveler</span>
+</div>
+</div>
+<!-- Story Card 2 -->
+<div class="bg-white/50 border border-amber-900/10 rounded-lg p-5 relative">
+<span class="absolute top-2 right-4 text-4xl text-amber-900/10 font-serif">"</span>
+<p class="text-amber-900/80 text-sm italic leading-relaxed mb-3">
+                                The miracle happened! I didn't win the grand prize, but I won back my confidence. This store is special.
+                            </p>
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-amber-300"></div>
+<span class="text-[10px] font-bold text-amber-900 uppercase">Lucky Soul #42</span>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-center">
+<button class="w-12 h-1 bg-amber-900/20 rounded-full"></button>
+</div>
+</div>
+</div>
+<div class="bg-neutral-950 py-6 text-center text-[10px] text-slate-500 tracking-widest border-t border-white/5">
+                COPYRIGHT © 2024 INSAENG JABWAJOM. ALL MIRACLES RESERVED.
+            </div>
+</footer>
+</div>
+<!-- Decorative Elements -->
+<div class="fixed top-20 right-20 w-1 h-1 bg-white rounded-full blur-[1px] animate-pulse"></div>
+<div class="fixed top-40 right-10 w-1 h-1 bg-white rounded-full blur-[1px] animate-pulse"></div>
+<div class="fixed bottom-60 left-10 w-1 h-1 bg-white rounded-full blur-[1px] animate-pulse" style="animation-delay: 1s"></div>
+<div class="fixed top-1/4 left-1/4 w-0.5 h-0.5 bg-primary/50 rounded-full blur-[2px]"></div>
+</body></html>

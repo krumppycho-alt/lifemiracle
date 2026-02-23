@@ -12,27 +12,23 @@ console.log(`Calculating up to draw no: ${currentDraw}`);
 const frequencies = Array(46).fill(0); // 1-45
 const weights = Array(46).fill(0);
 
-const fetchDraw = (drawNo) => {
-    return new Promise((resolve) => {
-        https.get(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${drawNo}`, (res) => {
-            let data = '';
-            res.on('data', chunk => { data += chunk; });
-            res.on('end', () => {
-                try {
-                    const json = JSON.parse(data);
-                    if (json.returnValue === 'success') {
-                        resolve(json);
-                    } else {
-                        resolve(null);
-                    }
-                } catch (e) {
-                    resolve(null);
-                }
-            });
-        }).on('error', () => {
-            resolve(null);
+const fetchDraw = async (drawNo) => {
+    try {
+        const response = await fetch(`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${drawNo}`, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                'Accept': 'application/json'
+            }
         });
-    });
+        if (!response.ok) return null;
+        const json = await response.json();
+        if (json.returnValue === 'success') {
+            return json;
+        }
+        return null;
+    } catch (e) {
+        return null;
+    }
 };
 
 async function main() {
@@ -57,7 +53,7 @@ async function main() {
     console.log(`Actual latest draw identified: ${actualLatestDraw}`);
     
     let activeRequests = 0;
-    const maxConcurrency = 50;
+    const maxConcurrency = 5; // 방화벽 차단 피하기 위해 낮춤
     let index = 1;
     let completed = 0;
 
@@ -83,10 +79,10 @@ async function main() {
                     processDraw(json);
                     activeRequests--;
                     completed++;
-                    if (completed % 100 === 0) {
+                    if (completed % 50 === 0) {
                         console.log(`Fetched ${completed} draws...`);
                     }
-                    next();
+                    setTimeout(next, 50); // 약간의 딜레이
                 });
             }
         };

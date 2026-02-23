@@ -44,7 +44,7 @@ body {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
   overflow: hidden;
-  z-index: -5;
+  z-index: 1;
 }
 
 .full-slider {
@@ -107,7 +107,7 @@ body {
   position: fixed;
   inset: 0;
   background-color: var(--bg-color);
-  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzdFHNg1m1csze7GFHv8UFv6Kj5lg4TW4b23AV7HNujcLcLHHiHbJq-q08abCr_GgpipEfdGrnQldk_PvULWHjJbtBhiwBYh68AQvUzDlKBmlwWgICRKEylYoCe-beJCLxuctVtgzDsNDBDLPUJXsJpShnTq_8rwCwvaT5sAE3CrMOx-4YV4e7rBVXmQvIByMAQHJcB1Gd1O2Pen6DUpk7z7qwjMwQvGknufSaBJjDkQHpj7djoPFbL-7mIUTncMHMojHtEbKx0rm_');
+  background-image: url('assets/shop_interior.png');
   background-size: cover;
   background-position: center;
   z-index: 1000;
@@ -169,8 +169,8 @@ body {
 
 /* --- 공용 간판 컨테이너 (드래그 애니메이션) --- */
 .signboard-wrapper {
-  position: fixed;
-  top: 12vh;
+  position: absolute; /* fixed에서 absolute로 변경하여 컨텐츠 흐름에 맞게 위치 조정 가능 (트리뷰 슬라이드 시 자연스러움) */
+  top: 5vh;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
@@ -178,6 +178,8 @@ body {
   flex-direction: column;
   align-items: center;
   transition: all 1s cubic-bezier(0.65, 0, 0.35, 1);
+  width: 90%;
+  max-width: 600px;
 }
 
 /* 트리 뷰 활성화 시(클릭/드래그 후) 간판은 하단으로 이동 */
@@ -194,13 +196,14 @@ body.in-tree-view .signboard-wrapper:hover {
 /* --- 간판 (Signboard) --- */
 .signboard {
   position: relative;
-  padding: 1.5rem 2.5rem;
-  background: rgba(26, 20, 14, 0.9);
+  padding: 1.2rem 2rem;
+  background: rgba(26, 20, 14, 0.85); /* 투명도 약간 높임 */
   border: 4px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
   text-align: center;
   margin-top: 1rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.6); /* 그림자 덜 무겁게 */
+  backdrop-filter: blur(8px);
 }
 
 .signboard-ropes {
@@ -233,14 +236,13 @@ body.in-tree-view .signboard-wrapper:hover {
 }
 
 .signboard h1 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-family: 'Nanum Myeongjo', serif; /* 동양풍 폰트로 변경 */
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 0.3rem;
   color: var(--accent);
-  letter-spacing: 0.1em;
-  text-shadow: 0 0 15px rgba(238, 157, 43, 0.5);
-  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px rgba(238, 157, 43, 0.6);
 }
 
 .signboard p {
@@ -697,14 +699,15 @@ body.in-tree-view .signboard-wrapper:hover {
 }
 /* --- 토글 인사말 (Details) --- */
 .owner-greeting {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(26, 20, 14, 0.8);
+  border: 1px solid rgba(238, 157, 43, 0.3); /* 테두리 조금 더 선명하게 */
   border-radius: 1.5rem;
-  margin: 3.5rem 0 2rem 0; /* 상단 방문자 통계 요소(top: 2rem)와 겹치지 않게 top margin을 크게(3.5rem) 부여 */
+  margin: 1rem auto 0 auto;
   text-align: center;
   overflow: hidden;
   transition: all 0.3s ease;
   width: 100%;
+  backdrop-filter: blur(5px);
 }
 
 .owner-greeting summary {
