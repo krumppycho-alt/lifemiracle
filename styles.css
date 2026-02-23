@@ -239,7 +239,7 @@ body.in-tree-view #tree-signboard-trigger {
   border-image: linear-gradient(135deg, #d98823, #f5c866, #b16513) 1;
   text-align: center;
   position: relative;
-  background: radial-gradient(circle at center, rgba(30,20,10,0.3) 0%, rgba(10,5,0,0.8) 100%);
+  background: rgba(10, 5, 0, 0.6); /* 타원형 그라디언트 배경(블록) 제거하고 은은한 단색으로 변경 */
 }
 .tree-frame {
   border: 2px solid rgba(167, 243, 208, 0.4);
@@ -867,6 +867,9 @@ a.left-bookmark:hover {
   }
   .form-bookmark::after {
     content: 'SHARE';
+  }
+  .greeting-bookmark::after {
+    content: 'GREETING';
   }
 }
 
