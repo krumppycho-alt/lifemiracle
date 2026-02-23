@@ -85,23 +85,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const wishInput = document.getElementById('wish-input');
     const treeHitbox = document.getElementById('tree-hitbox');
 
-    // 100개의 지정 좌표 배열 (나무 카노피 모양 내부에 한정)
+    // 100개의 지정 좌표 배열 (나무 카노피 모양 내부에 한정, % 기반)
     const WISH_COORDS = [];
     function generateWishCoords() {
-        // Hitbox 600x500 내에 타원형/트리형 분포로 100개 지점 생성
-        const centerX = 300, centerY = 200;
-        const rx = 250, ry = 180;
         let pointsGenerated = 0;
         while(pointsGenerated < 100) {
-            const x = (Math.random() * 2 - 1) * rx;
-            const y = (Math.random() * 2 - 1) * ry;
+            // -1 ~ 1 범위 난수
+            const x = (Math.random() * 2 - 1);
+            const y = (Math.random() * 2 - 1);
+            
             // 타원 내부에 존재하면서 상단이 좁아지는 나무 형태 계수
-            if ((x*x)/(rx*rx) + (y*y)/(ry*ry) <= 1) {
-                const heightFactor = (y + ry) / (2 * ry); // 상단(0) ~ 하단(1)
-                if (Math.abs(x) > rx * Math.pow(heightFactor, 0.6) + 30) continue;
+            if ((x*x) + (y*y) <= 1) {
+                const heightFactor = (y + 1) / 2; // 상단(0) ~ 하단(1)
+                // x폭이 위로 갈수록(상단) 좁아지도록 제한
+                if (Math.abs(x) > Math.pow(heightFactor, 0.7) + 0.1) continue;
+                
                 WISH_COORDS.push({
-                    x: centerX + x,
-                    y: centerY + y,
+                    x: 50 + (x * 45), // 5% ~ 95%
+                    y: 45 + (y * 45), // 0% ~ 90% (살짝 위쪽 중심)
                     rot: Math.floor(Math.random() * 60) - 30
                 });
                 pointsGenerated++;
@@ -154,9 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // 100개의 지정 좌표 중 하나를 선택 (index 순환 등)
             const targetCoord = WISH_COORDS[index % 100];
 
-            note.style.left = `${targetCoord.x - 6}px`;
-            note.style.top = `${targetCoord.y - 10}px`;
-            const finalTransform = `rotate(${targetCoord.rot}deg)`;
+            note.style.left = `${targetCoord.x}%`;
+            note.style.top = `${targetCoord.y}%`;
+            const finalTransform = `translate(-50%, -50%) rotate(${targetCoord.rot}deg)`;
             note.style.transform = finalTransform;
             note.title = text;
 
@@ -169,9 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // 툭 걸리는 모션 (하단에서 튕겨올라와 나뭇가지에 맞고 흔들리며 안착)
                 note.animate([
-                    { transform: `translate(0, 300px) scale(0.2) rotate(-45deg)`, opacity: 0, offset: 0 },
-                    { transform: `translate(0, -30px) scale(1.1) rotate(${targetCoord.rot + 20}deg)`, opacity: 1, offset: 0.6 },
-                    { transform: `translate(0, 10px) scale(0.95) rotate(${targetCoord.rot - 15}deg)`, opacity: 1, offset: 0.8 },
+                    { transform: `translate(-50%, 400px) scale(0.2) rotate(-45deg)`, opacity: 0, offset: 0 },
+                    { transform: `translate(-50%, -30px) scale(1.1) rotate(${targetCoord.rot + 20}deg)`, opacity: 1, offset: 0.6 },
+                    { transform: `translate(-50%, 10px) scale(0.95) rotate(${targetCoord.rot - 15}deg)`, opacity: 1, offset: 0.8 },
                     { transform: finalTransform, opacity: 1, offset: 1 }
                 ], {
                     duration: 900,

@@ -81,11 +81,13 @@ body {
 } /* 판타지 야간 광원 보정용 좀 더 부드러운 그라데이션 */
 
 .backyard-page {
-  background-image: url('assets/bg_tree.png');
-  background-position: center bottom;
+  /* 기존 bg_tree.png에서 숲속 밤하늘 느낌의 다크한 그라데이션으로 변경 (트리는 그래픽으로 띄움) */
+  background: radial-gradient(circle at center 30%, #1e293b 0%, #0f172a 50%, #020617 100%);
 }
 .backyard-page::before {
-  content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(5,5,15,0.2) 0%, rgba(5,5,15,0.5) 100%);
+  content: ''; position: absolute; inset: 0; 
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  opacity: 0.3;
 }
 
 .content-container {
@@ -1072,7 +1074,10 @@ body.in-tree-view #tree-signboard-trigger {
 
 /* 소원 입력 폼 테마 변경 (양피지/스크롤 느낌) */
 .wish-form-wrapper {
-  position: relative;
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 50;
   display: flex;
   flex-direction: column;
@@ -1080,7 +1085,6 @@ body.in-tree-view #tree-signboard-trigger {
   gap: 15px;
   width: 90%;
   max-width: 500px;
-  margin-top: 25vh; /* 중앙 거대 트리를 피해서 하단 배치 */
 }
 
 .wish-text-area {
@@ -1124,19 +1128,38 @@ body.in-tree-view #tree-signboard-trigger {
   letter-spacing: 0.1em;
 }
 
-/* 보이지 않는 트리 히트박스 (100개 지정 좌표가 위치할 절대 영역) */
-.tree-hitbox {
+/* 중앙 그래픽 소원나무 컨테이너 */
+.tree-graphic-container {
   position: absolute;
-  top: 15%;
-  width: 600px;
-  height: 500px;
-  pointer-events: none; /* 클릭 방해 금지 */
-  z-index: 20;
+  top: 48%; /* 타이틀과 안겹치게 살짝 아래로 */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px; /* 너무 크지 않게 약간 축소 */
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
 
+.tree-graphic-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 영역에 꽉 차게 */
+  border-radius: 20px; /* 모서리를 둥글게 처리해 덜 각져보이게 */
+  border: 2px solid rgba(238, 157, 43, 0.3); /* 은은한 테두리 */
+  box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 30px rgba(255, 215, 0, 0.1);
+}
 
-.tree-trunk, .tree-glow {
-  display: none; /* 기존 CSS 목업 나무와 글로우는 숨김 처리, 완성된 이미지가 이를 대체 */
+/* 보이지 않는 트리 히트박스 (소원나무 그래픽의 카노피 영역에 맞춤) */
+.tree-hitbox {
+  position: absolute;
+  top: 10%;
+  width: 70%;
+  height: 60%;
+  pointer-events: none; /* 클릭 방해 금지 */
+  z-index: 20;
 }
 
 @keyframes treePulse {
@@ -1144,16 +1167,39 @@ body.in-tree-view #tree-signboard-trigger {
   100% { transform: scale(1.1); opacity: 1; }
 }
 
-/* 포스트잇 스타일 (작은 메모 잎사귀 버전) */
+/* 소원 나무패 (세로형 목찰/부적 스타일) */
 .wish-note {
   position: absolute;
-  width: 12px;
-  height: 20px;
+  width: 25px;
+  height: 60px;
+  background-color: #e5d3b3; /* 기본 나무패/종이 색상 */
+  background-image: url('https://www.transparenttextures.com/patterns/rice-paper-2.png');
   border-radius: 2px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  border-top: 4px solid #b71c1c; /* 붉은 끈이나 칠 느낌 */
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  border-right: 1px solid rgba(0,0,0,0.2);
+  box-shadow: 2px 4px 6px rgba(0,0,0,0.6);
   transition: transform 0.3s ease;
   z-index: 10;
   cursor: default;
+  /* 안쪽 디자인 */
+  display: flex;
+  justify-content: center;
+  padding: 5px 2px;
+  overflow: hidden;
+}
+
+/* 나무패 안의 텍스트가 세로로 쓰인 듯한 시각적 효과 부여 */
+.wish-note::after {
+  content: attr(title);
+  font-family: 'Nanum Pen Script', cursive;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 10px;
+  color: #3e2723;
+  line-height: 1.1;
+  word-break: break-all;
+  opacity: 0.8;
 }
 
 .wish-note:hover {
