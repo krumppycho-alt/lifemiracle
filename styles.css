@@ -81,8 +81,10 @@ body {
 } /* 판타지 야간 광원 보정용 좀 더 부드러운 그라데이션 */
 
 .backyard-page {
-  /* 기존 bg_tree.png에서 숲속 밤하늘 느낌의 다크한 그라데이션으로 변경 (트리는 그래픽으로 띄움) */
-  background: radial-gradient(circle at center 30%, #1e293b 0%, #0f172a 50%, #020617 100%);
+  /* 새로운 소원나무 전용 잡화점 뒷마당 배경 */
+  background-image: url('assets/bg_backyard_new.png');
+  background-size: cover;
+  background-position: center bottom;
 }
 .backyard-page::before {
   content: ''; position: absolute; inset: 0; 
@@ -1131,12 +1133,12 @@ body.in-tree-view #tree-signboard-trigger {
 /* 중앙 그래픽 소원나무 컨테이너 */
 .tree-graphic-container {
   position: absolute;
-  top: 48%; /* 타이틀과 안겹치게 살짝 아래로 */
+  top: 52%; /* 타이틀과 안겹치게 더 아래로 */
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
-  max-width: 600px; /* 너무 크지 않게 약간 축소 */
-  height: 60vh;
+  max-width: 600px;
+  height: 55vh; /* 세로 길이 약간 축소로 입력 폼 영역 확보 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1150,6 +1152,7 @@ body.in-tree-view #tree-signboard-trigger {
   border-radius: 20px; /* 모서리를 둥글게 처리해 덜 각져보이게 */
   border: 2px solid rgba(238, 157, 43, 0.3); /* 은은한 테두리 */
   box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 30px rgba(255, 215, 0, 0.1);
+  filter: brightness(0.45) contrast(1.2) sepia(0.3); /* 기존 나무패들이 어두워지게 톤다운하여 새 나무패가 눈에 띄게 시각적 분리 */
 }
 
 /* 보이지 않는 트리 히트박스 (소원나무 그래픽의 카노피 영역에 맞춤) */
@@ -1195,11 +1198,12 @@ body.in-tree-view #tree-signboard-trigger {
   font-family: 'Nanum Pen Script', cursive;
   writing-mode: vertical-rl;
   text-orientation: upright;
-  font-size: 10px;
+  font-size: 11px; /* 가독성을 위해 살짝 큼직하게 */
+  font-weight: 800; /* 볼드체 */
   color: #3e2723;
   line-height: 1.1;
   word-break: break-all;
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .wish-note:hover {
