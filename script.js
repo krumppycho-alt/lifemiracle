@@ -64,18 +64,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainSignboard = document.getElementById('main-signboard-trigger');
     const fullSlider = document.getElementById('full-slider');
 
+    const treeSignboard = document.getElementById('tree-signboard-trigger');
+
     if (mainSignboard && fullSlider) {
         mainSignboard.addEventListener('click', () => {
-            document.body.classList.toggle('in-tree-view');
-            fullSlider.classList.toggle('show-tree');
-            
-            // 뷰 전환 시 배경음악 볼륨 조절 등 가능
-            if(document.body.classList.contains('in-tree-view')) {
-                // 간판 텍스트 변경 (옵션)
-                mainSignboard.querySelector('p').innerText = "기적의 소원 나무 (클릭하여 돌아가기)";
-            } else {
-                mainSignboard.querySelector('p').innerText = "소소한 재미와 놀라운 기적을 만나는 명당 (클릭하여 이동)";
-            }
+            document.body.classList.add('in-tree-view');
+            fullSlider.classList.add('show-tree');
+        });
+    }
+    
+    if (treeSignboard && fullSlider) {
+        treeSignboard.addEventListener('click', () => {
+            document.body.classList.remove('in-tree-view');
+            fullSlider.classList.remove('show-tree');
         });
     }
 
@@ -113,13 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const dummyWishes = [];
 
     if (wishSubmitBtn && wishInput && treeHitbox) {
-        const WISH_STORAGE_KEY = 'life_store_wishes';
+        const WISH_STORAGE_KEY = 'life_store_wishes_v2'; // 기존 캐시 무효화를 위해 키값 변경
         let storedWishes = JSON.parse(localStorage.getItem(WISH_STORAGE_KEY)) || dummyWishes;
         
-        if(storedWishes.length < dummyWishes.length) {
-            storedWishes = dummyWishes;
-            localStorage.setItem(WISH_STORAGE_KEY, JSON.stringify(storedWishes));
-        }
+        // v2 키로 빈 배열부터 시작
 
         storedWishes.forEach((wish, index) => {
             // 초기 렌더링 시에는 애니메이션 없이 100개 좌표 중 하나에 부착

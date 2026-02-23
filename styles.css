@@ -68,20 +68,20 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* center에서 상단 정렬로 변경하여 겹침 방지 */
+  padding-top: 250px; /* 상단 간판 영역 확보 */
+  overflow-y: auto; /* 내용이 길면 스크롤 가능하게 */
 }
 
-/* 1. 샵 내부 로또 기계 뷰 배경 */
 .shop-page {
-  background-image: url('assets/shop_interior.png');
+  background-image: url('assets/shop_interior_wide.png');
 }
 .shop-page::before {
   content: ''; position: absolute; inset: 0; background: rgba(10, 5, 0, 0.4);
 } /* 가독성 필터 */
 
-/* 2. 뒷마당 거대 황금 나무 뷰 배경 */
 .backyard-page {
-  background-image: url('assets/backyard_tree.png');
+  background-image: url('assets/backyard_tree_wide.png');
   background-position: center bottom;
 }
 .backyard-page::before {
@@ -93,7 +93,8 @@ body {
   width: 90%;
   max-width: 600px;
   padding: 2rem;
-  margin-top: 20vh;
+  margin-top: 2rem; /* 기존 20vh에서 축소, 부모의 padding-top에 의존 */
+  margin-bottom: 2rem;
   background: var(--card-bg);
   border: 1px solid rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
@@ -107,7 +108,7 @@ body {
   position: fixed;
   inset: 0;
   background-color: var(--bg-color);
-  background-image: url('assets/shop_interior.png');
+  background-image: url('assets/shop_interior_wide.png');
   background-size: cover;
   background-position: center;
   z-index: 1000;
@@ -169,7 +170,7 @@ body {
 
 /* --- 공용 간판 컨테이너 (드래그 애니메이션) --- */
 .signboard-wrapper {
-  position: absolute; /* fixed에서 absolute로 변경하여 컨텐츠 흐름에 맞게 위치 조정 가능 (트리뷰 슬라이드 시 자연스러움) */
+  position: absolute;
   top: 5vh;
   left: 50%;
   transform: translateX(-50%);
@@ -177,20 +178,44 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all 1s cubic-bezier(0.65, 0, 0.35, 1);
   width: 90%;
   max-width: 600px;
 }
 
-/* 트리 뷰 활성화 시(클릭/드래그 후) 간판은 하단으로 이동 */
-body.in-tree-view .signboard-wrapper {
-  top: calc(100vh - 160px);
-  transform: translateX(-50%) scale(0.8);
-  opacity: 0.8;
-}
-body.in-tree-view .signboard-wrapper:hover {
+/* 기본 상태: 간판 애니메이션 설정 */
+#main-signboard-trigger {
   opacity: 1;
-  transform: translateX(-50%) scale(0.85); /* 호버 시 약간 커짐 */
+  transform: translateY(0);
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.owner-greeting {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#tree-signboard-trigger {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  transform: translateY(-200%);
+  pointer-events: none;
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* 트리 뷰 활성화 시(클릭/드래그 후) */
+body.in-tree-view #main-signboard-trigger,
+body.in-tree-view .owner-greeting {
+  opacity: 0;
+  transform: translateY(-200%);
+  pointer-events: none;
+}
+
+body.in-tree-view #tree-signboard-trigger {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 /* --- 간판 (Signboard) --- */
@@ -229,20 +254,31 @@ body.in-tree-view .signboard-wrapper:hover {
   transform: translateX(-50%);
   width: 150px;
   height: 150px;
-  background: rgba(238, 157, 43, 0.1);
+  background: rgba(238, 157, 43, 0.2);
   border-radius: 50%;
   filter: blur(40px);
   pointer-events: none;
 }
+.tree-glow {
+  background: rgba(167, 243, 208, 0.15); /* 연한 민트빛 형광 (동양적인 느낌) */
+  width: 200px;
+  height: 200px;
+  filter: blur(50px);
+}
 
 .signboard h1 {
   font-family: 'Nanum Myeongjo', serif; /* 동양풍 폰트로 변경 */
-  font-size: 2.8rem;
+  font-size: 2.2rem; /* 폰트 크기 약간 축소 */
   font-weight: 800;
   margin-bottom: 0.3rem;
   color: var(--accent);
   letter-spacing: 0.05em;
   text-shadow: 0 0 10px rgba(238, 157, 43, 0.6);
+  white-space: nowrap; /* 두줄 바꿈 방지 */
+}
+#tree-signboard-trigger h1 {
+  color: #a7f3d0; /* emerald-200 */
+  text-shadow: 0 0 10px rgba(167, 243, 208, 0.6);
 }
 
 .signboard p {
