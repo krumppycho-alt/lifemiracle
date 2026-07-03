@@ -83,6 +83,28 @@
                 </div>
             </details>
         </aside>
+
+        <!-- 작업 현황 동기화 (PC ↔ 모바일) -->
+        <aside class="left-bookmark wood-texture">
+            <details class="bookmark-details" id="sync-details">
+                <summary class="bookmark-title">작업 현황 동기화</summary>
+                <div class="bookmark-content-text">
+                    <div class="sync-header">
+                        <span id="sync-device-badge" class="sync-device-badge">--</span>
+                        <span id="sync-timestamp" class="sync-timestamp">연결 중...</span>
+                        <button id="sync-refresh-btn" class="sync-refresh-btn" title="새로고침">↺</button>
+                    </div>
+                    <div id="sync-status-text" class="sync-status-text">서버 연결 확인 중...</div>
+                    <div id="synced-games-container" class="synced-games-container">
+                        <div class="loading-message">번호를 추첨하면 자동 동기화됩니다</div>
+                    </div>
+                    <div class="sync-network-info">
+                        <span class="sync-network-label">모바일 접속 주소</span>
+                        <span id="sync-network-url" class="sync-network-url">—</span>
+                    </div>
+                </div>
+            </details>
+        </aside>
     </div>
 
     <!-- 간판(타이틀) 영역 (방문자수와 메인 블록 사이) -->

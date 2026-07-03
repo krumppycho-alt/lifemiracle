@@ -1,3 +1,160 @@
+// --- 📡 PC ↔ 모바일 작업 현황 동기화 유틸 ---
+const Sync = (() => {
+    const POLL_INTERVAL = 10000;
+    let pollTimer = null;
+    let lastTimestamp = null;
+
+    function isMobile() {
+        return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    }
+
+    function getDeviceId() {
+        let id = localStorage.getItem('lifemiracle_device_id');
+        if (!id) {
+            id = 'dev_' + Math.random().toString(36).slice(2, 8);
+            localStorage.setItem('lifemiracle_device_id', id);
+        }
+        return id;
+    }
+
+    function getColorClass(number) {
+        if (number >= 1 && number <= 10) return 'color-yellow';
+        if (number >= 11 && number <= 20) return 'color-blue';
+        if (number >= 21 && number <= 30) return 'color-red';
+        if (number >= 31 && number <= 40) return 'color-gray';
+        if (number >= 41 && number <= 45) return 'color-green';
+        return '';
+    }
+
+    function timeAgo(ts) {
+        if (!ts) return '';
+        const diff = Math.floor((Date.now() - ts) / 1000);
+        if (diff < 5) return '방금 전';
+        if (diff < 60) return `${diff}초 전`;
+        if (diff < 3600) return `${Math.floor(diff / 60)}분 전`;
+        return `${Math.floor(diff / 3600)}시간 전`;
+    }
+
+    async function push(games) {
+        try {
+            await fetch('/api/sync', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    games,
+                    deviceType: isMobile() ? 'mobile' : 'pc',
+                    deviceId: getDeviceId(),
+                })
+            });
+        } catch (_) { /* 서버 없으면 무시 */ }
+    }
+
+    async function poll() {
+        try {
+            const res = await fetch('/api/sync');
+            if (!res.ok) return;
+            const data = await res.json();
+            render(data);
+        } catch (_) {
+            setStatus('서버에 연결할 수 없습니다');
+        }
+    }
+
+    function setStatus(text) {
+        const el = document.getElementById('sync-status-text');
+        if (el) el.textContent = text;
+    }
+
+    function render(data) {
+        const badgeEl = document.getElementById('sync-device-badge');
+        const tsEl = document.getElementById('sync-timestamp');
+        const container = document.getElementById('synced-games-container');
+        if (!container) return;
+
+        if (!data || !data.games) {
+            setStatus('아직 동기화된 번호가 없습니다');
+            container.innerHTML = '<div class="loading-message">번호를 추첨하면 자동 동기화됩니다</div>';
+            return;
+        }
+
+        const myId = getDeviceId();
+        const isSelf = data.deviceId === myId;
+        const deviceLabel = data.deviceType === 'mobile' ? '📱 모바일' : '💻 PC';
+
+        if (badgeEl) {
+            badgeEl.textContent = deviceLabel;
+            badgeEl.className = `sync-device-badge ${data.deviceType === 'mobile' ? 'badge-mobile' : 'badge-pc'}`;
+        }
+        if (tsEl) tsEl.textContent = timeAgo(data.timestamp);
+        setStatus(isSelf ? '이 기기에서 생성한 번호' : `다른 기기(${deviceLabel})에서 생성한 번호`);
+
+        if (data.timestamp === lastTimestamp) return;
+        lastTimestamp = data.timestamp;
+
+        container.innerHTML = '';
+        data.games.forEach((game, idx) => {
+            const row = document.createElement('div');
+            row.className = 'synced-game-row';
+
+            const label = document.createElement('span');
+            label.className = 'synced-game-label';
+            label.textContent = String.fromCharCode(65 + idx);
+            row.appendChild(label);
+
+            game.numbers.forEach((num, i) => {
+                if (game.hasBonus && i === 6) {
+                    const plus = document.createElement('span');
+                    plus.className = 'synced-plus';
+                    plus.textContent = '+';
+                    row.appendChild(plus);
+                }
+                const ball = document.createElement('div');
+                ball.className = `synced-ball ${getColorClass(num)}`;
+                ball.textContent = num;
+                row.appendChild(ball);
+            });
+
+            container.appendChild(row);
+        });
+    }
+
+    function startPolling() {
+        poll();
+        if (!pollTimer) pollTimer = setInterval(poll, POLL_INTERVAL);
+    }
+
+    function stopPolling() {
+        if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    }
+
+    function setNetworkUrl(url) {
+        const el = document.getElementById('sync-network-url');
+        if (el) {
+            el.textContent = url;
+            el.title = '클릭하여 복사';
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', () => {
+                navigator.clipboard.writeText(url).then(() => {
+                    el.textContent = '복사됨!';
+                    setTimeout(() => { el.textContent = url; }, 1500);
+                });
+            });
+        }
+    }
+
+    // 서버에서 네트워크 IP 힌트 가져오기
+    async function initNetworkUrl() {
+        try {
+            // hostname이 IP 또는 localhost이면 그대로 사용, 아니면 현재 origin
+            const host = location.hostname;
+            const url = `http://${host}:${location.port || 8000}/`;
+            setNetworkUrl(url);
+        } catch (_) {}
+    }
+
+    return { push, poll, startPolling, stopPolling, isMobile, getDeviceId, initNetworkUrl };
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- 가게 입장 수동 인트로 ---
     const introOverlay = document.getElementById('intro-overlay');
@@ -243,7 +400,8 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             if (machineGlass) machineGlass.classList.remove('mixing');
             generateBtn.innerText = "추첨 중...";
-            
+
+            const generatedGamesData = []; // 동기화를 위해 생성된 번호 수집
             for (let g = 0; g < gameCount; g++) {
                 const row = document.createElement('div');
                 row.className = 'balls-container';
@@ -251,6 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 machineContainer.appendChild(row);
 
                 const lottoNumbers = generateLottoNumbers(totalNumbersNeeded);
+                generatedGamesData.push({ numbers: [...lottoNumbers], hasBonus: includeBonus });
                 
                 lottoNumbers.forEach((number, index) => {
                     const spawnDelay = (g * 1200) + (index * 300); // 딜레이를 약간 더 길게 주어 뽑히는 느낌 강화
@@ -289,13 +448,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         row.appendChild(ball);
 
-                        // 모든 게임의 모든 공이 렌더링 된 후 버튼 복구
+                        // 모든 게임의 모든 공이 렌더링 된 후 버튼 복구 + 동기화 push
                         if (index === lottoNumbers.length - 1) {
                             gamesCompleted++;
                             if (gamesCompleted === gameCount) {
                                 setTimeout(() => {
                                     generateBtn.disabled = false;
                                     generateBtn.innerText = "기적의 번호 다시 뽑기";
+                                    Sync.push(generatedGamesData);
                                 }, 800);
                             }
                         }
@@ -479,5 +639,33 @@ document.addEventListener('DOMContentLoaded', () => {
             miracleListEl.appendChild(itemDiv);
         });
     }
+
+    // --- 📡 작업 현황 동기화 패널 초기화 ---
+    const syncDetails = document.getElementById('sync-details');
+    const syncRefreshBtn = document.getElementById('sync-refresh-btn');
+
+    // 패널 열릴 때 즉시 폴링 시작, 닫히면 중지
+    if (syncDetails) {
+        syncDetails.addEventListener('toggle', () => {
+            if (syncDetails.open) {
+                Sync.startPolling();
+            } else {
+                Sync.stopPolling();
+            }
+        });
+    }
+
+    if (syncRefreshBtn) {
+        syncRefreshBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            Sync.poll();
+        });
+    }
+
+    // 네트워크 URL 힌트 표시
+    Sync.initNetworkUrl();
+
+    // 페이지 로드 시 1회 상태 조회 (패널 닫혀있어도)
+    Sync.poll();
 
 });

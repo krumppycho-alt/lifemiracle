@@ -1210,3 +1210,148 @@ body.in-tree-view #tree-signboard-trigger {
   transform: scale(1.5) rotate(0deg) !important;
   z-index: 20;
 }
+
+/* --- 📡 작업 현황 동기화 패널 --- */
+.sync-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.sync-device-badge {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  letter-spacing: 0.05em;
+}
+
+.badge-pc {
+  background: #3b2313;
+  color: #ee9d2b;
+  border: 1px solid rgba(238, 157, 43, 0.4);
+}
+
+.badge-mobile {
+  background: #1a2e3b;
+  color: #69c8f2;
+  border: 1px solid rgba(105, 200, 242, 0.4);
+}
+
+.sync-timestamp {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+  color: #8b6a4a;
+  flex: 1;
+}
+
+.sync-refresh-btn {
+  background: none;
+  border: 1px solid rgba(140, 90, 43, 0.4);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  color: #4a2c11;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.sync-refresh-btn:hover {
+  transform: rotate(180deg);
+  border-color: rgba(140, 90, 43, 0.8);
+}
+
+.sync-status-text {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 0.75rem;
+  color: #7a5c3a;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.synced-games-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.synced-game-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 4px 2px;
+}
+
+.synced-game-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #8b6a4a;
+  min-width: 14px;
+  text-align: center;
+}
+
+.synced-ball {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+  box-shadow: inset -2px -2px 6px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+.synced-plus {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ee9d2b;
+  margin: 0 1px;
+  flex-shrink: 0;
+}
+
+.sync-network-info {
+  border-top: 1px dashed rgba(140, 90, 43, 0.3);
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sync-network-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.65rem;
+  color: #8b6a4a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sync-network-url {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.72rem;
+  color: #4a2c11;
+  word-break: break-all;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.sync-network-url:hover {
+  color: #b45309;
+  text-decoration: underline;
+}
